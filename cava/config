@@ -1,0 +1,22 @@
+[input]
+method = pulse
+source = auto
+
+[color]
+background = default
+foreground = default
+
+gradient = 1
+gradient_count = 8
+gradient_color_1 = '#2f8723' 
+gradient_color_2 = '#238743'
+gradient_color_3 = '#238773'
+gradient_color_4 = '#237b87'
+gradient_color_5 = '#235d87'
+gradient_color_6 = '#233987'
+gradient_color_7 = '#232387'
+gradient_color_8 = '#3a2387'
+
+[smoothing]
+noise_reduction = 80
+

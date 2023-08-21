@@ -197,6 +197,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always feh --bg-fill $HOME/Backgrounds/echerkasski_orketal.jpg
 exec_always --no-startup-id xss-lock -l -- ~/.config/transfer-sleep-lock-generic-delay.sh
 exec_always killall pasystray; pasystray
+exec_always --no-startup-id killall redshift; killall redshift-gtk; redshift-gtk -c ~/.config/redshift.conf;
 
 # Floats
 for_window [class="Pavucontrol"] floating enable, border normal

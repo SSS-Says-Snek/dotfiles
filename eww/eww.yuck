@@ -1,0 +1,211 @@
+(defwidget bar []
+  (box :orientation "h" :space-evenly true
+    (left)
+    (center)
+    (right)))
+
+(defwidget left []
+  (box :class "left"
+    :orientation "h"
+    :space-evenly false
+    :halign "start"
+    :spacing 20
+    (disk)
+    (wifi)
+    (time)))
+
+(defwidget center []
+  (box :class "center"
+    :orientation "h"
+    :space-evenly false
+    :halign "center"
+    (i3)
+    ))
+
+(defwidget right []
+  (box :class "right"
+    :orientation "h"
+    :space-evenly false
+    :halign "end"
+    :spacing 12
+    
+    (metrics :id "cpu"
+      :tooltip "CPU Usage"
+      :image "cpu.png"
+      :label "${round(EWW_CPU.avg, 0)}%"
+      :spacing 10
+      :min 0
+      :max 101
+      :value {EWW_CPU.avg}
+      :onchange "")
+    (metrics :id "ram" ; Memory module
+      :tooltip "Memory Usage"
+      :image "ram.png"
+      :label "${round(EWW_RAM.used_mem / 1000000000, 1)}/${round(EWW_RAM.total_mem / 1000000000, 1)}GB"
+      :spacing 10
+      :min 0
+      :max 101
+      :value {EWW_RAM.used_mem_perc}
+      :onchange "")
+    (metrics :id "" ; Volume module
+      :tooltip "Volume Control"
+      :image "volume2.png"
+      :label "${volume}%"
+      :spacing 10
+      :min 0
+      :max 101
+      :value volume
+      :onchange "amixer -D pulse sset Master {}%")
+    ;(metrics :id "temp" ; Temperature module
+    ;  :tooltip "CPU Temperature"
+    ;  :image "temp2.png"
+    ;  :label "${temp} °C"
+    ;  :spacing 0
+    ;  :min 0
+    ;  :max 101
+    ;  :value temp
+    ;  :onchange ""
+      (temp)))
+
+(defvar workspace_icons '[{"i": "1", "icon": ""}, {"i": "2", "icon": ""}, {"i": "3", "icon": "󰨞"}, {"i": "4", "icon": "󰙯"}, {"i": "5", "icon": ""}, {"i": "6", "icon": ""}, {"i": "7", "icon": ""}, {"i": "8", "icon": ""}, {"i": "9", "icon": ""}, {"i": "0", "icon": ""}]')
+(defvar eww "eww -c $HOME/.config/eww")
+
+(defvar time_hover false)
+(defvar cpu_hover false)
+(defvar ram_hover false)
+(defvar temp_hover false)
+
+(defpoll time :interval "1s"
+  :initial "12:00:00 AM"
+  'date +"%I:%M:%S %p"')
+
+(defpoll date :interval "1s"
+  :initial "Jan 1 1970"
+  'date +"%b %d, %Y"')
+
+(defpoll volume :interval "1s"
+  :initial "0"
+  "amixer -D pulse sget Master | awk -F '[^0-9]+' '/Left:/{print $3}'")
+
+(defpoll temp :interval "1s"
+  :initial "0"
+  "sed 's/000//' /sys/class/thermal/thermal_zone0/temp")
+
+(defpoll ssid :interval "1s"
+  :initial "sussywifi"
+  "iwgetid -r")
+
+(defwidget i3 []
+  (box :class "i3"
+    :orientation "h"
+    :spacing 10
+    (for dict in workspace_icons
+      (button :tooltip "Workspace ${dict.i}" :onclick "i3-msg workspace ${dict.i}" "${dict.icon}"))))
+
+(defwidget time []
+  (eventbox :onhover "${eww} update time_hover=true"
+    :onhoverlost "${eww} update time_hover=false"
+    (box :class "time"
+      :orientation "h"
+      :tooltip "Time and Date"
+      :space-evenly false
+      :spacing 10
+      (label :text "${time}")
+      (revealer :reveal time_hover
+        :transition "slideright"
+        :valign "fill"
+        (label :class "date" :text "${date}")))))
+
+(defwidget disk []
+  (box :class "metric"
+    :orientation "h"
+    :tooltip "Disk Space"
+    :space-evenly false
+    (image :path "images/disk.png"
+      :image-width 30
+      :image-height 30)
+    "${round(EWW_DISK['/'].used_perc, 1)}%"))
+
+(defwidget wifi []
+  (box :class "metric"
+    :orientation "h"
+    :tooltip "Wifi Connection"
+    :space-evenly false
+    :spacing 5
+    (image :path "images/wifi.png"
+      :image-width 30
+      :image-height 30)
+    "${ssid}"))
+
+(defwidget metrics [id tooltip image label spacing min max value onchange]
+  (box :class "metric"
+    :orientation "h"
+    :tooltip tooltip
+    :space-evenly false
+    :spacing spacing
+    (image :path "images/${image}"
+      :image-width 30
+      :image-height 30)
+    (eventbox :onhover "${eww} update ${id}_hover=true"
+      :onhoverlost "${eww} update ${id}_hover=false"
+      (box :space-evenly false
+        (box :orientation "v"
+          (label :text "${label}")
+          (scale :orientation "h"
+            :active {onchange != ""}
+            :min min
+            :max max
+            :value value
+            :onchange onchange))
+        (literal :content 
+          "(revealer :reveal ${id}_hover
+              :transition 'slideup'
+              :valign 'fill'
+            (graph :value ${value} :thickness 2 :time-range '10s' :min ${min} :max ${max}
+              :dynamic true :line-style 'round')))))))")))))
+
+(defwidget temp []
+  (eventbox :onhover "${eww} update temp_hover=true"
+    :onhoverlost "${eww} update temp_hover=false"
+    (box :class "metric"
+      :orientation "h"
+      :tooltip "CPU Temperature"
+      :space-evenly false
+      :spacing 10
+      (image :path "images/temp.png"
+        :image-width 30
+        :image-height 30)
+        (box :orientation "v" :space-evenly false
+          (revealer :reveal "${!temp_hover}"
+            :transition 'slidedown'
+            :valign 'fill'
+            (box :orientation "v"
+              (label :text "${temp} °C")
+              (scale :orientation "h"
+                :active false
+                :min 0
+                :max 101
+                :value temp
+                :onchange "")))))))
+          
+;(revealer :reveal temp_hover
+;:transition 'slideup'
+;:valign 'center'
+;(box :valign "center" :class "E" (graph :value 50 :thickness 2 :time-range '10s' :min 0 :max 101
+;:line-style 'miter')))))))
+
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :x "0px"
+    :y "0"
+    :width "95%"
+    :height "42px"
+    :anchor "top center")
+  :wm-ignore false
+  ; :stacking "fg"
+  ; :reserve (struts :side "top" :distance "80px")
+  (bar)
+)
+
+; (defwidget wm [] ())

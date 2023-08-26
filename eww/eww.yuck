@@ -10,9 +10,9 @@
     :space-evenly false
     :halign "start"
     :spacing 20
+    (time)
     (disk)
-    (wifi)
-    (time)))
+    (wifi)))
 
 (defwidget center []
   (box :class "center"
@@ -67,6 +67,11 @@
     ;  :onchange ""
       (temp)))
 
+(deflisten active_workspaces :initial "sussy"
+  "xprop -spy -root _NET_DESKTOP_NAMES")
+(deflisten focused_workspace :initial "1"
+  "scripts/workspaces")
+
 (defvar workspace_icons '[{"i": "1", "icon": ""}, {"i": "2", "icon": ""}, {"i": "3", "icon": "󰨞"}, {"i": "4", "icon": "󰙯"}, {"i": "5", "icon": ""}, {"i": "6", "icon": ""}, {"i": "7", "icon": ""}, {"i": "8", "icon": ""}, {"i": "9", "icon": ""}, {"i": "0", "icon": ""}]')
 (defvar eww "eww -c $HOME/.config/eww")
 
@@ -74,6 +79,7 @@
 (defvar cpu_hover false)
 (defvar ram_hover false)
 (defvar temp_hover false)
+(defvar no_hover false)
 
 (defpoll time :interval "1s"
   :initial "12:00:00 AM"
@@ -100,20 +106,25 @@
     :orientation "h"
     :spacing 10
     (for dict in workspace_icons
-      (button :tooltip "Workspace ${dict.i}" :onclick "i3-msg workspace ${dict.i}" "${dict.icon}"))))
+      (button :class {focused_workspace == dict.i ? "focused" : (replace(replace(active_workspaces, "UTF8_STRING", ""), "10", "") =~ (dict.i != 10 ? dict.i : "0") ? "active" : "") }
+        :tooltip "Workspace ${dict.i}"
+        :onclick "i3-msg workspace ${dict.i}" "${dict.icon}"))))
 
 (defwidget time []
   (eventbox :onhover "${eww} update time_hover=true"
     :onhoverlost "${eww} update time_hover=false"
     (box :class "time"
-      :orientation "h"
+      :orientation "v"
+      :valign "center"
       :tooltip "Time and Date"
       :space-evenly false
-      :spacing 10
-      (label :text "${time}")
+      (revealer :reveal "${!time_hover}"
+        :transition "slidedown"
+        :valign "center"
+        (label :text "${time}"))
       (revealer :reveal time_hover
-        :transition "slideright"
-        :valign "fill"
+        :transition "slideup"
+        :valign "center"
         (label :class "date" :text "${date}")))))
 
 (defwidget disk []
@@ -156,13 +167,13 @@
             :min min
             :max max
             :value value
-            :onchange onchange))
-        (literal :content 
-          "(revealer :reveal ${id}_hover
-              :transition 'slideup'
-              :valign 'fill'
-            (graph :value ${value} :thickness 2 :time-range '10s' :min ${min} :max ${max}
-              :dynamic true :line-style 'round')))))))")))))
+            :onchange onchange))))))
+        ;(literal :content 
+        ;  "(revealer :reveal ${id != "" ? id : 'no'}_hover
+        ;      :transition 'slideup'
+        ;      :valign 'fill'
+        ;    (graph :value ${value} :thickness 2 :time-range '10s' :min ${min} :max ${max}
+        ;      :dynamic true :line-style 'round'))")))))
 
 (defwidget temp []
   (eventbox :onhover "${eww} update temp_hover=true"

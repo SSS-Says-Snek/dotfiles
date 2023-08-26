@@ -182,7 +182,9 @@ mode "resize" {
 # Gaps
 gaps inner 30
 gaps outer 0
-smart_gaps on
+smart_gaps off
+
+default_border pixel 9
 
 bindsym Print exec flameshot gui
 bindsym $mod+r mode "resize"
@@ -194,6 +196,7 @@ for_window [class="^.*"] border pixel 0
 # Stuff
 exec_always picom -f 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec --no-startup-id ~/.config/eww/launch.sh
 exec_always feh --bg-fill $HOME/Backgrounds/echerkasski_orketal.jpg
 exec_always --no-startup-id xss-lock -l -- ~/.config/transfer-sleep-lock-generic-delay.sh
 exec_always killall pasystray; pasystray

@@ -1,3 +1,5 @@
+import = ["~/.config/alacritty/catppuccin/mocha.toml"]
+
 [font.normal]
 family = "Fira Code Nerd Font "
 

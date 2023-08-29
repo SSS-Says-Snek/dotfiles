@@ -15,12 +15,12 @@ configuration {
 /*****----- Global Properties -----*****/
 * {
     font:                        "JetBrains Mono Nerd Font 10";
-    background:                  #11092D;
-    background-alt:              #281657;
+    background:                  #040c30;
+    background-alt:              #172359;
     foreground:                  #FFFFFF;
-    selected:                    #DF5296;
+    selected:                    #263c9e;
     active:                      #6E77FF;
-    urgent:                      #8E3596;
+    urgent:                      #364899;
 }
 
 /*
@@ -64,7 +64,7 @@ inputbar {
     spacing:                     0px;
     padding:                     100px 80px;
     background-color:            transparent;
-    background-image:            url("~/.config/rofi/images/a.png", width);
+    background-image:            url("~/.config/rofi/my-images/blue-flowers.jpeg", width);
     children:                    [ "textbox-prompt-colon", "dummy","prompt"];
 }
 

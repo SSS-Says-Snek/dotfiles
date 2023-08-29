@@ -29,6 +29,7 @@
     :halign "end"
     :spacing 12
     
+    (media)
     (metrics :id "cpu"
       :tooltip "CPU Usage"
       :image "cpu.png"
@@ -71,6 +72,8 @@
   "xprop -spy -root _NET_DESKTOP_NAMES")
 (deflisten focused_workspace :initial "1"
   "scripts/workspaces")
+(deflisten scrolling_media :initial "None"
+  "zscroll -l 15 --delay 0.6 -M 'playerctl status' -m 'Playing' ' -s 1' -m 'Paused' ' -s 0' -u t '/home/bdon/.config/eww/scripts/media2'")
 
 (defvar workspace_icons '[{"i": "1", "icon": ""}, {"i": "2", "icon": ""}, {"i": "3", "icon": "󰨞"}, {"i": "4", "icon": "󰙯"}, {"i": "5", "icon": ""}, {"i": "6", "icon": ""}, {"i": "7", "icon": ""}, {"i": "8", "icon": ""}, {"i": "9", "icon": ""}, {"i": "0", "icon": ""}]')
 (defvar eww "eww -c $HOME/.config/eww")
@@ -183,7 +186,7 @@
       :tooltip "CPU Temperature"
       :space-evenly false
       :spacing 10
-      (image :path "images/temp.png"
+      (image :path "images/temp2.png"
         :image-width 30
         :image-height 30)
         (box :orientation "v" :space-evenly false
@@ -198,12 +201,23 @@
                 :max 101
                 :value temp
                 :onchange "")))))))
-          
 ;(revealer :reveal temp_hover
 ;:transition 'slideup'
 ;:valign 'center'
 ;(box :valign "center" :class "E" (graph :value 50 :thickness 2 :time-range '10s' :min 0 :max 101
 ;:line-style 'miter')))))))
+
+(defwidget media []
+  (box :class "metric media"
+    :orientation "h"
+    :tooltip "Media Information"
+    :space-evenly false
+    :spacing 10
+    :width {scrolling_media != "None" ? 160 : 0}
+    (image :path "images/media.png"
+      :image-width 30
+      :image-height 30)
+    (label :text "${scrolling_media}")))
 
 (defwindow bar
   :monitor 0

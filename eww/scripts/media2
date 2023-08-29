@@ -1,0 +1,9 @@
+#!/bin/bash
+
+status=$(playerctl status)
+
+if [ $status == "Playing" ]; then
+  playerctl metadata --format "{{ title }} - {{ artist }}"
+else
+  echo "None"
+fi

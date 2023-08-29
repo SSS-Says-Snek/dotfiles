@@ -14,7 +14,7 @@
 }
 
 .left {
-  margin-left: 200px;
+  margin-left: 250px;
 }
 
 .center {
@@ -24,32 +24,30 @@
   margin-right: 20px;
 }
 
-.i3 {
-  button {
-    font-size: 13pt;
-    margin: 4px 4px;
-    color: $fg;
-    border: 2px solid $fg;
-    min-width: 26px;
-    min-height: 26px;
-    padding: 0px 5px;
-    transition: background-color 250ms;
-    border-radius: 6px;
-  }
 
-  button:hover {
-    background-color: #3F3F3F;
-  }
+button {
+  font-size: 13pt;
+  margin: 4px 4px;
+  color: $fg;
+  border: 2px solid $fg;
+  min-width: 26px;
+  min-height: 26px;
+  padding: 0px 5px;
+  transition: background-color 250ms;
+  border-radius: 6px;
+}
+ 
+button:hover {
+  background-color: $button-hover;
 }
 
 .time {
-  font-size: 26px;
   color: $fg;
   margin: 8px 0px;
   border-radius: 9999px;
 
   label:last-child {
-    font-size: 16px;
+    font-size: 26px;
   }
 }
 
@@ -58,12 +56,6 @@
   color: $fg;
   margin: 8px 0px;
   border-radius: 9999px;
-}
-
-.E {
-  min-height: 32px;
-  border: 1px solid;
-  background-color: #ffffff;
 }
 
 scale {
@@ -80,3 +72,12 @@ scale {
   }
 }
 
+.focused {
+  color: $button-focused;
+  border: 2px solid $button-focused;
+}
+
+.active {
+  color: $button-active;
+  border: 2px solid $button-active;
+}

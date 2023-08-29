@@ -1,0 +1,27 @@
+#!/bin/python3 -u
+
+import gi
+
+gi.require_version("Playerctl", "2.0")
+
+from gi.repository import GLib, Playerctl
+
+player = Playerctl.Player()
+
+def on_player_play(player, _):
+    metadata = player.props.metadata
+    artist = metadata["xesam:artist"]
+    title = metadata["xesam:title"]
+    print(f"{','.join(artist)}: {title}", flush=True, file=__import__("sys").stdout)
+
+def on_player_pause(*_):
+    print("None")
+
+player.connect("playback-status::playing", on_player_play)
+player.connect("playback-status::paused", on_player_pause)
+
+loop = GLib.MainLoop()
+try:
+    loop.run()
+finally:
+    loop.quit()

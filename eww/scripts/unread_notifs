@@ -1,0 +1,6 @@
+#!/bin/bash
+
+displayed_notifs=$(dunstctl count displayed)
+waiting_notifs=$(dunstctl count waiting)
+result=$((displayed_notifs+waiting_notifs))
+echo $result

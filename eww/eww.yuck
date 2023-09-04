@@ -12,7 +12,8 @@
     :spacing 20
     (time)
     (disk)
-    (wifi)))
+    (wifi)
+    (notif)))
 
 (defwidget center []
   (box :class "center"
@@ -104,14 +105,23 @@
   :initial "sussywifi"
   "iwgetid -r")
 
+(defpoll notif_muted :interval "1s"
+  :initial "false"
+  "dunstctl is-paused")
+
+(defpoll num_unread_notifs :interval "1s"
+  :initial "0"
+  "scripts/unread_notifs")
+
 (defwidget i3 []
   (box :class "i3"
     :orientation "h"
     :spacing 10
     (for dict in workspace_icons
-      (button :class {focused_workspace == dict.i ? "focused" : (replace(replace(active_workspaces, "UTF8_STRING", ""), "10", "") =~ (dict.i != 10 ? dict.i : "0") ? "active" : "") }
+      (button :class "button ${focused_workspace == dict.i ? "focused" : (replace(replace(active_workspaces, "UTF8_STRING", ""), "10", "") =~ (dict.i != 10 ? dict.i : "0") ? "active" : "") }"
         :tooltip "Workspace ${dict.i}"
-        :onclick "i3-msg workspace ${dict.i}" "${dict.icon}"))))
+        :onclick "i3-msg workspace ${dict.i}"
+        "${dict.icon}"))))
 
 (defwidget time []
   (eventbox :onhover "${eww} update time_hover=true"
@@ -150,6 +160,19 @@
       :image-width 30
       :image-height 30)
     "${ssid}"))
+
+(defwidget notif []
+  (box :class "metric"
+    :orientation "h"
+    :tooltip "Notifications"
+    (button :onclick "dunstctl set-paused toggle"
+      (box :orientation "h"
+        :space-evenly false
+        :spacing 5
+        (image :path "images/notif-${notif_muted == 'false' ? 'normal' : 'muted'}.png"
+          :image-width 30
+          :image-height 30)
+          "${num_unread_notifs}"))))
 
 (defwidget metrics [id tooltip image label spacing min max value onchange]
   (box :class "metric"

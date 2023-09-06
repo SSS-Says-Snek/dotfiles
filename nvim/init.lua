@@ -14,5 +14,5 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("bdon.plugins")
+require("lazy").setup({{import = "bdon.plugins"}, {import = "bdon.plugins.lsp"}})
 require("bdon.core.colorscheme")

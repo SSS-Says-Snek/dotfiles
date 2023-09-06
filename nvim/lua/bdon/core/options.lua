@@ -1,4 +1,4 @@
-opt = vim.opt -- Reassign for cool
+local opt = vim.opt -- Reassign for cool
 
 -- Line number stuff
 opt.relativenumber = true

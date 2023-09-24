@@ -1,0 +1,1 @@
+trayer --edge top --widthtype request --align left --SetDockType false --iconspacing 5 --distancefrom top --distance 15 --margin 20 --padding 15 --height 30 --transparent true --tint 0x1E1E2E --alpha 0

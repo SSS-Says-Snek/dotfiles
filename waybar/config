@@ -1,0 +1,128 @@
+{
+    "height": 30, // Waybar height (to be removed for auto height)
+    "spacing": 6, // Gaps between modules (4px)
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["custom/swww", "backlight", "disk", "pulseaudio", "temperature", "network", "cpu", "memory", "battery", "tray"],
+    // Modules configuration
+    "layer": "top",
+    "mpd": {
+        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+        "format-disconnected": "Disconnected ",
+        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+        "unknown-tag": "N/A",
+        "interval": 2,
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "off": "<span color=\"#f53c3c\"></span> ",
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        "interval": 1,
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><big>{calendar}</big></tt>",
+        "format": " {:%a, %b %d, %Y, %I:%M:%S %p}"
+    },
+    "cpu": {
+        "format": " {usage}%",
+        "tooltip": false
+    },
+    "memory": {
+        "format": " {}%"
+    },
+    "disk": {
+      "interval": 30,
+      "format": "󰋊 {percentage_used}%"
+    },
+    "temperature": {
+        "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": ["", "", ""]
+    },
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": ["", "", "", "", "", "", "", "", ""]
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{icon} {time}",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "network": {
+        "format-wifi": " {essid} ({signalStrength}%)",
+        "format-ethernet": "{ipaddr}/{cidr}",
+        "tooltip-format": "󰑩 {ifname} via {gwaddr}",
+        "format-linked": "⚠ {ifname} (No IP)",
+        "format-disconnected": "⚠ Disconnected",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+    "pulseaudio": {
+        "scroll-step": 1, // %, can be a float
+        "format": "{icon} {format_source} {volume}%",
+        "format-bluetooth": "{icon} {format_source} {volume}%",
+        "format-bluetooth-muted": "{icon} {format_source} Muted",
+        "format-source": "",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "phone": "",
+            "portable": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    "pulseaudio/slider": {
+      "min": 0,
+      "max": 100,
+      "orientation": "horizontal"
+    },
+    "custom/media": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    },
+    "custom/swww": {
+        "exec": "~/.config/waybar/scripts/schedule-wallpaper.sh",
+        "on-click": "~/.config/waybar/scripts/cycle-wallpaper.sh",
+        "tooltip-format": "Cycle Wallpaper",
+        "format": "󰸉",
+    }
+}

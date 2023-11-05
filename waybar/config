@@ -2,8 +2,8 @@
     "height": 30, // Waybar height (to be removed for auto height)
     "spacing": 6, // Gaps between modules (4px)
     "modules-left": ["hyprland/workspaces"],
-    "modules-center": ["clock"],
-    "modules-right": ["custom/swww", "backlight", "disk", "pulseaudio", "temperature", "network", "cpu", "memory", "battery", "tray"],
+    "modules-center": ["cava", "clock"],
+    "modules-right": ["custom/swww", "backlight", "pulseaudio", "temperature", "network", "cpu", "memory", "battery", "tray"],
     // Modules configuration
     "layer": "top",
     "mpd": {
@@ -70,17 +70,19 @@
         "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
     "battery": {
+        "interval": 5,
         "states": {
             "warning": 30,
             "critical": 15
         },
         "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
         "format-plugged": " {capacity}%",
         "format-alt": "{icon} {time}",
         "format-icons": ["", "", "", "", ""]
     },
     "network": {
-        "format-wifi": " {essid} ({signalStrength}%)",
+        "format-wifi": " {essid}",
         "format-ethernet": "{ipaddr}/{cidr}",
         "tooltip-format": "󰑩 {ifname} via {gwaddr}",
         "format-linked": "⚠ {ifname} (No IP)",
@@ -100,12 +102,8 @@
             "portable": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol"
-    },
-    "pulseaudio/slider": {
-      "min": 0,
-      "max": 100,
-      "orientation": "horizontal"
+        "on-click": "pavucontrol",
+        "max-volume": 100
     },
     "custom/media": {
         "format": "{icon} {}",

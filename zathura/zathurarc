@@ -1,0 +1,42 @@
+# zathurarc-dark
+set notification-error-bg       "#45475a" # base01  # seem not work
+set notification-error-fg       "#f38ba8" # red
+set notification-warning-bg     "#45475a" # base01
+set notification-warning-fg     "#f38ba8" # red
+set notification-bg             "#1e1e2e" # base02
+set notification-fg             "#a6e3a1" # yellow
+
+set completion-group-bg         "#002b36" # base03
+set completion-group-fg         "#45475a" # base0
+set completion-bg               "#1e1e2e" # base02
+set completion-fg               "#93a1a1" # base1
+set completion-highlight-bg     "#45475a" # base01
+set completion-highlight-fg     "#f2cdcd" # base2
+
+# Define the color in index mode
+set index-bg                   "#1e1e2e" # base02
+set index-fg                   "#93a1a1" # base1
+set index-active-bg             "#45475a" # base01
+set index-active-fg             "#f2cdcd" # base2
+
+set inputbar-bg                 "#45475a" # base01
+set inputbar-fg                 "#f2cdcd" # base2
+
+set statusbar-bg                "#1e1e2e" # base02
+set statusbar-fg                "#cdd6f4" # base1
+
+set highlight-color             "#45475a" # base00  # hightlight match when search keyword(vim's /)
+set highlight-active-color      "#b4befe" # blue
+
+set default-bg                  "#1e1e2e" # base02
+set default-fg                  "#cdd6f4" # base1
+
+# Recolor book content's color
+set recolor                     true
+set recolor-lightcolor          "#1e1e2e" # base02
+set recolor-darkcolor           "#cdd6f4" # base1
+
+set adjust-open "best-fit"
+
+map p navigate previous
+map n navigate next

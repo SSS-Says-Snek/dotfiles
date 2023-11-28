@@ -3,7 +3,7 @@
     "spacing": 6, // Gaps between modules (4px)
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["cava", "clock"],
-    "modules-right": ["custom/swww", "backlight", "pulseaudio", "temperature", "network", "cpu", "memory", "battery", "tray"],
+    "modules-right": ["custom/swww", "backlight", "disk", "pulseaudio", "temperature", "network", "cpu", "memory", "battery", "tray"],
     // Modules configuration
     "layer": "top",
     "mpd": {

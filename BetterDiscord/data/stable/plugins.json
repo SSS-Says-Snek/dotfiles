@@ -1,1 +1,16 @@
-{}
+{
+    "FreeEmojis": true,
+    "ReadAllNotificationsButton": true,
+    "BDFDB": true,
+    "PluginRepo": true,
+    "ZeresPluginLibrary": false,
+    "BetterRoleColors": true,
+    "BetterVolume": true,
+    "CallTimeCounter": true,
+    "Double Click To Edit": true,
+    "ServerDetails": false,
+    "InvisibleTyping": true,
+    "SendStickersAsLinks": true,
+    "TypingIndicator": false,
+    "UserDetails": false
+}

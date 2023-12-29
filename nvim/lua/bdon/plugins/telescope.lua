@@ -6,5 +6,12 @@ return {
     {'<leader>ff', '<cmd>Telescope find_files<cr>'},
     {'<leader>fs', '<cmd>Telescope grep_string<cr>'}
   },
+  config = {
+    defaults = {
+      file_ignore_patterns = {
+        "node_modules"
+      }
+    }
+  },
   lazy = false
 }

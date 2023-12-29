@@ -19,7 +19,10 @@ return {
         "rust",
         "markdown",
         "markdown_inline",
-        "java"
+        "java",
+        "html",
+        "svelte",
+        "typescript"
       },
       sync_install = false,
       highlight = { enable = true },

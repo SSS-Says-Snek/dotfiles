@@ -23,6 +23,9 @@ return {
     lspconfig.eslint.setup {}
     lspconfig.tsserver.setup {}
     lspconfig.jsonls.setup {}
+    lspconfig.cssls.setup {}
+    lspconfig.eslint.setup {}
+    lspconfig.svelte.setup {}
 
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -34,8 +37,8 @@ return {
         keymap.set('n', 'gd', '<cmd>Telescope lsp_definitions<cr>', opts)
         keymap.set('n', 'gi', '<cmd>Telescope lsp_implementations<cr>', opts)
         keymap.set('n', 'gt', '<cmd>Telescope lsp_type_definitions<cr>', opts)
-        keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
-        keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+        keymap.set({ 'n', 'v' }, '<leader>ca', '<cmd>Lspsaga code_action<cr>', opts)
+        keymap.set('n', '<leader>rn', '<cmd>Lspsaga rename<cr>', opts)
       end
     })
   end

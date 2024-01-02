@@ -50,7 +50,7 @@ window#waybar {
 .modules-center,
 .modules-right {
     padding: 4px 8px;
-    background-color: @mantle;
+    background-color: @bass;
     border-radius: 15px;
 }
 
@@ -118,6 +118,7 @@ button {
 #scratchpad,
 #custom-swww,
 #bluetooth,
+#custom-weather,
 #mpd {
     padding: 2px 10px;
     color: @txt;
@@ -188,4 +189,8 @@ button {
 
 #custom-swww {
   color: @txt;
+}
+
+#custom-weather {
+  color: @lavender;
 }

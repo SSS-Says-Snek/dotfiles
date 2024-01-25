@@ -27,7 +27,7 @@ Item {
       background: Rectangle {
         id: sessionEntryBackground
         color: config.surface1
-        radius: 3
+        radius: 8
       }
       states: [
         State {

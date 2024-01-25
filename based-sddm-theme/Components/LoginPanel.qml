@@ -11,7 +11,7 @@ Item {
   property var inputHeight: Screen.height * 0.032
   property var inputWidth: Screen.width * 0.16
 
-  property var panelWidth: Screen.width * 0.50
+  property var panelWidth: Screen.width * 0.45
   property var panelHeight: Screen.height
 
   ShaderEffectSource{
@@ -30,6 +30,7 @@ Item {
     id: backgroundBlurMask
     anchors.fill: backgroundShader
     gradient: Gradient {
+      // GradientStop { position: 0; color: "#ffffffff"}
       GradientStop { position: 0; color: "#00ffffff" }
       GradientStop { position: 0.25; color: "#ffffffff" }
       GradientStop { position: 0.75; color: "#ffffffff" }
@@ -65,25 +66,30 @@ Item {
 
     Column {
       id: loginArea
+      spacing: 40
 
-      spacing: 8
       width: inputWidth
       anchors {
         verticalCenter: parent.verticalCenter
         horizontalCenter: parent.horizontalCenter
       }
 
-      UserField {
-        id: userField
-        height: inputHeight
+      Column {
         width: parent.width
-      }
+        spacing: 8
 
-      PasswordField {
-        id: passwordField
-        height: inputHeight
-        width: parent.width
-        onAccepted: loginButton.clicked()
+        UserField {
+          id: userField
+          height: inputHeight
+          width: parent.width
+        }
+
+        PasswordField {
+          id: passwordField
+          height: inputHeight
+          width: parent.width
+          onAccepted: loginButton.clicked()
+        }
       }
 
       Button {
@@ -108,7 +114,7 @@ Item {
         background: Rectangle {
           id: buttonBackground
           color: config.lavender
-          radius: 3
+          radius: 8
         }
         states: [
           State {

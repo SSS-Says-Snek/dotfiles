@@ -18,10 +18,26 @@ TextField {
   horizontalAlignment: Text.AlignHCenter
   placeholderText: "Username"
   text: userModel.lastUser
+
   background: Rectangle {
     id: userFieldBackground
-    color: config.surface0
-    radius: 3
+    color: config.base
+    radius: 8
+
+    border {
+      color: config.surface1
+      width: 2
+    }
+  }
+
+  Image {
+    source: Qt.resolvedUrl("../icons/user.svg")
+    id: icon
+    anchors.verticalCenter: parent.verticalCenter
+    x: 10 
+
+    sourceSize: Qt.size(width, height)
+    fillMode: Image.Stretch
   }
   states: [
     State {
@@ -29,7 +45,9 @@ TextField {
       when: userField.activeFocus
       PropertyChanges {
         target: userFieldBackground
-        color: config.surface1
+        color: config.surface0
+
+        border.color: config.sky
       }
     },
     State {

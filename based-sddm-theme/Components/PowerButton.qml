@@ -17,7 +17,7 @@ Item {
     }
     background: Rectangle {
       id: powerButtonBackground
-      radius: 3
+      radius: 8
       color: config.lavender
     }
     states: [

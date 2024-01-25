@@ -28,6 +28,7 @@ Item {
     cache: true
     mipmap: true
     clip: true
+    smooth: true
   }
   Item {
     id: mainPanel

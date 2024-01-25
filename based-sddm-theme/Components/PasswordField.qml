@@ -16,18 +16,37 @@ TextField {
   font.bold: true
   color: config.text
   horizontalAlignment: TextInput.AlignHCenter
+
   background: Rectangle {
     id: passFieldBackground
-    radius: 3
-    color: config.surface0
+    radius: 8
+    color: config.base
+
+    border {
+      color: config.surface1
+      width: 2
+    }
   }
+
+  Image {
+    source: Qt.resolvedUrl("../icons/password.svg")
+    id: icon
+    anchors.verticalCenter: parent.verticalCenter
+    x: 10 
+
+    sourceSize: Qt.size(width, height)
+    fillMode: Image.Stretch
+  }
+
   states: [
     State {
       name: "focused"
       when: passwordField.activeFocus
       PropertyChanges {
         target: passFieldBackground
-        color: config.surface1
+        color: config.surface0
+
+        border.color: config.sky
       }
     },
     State {

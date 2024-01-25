@@ -18,7 +18,7 @@ Item {
     background: Rectangle {
       id: sleepButtonBg
       color: config.lavender
-      radius: 3
+      radius: 8
     }
     states: [
       State {

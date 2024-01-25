@@ -46,9 +46,9 @@ return {
       mapping = cmp.mapping.preset.insert({
         ["<C-p>"] = cmp.mapping.select_next_item(),
         ["<C-n>"] = cmp.mapping.select_next_item(),
-        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-a>"] = cmp.mapping.confirm({ select = true }),
         ["<C-e>"] = cmp.mapping.abort(),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        -- ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         ["<Tab>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "s" })
       }),

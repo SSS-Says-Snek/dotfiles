@@ -26,7 +26,7 @@ return {
       lualine_c = {'filename'},
       lualine_x = {'hostname', 'encoding', 'fileformat', 'filetype'},
       lualine_y = {'progress'},
-      lualine_z = {'location'}
+      lualine_z = {'location', {'windows', mode = 1}}
     },
     inactive_sections = {
       lualine_a = {},

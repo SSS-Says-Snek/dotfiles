@@ -46,12 +46,25 @@ window#waybar {
     transition-duration: .5s;
 }
 
-.modules-left,
+tooltip {
+  color: @subtxt1;
+  background-color: @bass;
+}
+
+#workspaces,
 .modules-center,
 .modules-right {
     padding: 4px 8px;
     background-color: @bass;
     border-radius: 15px;
+    /* border: 2px solid @overlay0; */
+}
+
+#image {
+  padding: 6px 6px;
+  background-color: @bass;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .modules-left {
@@ -73,10 +86,20 @@ button {
 }
 
 #workspaces button {
-    padding: 0 10px;
-    background-color: transparent;
-    border-bottom: 2px @surface1 solid;
-    color: @subtxt0;
+    padding: 0px 6px;
+    margin-right: 8px;
+
+    background-color: @surface0;
+    /* background-color: @overlay1; */
+    /* border-bottom: 2px @surface1 solid; */
+    border-radius: 999px;
+    /* color: @bass; */
+    color: @txt;
+
+}
+
+#workspaces button:last-child {
+    margin-right: 0px;
 }
 
 /* I would add this if it wasn't ugly */
@@ -89,12 +112,12 @@ button {
 /* } */
 
 #workspaces button:hover {
-    background-color: @surface0;
+  background-color: @overlay0;
 }
 
 #workspaces button.active {
-  color: @txt;
-  background-color: @surface0;
+  padding: 0px 12px;
+  background-color: @surface1;
 }
 
 #workspaces button.urgent {
@@ -125,6 +148,12 @@ button {
     /* margin: 0 4px; */
     /* background-color: @base; */
     border-radius: 5px;
+}
+
+#tray {
+    background-color: @surface0;
+    border-radius: 10px;
+    padding: 6px 10px;
 }
 
 .modules-left > widget:first-child > #workspaces {

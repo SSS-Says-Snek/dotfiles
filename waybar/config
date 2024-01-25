@@ -103,6 +103,8 @@
         "on-click": "pavucontrol",
         "max-volume": 100
     },
+    "hyprland/workspaes": {
+    },
     "custom/swww": {
         "exec": "~/.config/waybar/scripts/schedule-wallpaper.sh",
         "on-click": "~/.config/waybar/scripts/cycle-wallpaper.sh",

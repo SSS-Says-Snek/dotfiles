@@ -20,7 +20,7 @@ return {
         "rust",
         "markdown",
         "markdown_inline",
-        "java",
+        -- "java",
         "html",
         "svelte",
         "typescript"

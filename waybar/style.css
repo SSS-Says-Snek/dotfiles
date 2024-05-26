@@ -55,7 +55,7 @@ tooltip {
 .modules-center,
 .modules-right {
     padding: 4px 8px;
-    background-color: @bass;
+    background-color: rgba(30, 30, 36, 1);
     border-radius: 15px;
     /* border: 2px solid @overlay0; */
 }

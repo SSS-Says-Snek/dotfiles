@@ -34,7 +34,7 @@
     },
     "image#arch": {
         "path": "/home/bdon/.config/waybar/images/arch-logo.png",
-        // "on-click": "~/.config/rofi/launcher.sh",
+        "on-click": "rofi -show drun -theme ~/.config/rofi/launcher.rasi",
         "size": 20
     },
     "tray": {

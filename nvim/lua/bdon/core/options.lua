@@ -26,3 +26,4 @@ opt.clipboard:append("unnamedplus")
 -- Misc
 opt.iskeyword:append("-")
 opt.showmode = false
+opt.termguicolors = true

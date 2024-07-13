@@ -14,7 +14,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.opt.termguicolors = true
+-- if vim.fn.isdirectory(vim.v.argv[2]) == 1 then
+--   vim.api.nvim_set_current_dir(vim.v.argv[2])
+-- end
 
 require("lazy").setup({{import = "bdon.plugins"}, {import = "bdon.plugins.lsp"}})
 require("bdon.core.colorscheme")

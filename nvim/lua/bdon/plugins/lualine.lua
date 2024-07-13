@@ -1,31 +1,37 @@
 return {
-  'nvim-lualine/lualine.nvim',
+ 'nvim-lualine/lualine.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   opts = {
     options = {
-      icons_enabled = true,
-      theme = 'auto',
-      component_separators = { left = '|', right = '|'},
+      component_separators = { left = '󰇙', right = '󱋱'},
       section_separators = { left = '', right = ''},
-      disabled_filetypes = {
-        statusline = {},
-        winbar = {},
-      },
-      ignore_focus = {},
-      always_divide_middle = true,
-      globalstatus = false,
-      refresh = {
-        statusline = 1000,
-        tabline = 1000,
-        winbar = 1000,
-      }
+      extensions = {'oil', 'trouble'}
     },
     sections = {
       lualine_a = {'mode'},
-      lualine_b = {'branch', 'diff', 'diagnostics'},
-      lualine_c = {'filename'},
-      lualine_x = {'filesize', 'filetype'},
-      lualine_y = {'progress', 'location'},
+      lualine_b = {'branch', 'diff'},
+      lualine_c = {
+        {'filetype', separator = "", padding = {left = 1, right = 0}, icon_only = true},
+        {'filename', padding = 0}
+      },
+
+      lualine_x = {{
+        'diagnostics',
+        update_in_insert = true,
+        symbols = {
+          error = " ",
+          warn = " ",
+          info = "󰌵 ",
+          hint = "󰌵 "
+        }
+      }},
+      lualine_y = {'progress',
+        function()
+          local linenum = vim.api.nvim_win_get_cursor(0)[1]
+          local column = vim.api.nvim_win_get_cursor(0)[2]
+          return "Ln " .. linenum .. " Col " .. column
+        end
+      },
       lualine_z = {{'windows', mode = 1}}
     },
     inactive_sections = {

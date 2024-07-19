@@ -27,3 +27,24 @@ opt.clipboard:append("unnamedplus")
 opt.iskeyword:append("-")
 opt.showmode = false
 opt.termguicolors = true
+-- opt.autochdir = true
+
+-- vim.cmd [[
+-- :augroup cdpwd
+-- :    autocmd!
+-- :    autocmd BufEnter * cd $PWD
+-- :augroup END
+-- ]]
+--
+-- if vim.fn.isdirectory(vim.v.argv[2]) == 1 then
+--   print("wow")
+--   vim.api.nvim_set_current_dir(vim.v.argv[2])
+-- end
+--
+-- vim.api.nvim_create_autocmd({"VimEnter"}, {
+--   pattern = '*',
+--   callback = function()
+--     vim.api.nvim_set_current_dir()
+--   end
+-- })
+

@@ -19,7 +19,7 @@
   "timeout-low": 5,
   "timeout-critical": 0,
   "fit-to-screen": true,
-  "control-center-width": 500,
+  "control-center-width": 600,
   "control-center-height": 600,
   "notification-window-width": 500,
   "keyboard-shortcuts": true,
@@ -50,7 +50,9 @@
     "inhibitors",
     "title",
     "dnd",
-    "notifications"
+    "notifications",
+    "mpris",
+    "buttons-grid"
   ],
   "widget-config": {
     "inhibitors": {
@@ -59,9 +61,9 @@
       "clear-all-button": true
     },
     "title": {
-      "text": "Notifications",
+      "text": "Notification Center",
       "clear-all-button": true,
-      "button-text": "Clear All"
+      "button-text": " Clear All"
     },
     "dnd": {
       "text": "Do Not Disturb"
@@ -72,7 +74,35 @@
     },
     "mpris": {
       "image-size": 96,
-      "image-radius": 12
+      "image-radius": 20
+    },
+    "volume": {
+      "label": "Volume",
+      "show-per-app": true
+    },
+    "buttons-grid": {
+      "actions": [
+        {
+          "label": "󰐥",
+          "command": "systemctl poweroff"
+        },
+        {
+          "label": "󰜉",
+          "command": "systemctl reboot"
+        },
+        {
+          "label": "󰍃",
+          "command": "hyprctl dispatch exit"
+        },
+        {
+          "label": "󰂯",
+          "command": "blueman-manager"
+        },
+        {
+          "label": "",
+          "command": "obs"
+        }
+      ]
     }
   }
 }

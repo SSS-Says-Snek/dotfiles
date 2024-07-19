@@ -5,13 +5,14 @@ return {
   priority = 1000,
   opts = {
     term_colors = true,
-    dim_inactive = {
-      enabled = true,
-      shade = "dark",
-      percentage = 0.15,
-    },
-  },
-  lazy = false
+    -- transparent_background = true,
+    -- dim_inactive = {
+    --   enabled = true,
+    --   shade = "dark",
+    --   percentage = 0.15,
+    -- },
+    lazy = false
+  }
 }
 
 

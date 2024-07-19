@@ -89,6 +89,7 @@
   background-color: #1e1e2e;
   color: #cdd6f4;
   padding: 14px;
+  border: 2px solid #b4befe;
 }
 
 .control-center .widget-title {
@@ -112,7 +113,7 @@
 
 .control-center .widget-title button:active {
   box-shadow: inset 0 0 0 1px #45475a;
-  background-color: #74c7ec;
+  background-color: #b4befe;
   color: #1e1e2e;
 }
 
@@ -210,7 +211,7 @@ trough {
 }
 
 progressbar {
-  box-shadow: inset 0 0 0 1px #45475a;
+  /*box-shadow: inset 0 0 0 1px #45475a;*/
 }
 
 .notification.critical progress {
@@ -231,6 +232,7 @@ trough {
 }
 
 .control-center-dnd {
+  color: rgba(0, 0, 0, 0);;
   margin-top: 5px;
   border-radius: 8px;
   background: #313244;
@@ -261,11 +263,72 @@ trough {
 }
 
 .widget-dnd > switch:checked {
-  background: #313244;
+  background: #b4befe;
 }
 
 .widget-dnd > switch slider {
   background: #45475a;
   border-radius: 8px;
   border: 1px solid #6c7086;
+}
+
+/*.widget-volume {*/
+/*  padding: 4px 4px 4px 20px;*/
+/*  margin: 0px 8px 8px 8px;*/
+/*  border-radius: 4px;*/
+/*  font-size: 14px;*/
+/*}*/
+/*.widget-volume > box > scale {*/
+/*    background: green;*/
+/*    border: none;*/
+/*}*/
+
+.widget-buttons-grid {
+    font-size: x-large;
+    padding: 15px;
+    margin: 5px 10px 10px 10px;
+    border-radius: 5px;
+    background: #313244;
+}
+ 
+.widget-buttons-grid>flowbox>flowboxchild>button {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 15px 20px;
+    background: #1e1e2e;
+    border-radius: 5px;
+    color: #cdd6f4;
+}
+ 
+.widget-buttons-grid>flowbox>flowboxchild>button:hover {
+    background: #45475a;
+    color: #b4befe;
+}
+
+.widget-mpris {
+    color: #cdd6f4;
+    background: #313244;
+    padding: 5px 10px 5px 10px;
+    margin: 10px 10px 10px 10px;
+    border-radius: 5px;
+}
+
+.widget-mpris > box > button {
+    border-radius: 5px;
+}
+
+.widget-mpris-player {
+    /*padding: 10px 10px;*/
+    margin: 10px;
+    background-color: rgba(0, 0, 0, 0.55);
+    border-radius: 15px;
+}
+
+.widget-mpris-title {
+    font-weight: 600;
+    font-size: 1.1rem
+}
+ 
+.widget-mpris-subtitle {
+    font-size: 1.05rem
 }

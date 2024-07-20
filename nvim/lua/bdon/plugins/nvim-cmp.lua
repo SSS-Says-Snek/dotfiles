@@ -21,17 +21,26 @@ return {
     local lspkind = require("lspkind")
 
     require("luasnip.loaders.from_vscode").lazy_load()
+    local lspkind_format = lspkind.cmp_format({
+      mode = "symbol_text",
+      menu = ({
+        buffer = "[Buffer]",
+        nvim_lsp = "[LSP]",
+        luasnip = "[Snippet]",
+        calc = "[Calc]"
+      })
+    })
 
     cmp.setup({
       formatting = {
-        format = lspkind.cmp_format({
-          mode = "symbol_text",
-          menu = ({
-            buffer = "[Buffer]",
-            nvim_lsp = "[LSP]",
-            luasnip = "[Snippet]",
-          })
-        }),
+        -- format = function(entry, vim_item)
+        --   if entry.source.name == "calc" then
+        --     vim_item.kind = string.format('%s %s', "󰃬", vim_item.kind)
+        --   end
+        --
+        --   return lspkind_format(entry, vim_item)
+        -- end
+        format = lspkind_format
       },
 
       completion = {

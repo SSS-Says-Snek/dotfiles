@@ -24,6 +24,7 @@ return {
     lspconfig.tsserver.setup {}
     lspconfig.cssls.setup {}
     lspconfig.eslint.setup {}
+    lspconfig.clangd.setup {}
     lspconfig.svelte.setup {
       filetypes = { "svelte" },
       on_attach = function(client, bufnr)

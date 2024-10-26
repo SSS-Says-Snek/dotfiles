@@ -10,7 +10,17 @@ return {
     local lspconfig = require("lspconfig")
     local keymap = vim.keymap
 
-    lspconfig.pyright.setup {}
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
+
+    local lspservers = {"eslint", "ts_ls", "cssls", "clangd", "pyright", "mesonlsp", "marksman"}
+
+    for _, lsp in ipairs(lspservers) do
+      lspconfig[lsp].setup {
+        capabilities = capabilities
+      }
+    end
+
     lspconfig.lua_ls.setup {
       settings = {
         Lua = {
@@ -18,13 +28,9 @@ return {
             globals = {'vim'}
           }
         }
-      }
+      },
+      capabilities = capabilities
     }
-    lspconfig.eslint.setup {}
-    lspconfig.tsserver.setup {}
-    lspconfig.cssls.setup {}
-    lspconfig.eslint.setup {}
-    lspconfig.clangd.setup {}
     lspconfig.svelte.setup {
       filetypes = { "svelte" },
       on_attach = function(client, bufnr)

@@ -27,6 +27,7 @@ opt.clipboard:append("unnamedplus")
 opt.iskeyword:append("-")
 opt.showmode = false
 opt.termguicolors = true
+opt.scrolloff = 8
 -- opt.autochdir = true
 
 -- vim.cmd [[

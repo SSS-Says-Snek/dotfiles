@@ -148,8 +148,35 @@ button {
     color: @txt;
     /* margin: 0 4px; */
     /* background-color: @base; */
-    border-radius: 5px;
+    border-radius: 15px;
+    transition: all 200ms;
 }
+
+
+#clock:hover,
+#battery:hover,
+#cpu:hover,
+#memory:hover,
+#disk:hover,
+#temperature:hover,
+#backlight:hover,
+#network:hover,
+#pulseaudio:hover,
+#wireplumber:hover,
+#custom-media:hover,
+#tray:hover,
+#mode:hover,
+#idle_inhibitor:hover,
+#scratchpad:hover,
+#custom-swww:hover,
+#bluetooth:hover,
+#custom-weather:hover,
+#custom-notification:hover,
+#mpd:hover,
+#bluetooth:hover {
+  background-color: @surface0;
+}
+
 
 #tray {
     background-color: @surface0;

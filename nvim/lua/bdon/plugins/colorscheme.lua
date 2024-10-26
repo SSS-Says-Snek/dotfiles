@@ -1,7 +1,6 @@
 return {
   "catppuccin/nvim",
   name = "catppuccin",
-  version = "1.7.0",
   priority = 1000,
   opts = {
     term_colors = true,
@@ -11,6 +10,10 @@ return {
     --   shade = "dark",
     --   percentage = 0.15,
     -- },
+
+    integrations = {
+      bufferline = false,
+    },
     lazy = false
   }
 }

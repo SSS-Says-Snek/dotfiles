@@ -118,7 +118,7 @@
     },
     "custom/notification": {
       "tooltip-format": "Notifications",
-      "format": "{icon} {}",
+      "format": "{icon} {0}",
       "format-icons": {
         "notification": "<span foreground='#fab387'><sup></sup></span>",
         "none": "",

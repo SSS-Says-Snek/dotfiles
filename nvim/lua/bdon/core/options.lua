@@ -28,6 +28,15 @@ opt.iskeyword:append("-")
 opt.showmode = false
 opt.termguicolors = true
 opt.scrolloff = 8
+
+-- So that svelte can comment out html stuff
+local get_option = vim.filetype.get_option
+vim.filetype.get_option = function(filetype, option)
+  return option == "commentstring"
+    and require("ts_context_commentstring.internal").calculate_commentstring()
+    or get_option(filetype, option)
+end
+
 -- opt.autochdir = true
 
 -- vim.cmd [[

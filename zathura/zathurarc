@@ -40,3 +40,4 @@ set adjust-open "best-fit"
 
 map p navigate previous
 map n navigate next
+map i recolor

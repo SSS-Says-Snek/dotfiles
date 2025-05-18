@@ -12,6 +12,7 @@ return {
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
 
     local lspservers = {"eslint", "ts_ls", "cssls", "clangd", "pyright", "mesonlsp", "marksman"}
 

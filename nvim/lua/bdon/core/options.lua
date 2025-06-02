@@ -36,25 +36,3 @@ vim.filetype.get_option = function(filetype, option)
     and require("ts_context_commentstring.internal").calculate_commentstring()
     or get_option(filetype, option)
 end
-
--- opt.autochdir = true
-
--- vim.cmd [[
--- :augroup cdpwd
--- :    autocmd!
--- :    autocmd BufEnter * cd $PWD
--- :augroup END
--- ]]
---
--- if vim.fn.isdirectory(vim.v.argv[2]) == 1 then
---   print("wow")
---   vim.api.nvim_set_current_dir(vim.v.argv[2])
--- end
---
--- vim.api.nvim_create_autocmd({"VimEnter"}, {
---   pattern = '*',
---   callback = function()
---     vim.api.nvim_set_current_dir()
---   end
--- })
-

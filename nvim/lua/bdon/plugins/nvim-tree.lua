@@ -10,4 +10,5 @@ return {
   end,
 
   keys = {{"<leader>e", "<cmd>NvimTreeToggle<cr>"}},
+  lazy = true
 }

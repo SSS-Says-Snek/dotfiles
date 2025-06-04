@@ -29,3 +29,6 @@
 !zathura/**
 
 *.env
+
+# Only arch pc gets to have nvim-hardtime
+nvim/lua/bdon/plugins/hardtime.lua

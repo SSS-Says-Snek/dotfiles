@@ -14,7 +14,7 @@ export SWWW_TRANSITION_STEP=2
 INTERVAL=300
 
 while true; do
-	find "$HOME/wallpapers" -name "*.png" -o -name "*.jpg" \
+	find "$HOME/wallpapers" -maxdepth 1 -name "*.png" -o -name "*.jpg" -o -name "*.gif" \
 		| while read -r img; do
 			echo "$((RANDOM % 1000)):$img"
 		done \

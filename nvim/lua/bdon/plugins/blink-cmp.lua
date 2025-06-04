@@ -42,7 +42,7 @@ return {
     },
 
     completion = {
-      documentation = { auto_show = true }, -- Shows documentation all the time or not
+      documentation = { auto_show = false }, -- Shows documentation all the time or not
       -- list = { selection = { preselect = false, auto_insert = true } }
     },
 

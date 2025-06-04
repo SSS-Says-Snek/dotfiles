@@ -1,3 +1,0 @@
-return {
-  "peterhoeg/vim-qml",
-}

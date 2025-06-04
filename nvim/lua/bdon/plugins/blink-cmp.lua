@@ -1,6 +1,6 @@
 return {
   'saghen/blink.cmp',
-  dependencies = { 'rafamadriz/friendly-snippets' },
+  dependencies = { 'rafamadriz/friendly-snippets', 'onsails/lspkind.nvim' },
 
   version = '1.*',
 
@@ -35,15 +35,63 @@ return {
       ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
     },
 
+    -- General appearance
     appearance = {
-      -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-      -- Adjusts spacing to ensure icons are aligned
       nerd_font_variant = 'mono'
     },
 
+    -- Autocompletion menus (incl documentation)
     completion = {
-      documentation = { auto_show = false }, -- Shows documentation all the time or not
-      -- list = { selection = { preselect = false, auto_insert = true } }
+      documentation = {
+        auto_show = true, -- Shows documentation all the time or not
+        auto_show_delay_ms = 0,
+        window = { border = "rounded" }
+      },
+
+      -- Icon configuration
+      menu = {
+        border = "rounded",
+
+        draw = {
+          columns = {
+            { "kind_icon", "label", gap = 1 },
+            { "kind", gap = 10 },
+          },
+          components = {
+            kind_icon = {
+              text = function(ctx)
+                local icon = ctx.kind_icon
+                if vim.tbl_contains({ "Path" }, ctx.source_name) then
+                  local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
+                  if dev_icon then
+                    icon = dev_icon
+                  end
+                else
+                  icon = require("lspkind").symbolic(ctx.kind, {
+                    mode = "symbol",
+                  })
+                end
+
+                return icon .. ctx.icon_gap
+              end,
+
+              -- Optionally, use the highlight groups from nvim-web-devicons
+              -- You can also add the same function for `kind.highlight` if you want to
+              -- keep the highlight groups in sync with the icons.
+              highlight = function(ctx)
+                local hl = ctx.kind_hl
+                if vim.tbl_contains({ "Path" }, ctx.source_name) then
+                  local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
+                  if dev_icon then
+                    hl = dev_hl
+                  end
+                end
+                return hl
+              end,
+            }
+          }
+        }
+      },
     },
 
     sources = {

@@ -1,0 +1,13 @@
+.bar-left,
+.bar-center,
+.bar-right {
+  background-color: #1e1e2e;
+  border-radius: 0 0 16px 16px;
+  padding: 0px 12px; }
+
+.button-workspace {
+  border-radius: 8px 8px 0 0;
+  padding: 4px 10px; }
+
+* {
+  font-family: 'FiraCode Nerd Font Propo'; }

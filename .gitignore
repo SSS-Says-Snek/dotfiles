@@ -27,6 +27,8 @@
 !waybar/**
 !zathura
 !zathura/**
+!gammastep
+!gammastep/**
 
 *.env
 

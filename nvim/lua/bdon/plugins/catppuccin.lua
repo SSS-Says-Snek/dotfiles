@@ -12,7 +12,10 @@ return {
     },
 
     integrations = {
-      bufferline = false,
+      bufferline = true,
+      blink_cmp = true,
+      lsp_saga = true,
+      notify = true
     },
     lazy = false
   }

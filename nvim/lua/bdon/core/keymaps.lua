@@ -15,8 +15,5 @@ keymap.set("n", "<leader>o", "o<ESC>k")
 keymap.set("n", "<leader>O", "O<ESC>j")
 keymap.set("n", "<leader>lz", "<cmd>Lazy<cr>")
 
-keymap.set("n", "]b", "<cmd>bnext<cr>")
-keymap.set("n", "[b", "<cmd>bprev<cr>")
-
 keymap.set("v", ">", ">gv")
 keymap.set("v", "<", "<gv")

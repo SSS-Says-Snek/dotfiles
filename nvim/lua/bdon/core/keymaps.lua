@@ -15,5 +15,9 @@ keymap.set("n", "<leader>o", "o<ESC>k")
 keymap.set("n", "<leader>O", "O<ESC>j")
 keymap.set("n", "<leader>lz", "<cmd>Lazy<cr>")
 
+keymap.set("n", "<BS>", "<C-6>")
+keymap.set("n", "<Tab>", "<cmd>bn<cr>")
+keymap.set("n", "<S-Tab>", "<cmd>bp<cr>")
+
 keymap.set("v", ">", ">gv")
 keymap.set("v", "<", "<gv")

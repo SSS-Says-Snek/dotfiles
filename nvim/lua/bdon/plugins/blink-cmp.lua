@@ -1,6 +1,6 @@
 return {
   'saghen/blink.cmp',
-  dependencies = { 'rafamadriz/friendly-snippets', 'onsails/lspkind.nvim' },
+  dependencies = { 'rafamadriz/friendly-snippets', 'onsails/lspkind.nvim', { 'L3MON4D3/LuaSnip', version = 'v2.*' } },
 
   version = '1.*',
 
@@ -97,6 +97,8 @@ return {
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer', 'cmdline' },
     },
+
+    snippets = { preset = 'luasnip' },
 
     cmdline = {
       keymap = { preset = 'inherit' },

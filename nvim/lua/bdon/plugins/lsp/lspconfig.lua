@@ -53,7 +53,7 @@ return {
       },
 
       svelte = {
-        filetypes = { "svelte" },
+        filetypes = { "svelte", "html" },
         on_attach = function(client, bufnr)
           if client.name == 'svelte' then
             vim.api.nvim_create_autocmd("BufWritePost", {

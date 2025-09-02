@@ -8,6 +8,7 @@ return {
       ensure_installed = {
         "c",
         "cpp",
+        "css",
         "lua",
         "vim",
         "vimdoc",
@@ -23,7 +24,8 @@ return {
         -- "java",
         "html",
         "svelte",
-        "typescript"
+        "typescript",
+        -- "latex"
       },
       sync_install = false,
       highlight = { enable = true },

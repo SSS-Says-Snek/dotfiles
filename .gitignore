@@ -29,6 +29,8 @@
 !zathura/**
 !gammastep
 !gammastep/**
+!fastfetch
+!fastfetch/**
 
 *.env
 

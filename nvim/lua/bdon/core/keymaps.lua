@@ -21,3 +21,9 @@ keymap.set("n", "<S-Tab>", "<cmd>bp<cr>")
 
 keymap.set("v", ">", ">gv")
 keymap.set("v", "<", "<gv")
+
+keymap.del("n", "grr")
+keymap.del("n", "gri")
+keymap.del("n", "gra")
+keymap.del("n", "grn")
+keymap.del("n", "grt")

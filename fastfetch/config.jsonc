@@ -60,6 +60,10 @@
             "key": "Kernel"
         },
         {
+            "type": "uptime",
+            "key": "Uptime"
+        },
+        {
             "type": "colors",
             "paddingLeft": 0,
             "symbol": "circle"

@@ -30,6 +30,17 @@ opt.showmode = false
 opt.termguicolors = true
 opt.scrolloff = 8
 
+opt.diffopt = {
+  "internal",
+  "filler",
+  "closeoff",
+  "context:12",
+  "algorithm:histogram",
+  "linematch:200",
+  "indent-heuristic",
+  "iwhite"
+}
+
 -- So that svelte can comment out html stuff
 local get_option = vim.filetype.get_option
 vim.filetype.get_option = function(filetype, option)

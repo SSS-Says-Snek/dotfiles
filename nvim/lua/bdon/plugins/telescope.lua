@@ -1,12 +1,12 @@
 return {
-  "nvim-telescope/telescope.nvim", tag = '0.1.8',
+  "nvim-telescope/telescope.nvim", branch = '0.1.x', commit = 'b4da76be54691e854d3e0e02c36b0245f945c2c7',
   dependencies = { "nvim-lua/plenary.nvim" },
   keys = {
-    {'<leader>ff', '<cmd>Telescope find_files<cr>'},
-    {'<leader>fg', '<cmd>Telescope git_files<cr>'},
-    {'<leader>fs', '<cmd>Telescope grep_string<cr>'},
-    {'<leader>lg', '<cmd>Telescope live_grep<cr>'},
-    {'<leader>fb', '<cmd>Telescope buffers<cr>'},
+    {'<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find files (Telescope)'},
+    {'<leader>fg', '<cmd>Telescope git_files<cr>', desc = 'Find from git files (Telescope)'},
+    {'<leader>fs', '<cmd>Telescope grep_string<cr>', desc = 'Grep String (Telescope)'},
+    {'<leader>lg', '<cmd>Telescope live_grep<cr>', desc = 'Live Grep (Telescope)'},
+    {'<leader>fb', '<cmd>Telescope buffers<cr>', desc = 'Find Buffers (Telescope)'},
   },
   config = {
     defaults = {

@@ -77,7 +77,6 @@ return {
   },
 
   config = function(_, opts)
-    local lspconfig = require("lspconfig")
     local keymap = vim.keymap
 
 
@@ -88,7 +87,8 @@ return {
 
     for server, config in pairs(opts.servers) do
       config.capabilities = capabilities
-      lspconfig[server].setup(config)
+      vim.lsp.config(server, config)
+      vim.lsp.enable({server})
     end
 
     -- Keymaps

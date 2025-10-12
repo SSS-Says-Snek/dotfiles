@@ -19,7 +19,13 @@ return {
           ["<esc>"] = require("telescope.actions").close
         },
       },
+    },
+    extensions = {
+      ["ui-select"] = {
+        require("telescope.themes").get_dropdown {
+          -- even more opts
+        }
+      }
     }
   },
-
 }

@@ -41,6 +41,8 @@ opt.diffopt = {
   "iwhite"
 }
 
+-- opt.laststatus = 3
+
 -- So that svelte can comment out html stuff
 local get_option = vim.filetype.get_option
 vim.filetype.get_option = function(filetype, option)

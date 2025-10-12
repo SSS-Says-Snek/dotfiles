@@ -2,7 +2,9 @@ return {
   'nvimdev/lspsaga.nvim',
   config = function()
     require('lspsaga').setup({
-      lightbulb = { enable = false, }
+      ui = {
+        code_action = ''
+      },
     })
   end,
   lazy = false,

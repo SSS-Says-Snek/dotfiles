@@ -5,4 +5,6 @@ vim.api.nvim_set_hl(0, 'LineNr', { fg = "#cdd6f4", bold = true, bg = "#181825" }
 vim.api.nvim_set_hl(0, 'LineNrBelow', { fg = "#6c7086", bold = true, bg = "#181825" })
 vim.api.nvim_set_hl(0, "SignColumn", { bg = "#181825" })
 
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#6c7086", bg = "#1e1e2e" })
+
 -- vim.api.nvim_set_hl(0, 'NormalFloat', { fg = "#ff0000" })

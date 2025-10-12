@@ -17,6 +17,8 @@ return {
         { mode = 'n', keys = '<Leader>' },
         { mode = 'x', keys = '<Leader>' },
 
+        { mode = 'n', keys = '<Leader>d' },
+
         -- Built-in completion
         { mode = 'i', keys = '<C-x>' },
 

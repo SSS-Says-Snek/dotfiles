@@ -5,6 +5,7 @@ return {
       ui = {
         code_action = ''
       },
+      lightbulb = { enable = true, sign = false }
     })
   end,
   lazy = false,

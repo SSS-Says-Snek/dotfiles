@@ -4,6 +4,8 @@ return {
 
   version = '1.*',
 
+  lazy = true,
+
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {

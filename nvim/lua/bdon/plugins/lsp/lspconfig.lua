@@ -17,6 +17,7 @@ return {
       pyright = {},
       mesonlsp = {},
       marksman = {},
+      ruff = {},
 
       lua_ls = {
         on_init = function(client)

@@ -103,7 +103,6 @@ return {
         keymap.set('n', 'gd', '<cmd>Telescope lsp_definitions<cr>', options)
         keymap.set('n', 'gi', '<cmd>Telescope lsp_implementations<cr>', options)
         keymap.set('n', 'gt', '<cmd>Telescope lsp_type_definitions<cr>', options)
-        keymap.set({ 'n', 'v' }, '<leader>ca', '<cmd>Lspsaga code_action<cr>', options)
         keymap.set('n', '<leader>rn', '<cmd>Lspsaga rename<cr>', options)
       end
     })

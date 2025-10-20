@@ -1,6 +1,7 @@
 -- Core configs
 require("bdon.core.options")
 require("bdon.core.keymaps")
+require("bdon.core.misc")
 
 -- Lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

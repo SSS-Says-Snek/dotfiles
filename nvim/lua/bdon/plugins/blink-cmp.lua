@@ -35,6 +35,9 @@ return {
 
       ['<C-a>'] = { 'select_and_accept' },
       ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
+
+      ["<C-l>"] = { "snippet_forward", "fallback" },
+      ["<C-h>"] = { "snippet_backward", "fallback" },
     },
 
     -- General appearance
@@ -57,7 +60,7 @@ return {
         draw = {
           columns = {
             { "kind_icon", "label", gap = 1 },
-            { "kind", gap = 10 },
+            { "kind",      gap = 10 },
           },
           components = {
             kind_icon = {

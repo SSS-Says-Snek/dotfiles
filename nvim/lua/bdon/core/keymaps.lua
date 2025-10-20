@@ -37,3 +37,15 @@ vim.keymap.set("n", "<C-Right>", [[<cmd>vertical resize +5<cr>]]) -- make the wi
 vim.keymap.set("n", "<C-Left>", [[<cmd>vertical resize -5<cr>]]) -- make the window smaller vertically
 vim.keymap.set("n", "<C-Up>", [[<cmd>horizontal resize +2<cr>]]) -- make the window bigger horizontally by pressing shift and =
 vim.keymap.set("n", "<C-Down>", [[<cmd>horizontal resize -2<cr>]]) -- make the window smaller horizontally by pressing shift and -
+
+vim.keymap.set('n', '<leader>k', function()
+  vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
+
+  vim.api.nvim_create_autocmd('CursorMoved', {
+    group = vim.api.nvim_create_augroup('line-diagnostics', { clear = true }),
+    callback = function()
+      vim.diagnostic.config({ virtual_lines = false, virtual_text = true })
+      return true
+    end,
+  })
+end)

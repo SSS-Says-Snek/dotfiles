@@ -26,6 +26,12 @@ return {
           -- even more opts
         }
       }
+    },
+
+    pickers = {
+        find_files = {
+          prompt_prefix = " ",
+      }
     }
   },
 }

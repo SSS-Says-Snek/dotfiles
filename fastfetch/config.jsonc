@@ -1,13 +1,16 @@
 {
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
     "logo": {
-        "type": "small"
+        "type": "kitty",
+        "source": "$HOME/.config/fastfetch/grass-block.png",
+        "height": 18,
+
     },
     "display": {
-        "separator": " ",
-        "key": {
-            "type": "both"
-        },
+        // "separator": " ",
+        // "key": {
+        //     "type": "both"
+        // },
         "bar": {
             "border": {
                 "left": "\uee00",
@@ -31,37 +34,93 @@
         }
     },
     "modules": [
+        "break",
         "title",
-        "separator",
         {
-            "type": "memory",
-            "key": "MEM"
+            "type": "custom",
+            "format": "\u001b[90m╭────────────────────────────────────────────────────╮"
         },
         {
-            "type": "swap",
-            "key": "SWP"
+            "type": "memory",
+            "key": "  󰍛 Memory",
         },
         {
             "type": "disk",
             "folders": "/",
-            "key": "DSK"
+            "key": "  󱛟 Disk  "
         },
-        "separator",
+        {
+            "type": "swap",
+            "key": "   Swap  "
+        },
+        {
+            "type": "custom",
+            "format": "\u001b[90m╰────────────────────────────────────────────────────╯"
+        },
+
+        {
+            "type": "custom",
+            "format": "\u001b[90m╭────────────────────────────────────────────────────╮"
+        },
+        {
+            "type": "os",
+            "key": "  󰣇 OS",
+            "keyColor": "blue",
+        },
         {
             "type": "cpu",
-            "key": "CPU"
+            "key": "   CPU",
+            "keyColor": "blue",
         },
         {
             "type": "gpu",
-            "key": "GPU"
+            "key": "  󰊴 GPU",
+            "keyColor": "blue",
         },
         {
             "type": "kernel",
-            "key": "Kernel"
+            "key": "   Kernel",
+            "keyColor": "green"
+        },
+        {
+            "type": "packages",
+            "key": "  󰏗 Packages",
+            "keyColor": "green",
+        },
+        {
+            "type": "display",
+            "key": "  󰍹 Display",
+            "keyColor": "yellow",
+            "format": "{1}x{2} @ {3}Hz ({7})",
+        },
+        {
+            "type": "wm",
+            "key": "   WM",
+            "keyColor": "yellow",
+            "format": "{2}",
+        },
+        {
+            "type": "terminal",
+            "key": "   Terminal",
+            "keyColor": "yellow",
+            "format": "{2}",
+        },
+        {
+            "type": "disk",
+            "key": "   OS Age",
+            "keyColor": "magenta",
+            "format": "{days} days",
+            "folders": "/",
         },
         {
             "type": "uptime",
-            "key": "Uptime"
+            "key": "  󰅐 Uptime",
+            "keyColor": "magenta"
+        },
+        {
+            "type": "custom",
+            "format": "\u001b[90m╰────────────────────────────────────────────────────╯"
+
         },
         {
             "type": "colors",

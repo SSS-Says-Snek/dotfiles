@@ -4,7 +4,7 @@ return {
   keys = {
     {'<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find files (Telescope)'},
     {'<leader>fg', '<cmd>Telescope git_files<cr>', desc = 'Find from git files (Telescope)'},
-    {'<leader>fs', '<cmd>Telescope grep_string<cr>', desc = 'Grep String (Telescope)'},
+    {'<leader>fs', '<cmd>Telescope lsp_dynamic_workspace_symbols<cr>', desc = 'Find Symbols from Workspace (Telescope)'},
     {'<leader>lv', '<cmd>Telescope live_grep<cr>', desc = 'Live Grep (Telescope)'},
     {'<leader>fb', '<cmd>Telescope buffers<cr>', desc = 'Find Buffers (Telescope)'},
   },

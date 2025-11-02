@@ -33,10 +33,12 @@ vim.keymap.set("n", "<C-l>", "<C-w>l")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 
-vim.keymap.set("n", "<C-Right>", [[<cmd>vertical resize +5<cr>]]) -- make the window biger vertically
-vim.keymap.set("n", "<C-Left>", [[<cmd>vertical resize -5<cr>]]) -- make the window smaller vertically
-vim.keymap.set("n", "<C-Up>", [[<cmd>horizontal resize +2<cr>]]) -- make the window bigger horizontally by pressing shift and =
+vim.keymap.set("n", "<C-Right>", [[<cmd>vertical resize +5<cr>]])  -- make the window biger vertically
+vim.keymap.set("n", "<C-Left>", [[<cmd>vertical resize -5<cr>]])   -- make the window smaller vertically
+vim.keymap.set("n", "<C-Up>", [[<cmd>horizontal resize +2<cr>]])   -- make the window bigger horizontally by pressing shift and =
 vim.keymap.set("n", "<C-Down>", [[<cmd>horizontal resize -2<cr>]]) -- make the window smaller horizontally by pressing shift and -
+
+-- Diagnostic virtual lines & jumping
 
 vim.keymap.set('n', '<leader>k', function()
   vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = false })
@@ -49,3 +51,28 @@ vim.keymap.set('n', '<leader>k', function()
     end,
   })
 end)
+
+local function jumpWithVirtLineDiags(jumpCount)
+  pcall(vim.api.nvim_del_augroup_by_name, "jumpWithVirtLineDiags") -- prevent autocmd for repeated jumps
+
+  vim.diagnostic.jump { count = jumpCount }
+
+  vim.diagnostic.config {
+    virtual_text = false,
+    virtual_lines = { current_line = true },
+  }
+
+  vim.defer_fn(function() -- deferred to not trigger by jump itself
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      desc = "User(once): Reset diagnostics virtual lines",
+      once = true,
+      group = vim.api.nvim_create_augroup("jumpWithVirtLineDiags", {}),
+      callback = function()
+        vim.diagnostic.config { virtual_lines = false, virtual_text = true }
+      end,
+    })
+  end, 1)
+end
+
+vim.keymap.set("n", "ge", function() jumpWithVirtLineDiags(1) end, { desc = "󰒕 Next diagnostic" })
+vim.keymap.set("n", "gE", function() jumpWithVirtLineDiags(-1) end, { desc = "󰒕 Prev diagnostic" })

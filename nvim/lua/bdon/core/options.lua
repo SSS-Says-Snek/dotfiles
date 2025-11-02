@@ -41,7 +41,8 @@ opt.diffopt = {
   "iwhite"
 }
 
--- opt.laststatus = 3
+opt.laststatus = 3
+opt.splitkeep = "screen"
 
 -- So that svelte can comment out html stuff
 local get_option = vim.filetype.get_option

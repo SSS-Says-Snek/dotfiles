@@ -15,10 +15,13 @@ return {
       bufferline = true,
       blink_cmp = true,
       lsp_saga = true,
+      gitsigns = {
+        enabled = true,
+        -- align with the transparent_background option by default
+        transparent = false,
+      },
       notify = true
     },
     lazy = false
   }
 }
-
-

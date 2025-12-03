@@ -29,6 +29,7 @@ opt.iskeyword:append("-")
 opt.showmode = false
 opt.termguicolors = true
 opt.scrolloff = 8
+opt.cindent = false
 
 opt.diffopt = {
   "internal",

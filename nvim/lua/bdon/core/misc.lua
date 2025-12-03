@@ -18,3 +18,9 @@ vim.diagnostic.config({
     },
   },
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function()
+    vim.opt.cinkeys:remove(':')
+  end,
+})

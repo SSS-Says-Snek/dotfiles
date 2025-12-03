@@ -20,7 +20,15 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(
   {
     { import = "bdon.plugins" },
-    { import = "bdon.plugins.lsp" }
+    { import = "bdon.plugins.lsp" },
+
+    ui = {
+      border = "rounded",
+      size = {
+        width = 0.8,
+        height = 0.8,
+      },
+    },
   }
 )
 

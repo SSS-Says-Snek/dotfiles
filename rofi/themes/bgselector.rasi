@@ -1,0 +1,41 @@
+
+// Global
+* {
+    background-color: transparent;
+}
+
+// Window
+window {
+    background-color: rgba(0,0,0,0.3);
+    fullscreen: true;    
+}
+
+// Main Box
+mainbox {
+    children: [listview];
+    padding: 25% 0%;
+}
+
+// Listview
+listview {
+    padding: 0px 10px;
+    spacing: 20px;
+    columns: 10;
+    flow: horizontal;
+    children: [element-icon];
+}
+element {
+    border-radius: 10px;
+    expand: false;
+    width: 229px;
+}
+element.selected {
+    border: 2px;
+    border-color: white;
+}
+element-icon {
+    expand: false;
+    size: 229px 540px;
+    horizontal-align: 0;
+}
+

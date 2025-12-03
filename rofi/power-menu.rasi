@@ -27,7 +27,7 @@ window {
 
     border-color:                @selected;
     cursor:                      "default";
-    background-color:            @background;
+    background-color: rgba(0,0,0,0.3);
 }
 
 /*****----- Main Box -----*****/

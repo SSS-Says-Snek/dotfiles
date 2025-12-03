@@ -16,7 +16,8 @@ return {
     delete_to_trash = true,
     float = {
       preview_split = 'right',
-      padding = 5
+      padding = 5,
+      border = 'rounded'
     }
   },
   lazy = false

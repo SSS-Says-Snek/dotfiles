@@ -108,6 +108,7 @@
     "custom/swww": {
         "exec": "~/.config/waybar/scripts/schedule-wallpaper.sh",
         "on-click": "~/.config/waybar/scripts/cycle-wallpaper.sh",
+        "on-click-right": "~/.config/waybar/scripts/select-wallpaper.sh",
         "tooltip-format": "Cycle Wallpaper",
         "format": "󰸉",
     },

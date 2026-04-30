@@ -17,7 +17,14 @@ return {
     float = {
       preview_split = 'right',
       padding = 5,
-      border = 'rounded'
+      border = "rounded"
+    },
+
+    confirmation = {
+      border = "rounded"
+    },
+    progress = {
+      border = "rounded"
     }
   },
   lazy = false

@@ -58,7 +58,7 @@
       "format": "󰋊 {percentage_used}%"
     },
     "temperature": {
-        "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
+        "hwmon-path": "/sys/class/hwmon/hwmon7/temp1_input",
         "critical-threshold": 80,
         "format": "{icon} {temperatureC}°C",
         "format-icons": ["", "", ""]
@@ -137,4 +137,13 @@
       "on-click-right": "swaync-client -d -sw",
       "escape": true
     },
+    "custom/keybind-toggle": {
+        "exec": "~/.config/waybar/scripts/toggle-hyprland-bindings.sh status",
+        "interval": 5,
+        "tooltip-format": "Toggle Hyprland keybinds (currently {})",
+        "format": "󰹋 {}",
+        "signal": 8,
+        "return-type": "json",
+        "on-click": "~/.config/waybar/scripts/toggle-hyprland-bindings.sh toggle"
+    }
 }

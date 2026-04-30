@@ -21,7 +21,7 @@ while true; do
 		| sort -n | cut -d':' -f2- \
 		| while read -r img; do
       echo $img
-			swww img "$img" -t any
+			awww img "$img" -t any
 			sleep $INTERVAL
 		done
 done

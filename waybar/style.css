@@ -143,6 +143,7 @@ button {
 #bluetooth,
 #custom-weather,
 #custom-notification,
+#custom-keybind-toggle,
 #mpd {
     padding: 2px 10px;
     color: @txt;
@@ -172,6 +173,7 @@ button {
 #bluetooth:hover,
 #custom-weather:hover,
 #custom-notification:hover,
+#custom-keybind-toggle:hover,
 #mpd:hover,
 #bluetooth:hover {
   background-color: @surface0;
@@ -248,6 +250,14 @@ button {
   color: @txt;
 }
 
+#custom-keybind-toggle {
+  color: @txt;
+}
+
 #custom-weather {
   color: @lavender;
+}
+
+#custom-keybind-toggle.off {
+  color: @red;
 }

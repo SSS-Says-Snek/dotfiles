@@ -13,19 +13,28 @@ return {
       eslint = {},
       ts_ls = {},
       cssls = {},
-      clangd = {},
+      clangd = {
+        cmd = {
+          'clangd',
+          '--background-index',
+          '--cross-file-rename',
+          '--limit-references=0'
+        },
+        workspaceSymbol = { maxNum = 500 },
+      },
       pyright = {},
       mesonlsp = {},
       marksman = {},
       ruff = {},
+      qmlls = {},
 
       lua_ls = {
         on_init = function(client)
           if client.workspace_folders then
             local path = client.workspace_folders[1].name
             if
-              path ~= vim.fn.stdpath('config')
-              and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
+                path ~= vim.fn.stdpath('config')
+                and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
             then
               return
             end
@@ -89,14 +98,14 @@ return {
     for server, config in pairs(opts.servers) do
       config.capabilities = capabilities
       vim.lsp.config(server, config)
-      vim.lsp.enable({server})
+      vim.lsp.enable({ server })
     end
 
     -- Keymaps
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('UserLspConfig', {}),
       callback = function(ev)
-        local options = {buffer = ev.buf}
+        local options = { buffer = ev.buf }
 
         keymap.set('n', 'gD', vim.lsp.buf.declaration, options)
         keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>', options)

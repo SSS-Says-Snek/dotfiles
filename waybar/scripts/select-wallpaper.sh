@@ -20,7 +20,7 @@ wall_selection=$(ls $wall_dir | grep -E '\.jpg|\.jpeg|\.png|\.webp' | while read
 
 # Set wallpaper and update waybar color
 if [ -n "$wall_selection" ]; then
-	swww img "$wall_dir/$wall_selection" -t grow --transition-duration 1 --transition-fps 75
+	awww img "$wall_dir/$wall_selection" -t grow --transition-duration 1 --transition-fps 75
 	sleep 0.2
 	exit 0
 else

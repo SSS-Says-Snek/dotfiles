@@ -26,6 +26,15 @@ return {
       mesonlsp = {},
       marksman = {},
       ruff = {},
+      hypr = {
+        cmd = { "hyprls" },
+        settings = {
+          hyprls = {
+            preferIgnoreFile = false,
+            ignore = { "hyprlock.conf", "hypridle.conf" }
+          }
+        }
+      },
       qmlls = {},
 
       lua_ls = {

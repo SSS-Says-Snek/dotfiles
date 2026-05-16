@@ -28,7 +28,10 @@ confirm_cmd() {
 
 # Ask for confirmation
 confirm_exit() {
-	echo -e "$yes\n$no" | confirm_cmd
+    gurt=`echo -e "$yes\n$no" | confirm_cmd`
+    if [ "$gurt" == "$no" ]; then
+        exit 0
+    fi
 }
 
 # Pass variables to rofi dmenu
@@ -51,6 +54,7 @@ case ${chosen} in
     systemctl reboot
         ;;
     $lock)
+    confirm_exit
       echo "TODO"
         ;;
     $log)

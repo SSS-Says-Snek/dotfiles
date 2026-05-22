@@ -301,3 +301,34 @@ hl.bind("SUPER + x", hl.dsp.exec_cmd("~/.config/waybar/scripts/toggle-hyprland-b
 hl.define_submap("clean", function()
     hl.bind("SUPER + x", hl.dsp.exec_cmd("~/.config/waybar/scripts/toggle-hyprland-bindings.sh toggle"))
 end)
+
+
+local alt_passthrough_keys = {
+    "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
+    "a", "s", "d", "f", "g", "h", "j", "k", "l",
+    "z", "x", "c", "v", "b", "n", "m",
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
+    "F1", "F2", "F3", "F4", "F5", "F6",
+    "F7", "F8", "F9", "F10", "F11", "F12",
+    "Tab", "Return", "space", "BackSpace", "Delete",
+    "Left", "Right", "Up", "Down",
+}
+ 
+-- Register F13 + ALT + <key> → send ALT+<key> to active window
+for _, key in ipairs(alt_passthrough_keys) do
+    hl.bind("SUPER + ALT + " .. key, hl.dsp.send_shortcut({
+        mods   = "ALT",
+        key    = key,
+        window = "activewindow",
+    }))
+end
+ 
+-- Also forward ALT+SHIFT combos (e.g. FL Studio ALT+SHIFT+something)
+for _, key in ipairs(alt_passthrough_keys) do
+    hl.bind("SUPER + ALT + SHIFT + " .. key, hl.dsp.send_shortcut({
+        mods   = "ALT SHIFT",
+        key    = key,
+        window = "activewindow",
+    }))
+end
+

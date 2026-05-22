@@ -22,6 +22,8 @@
 !nwg-look/**
 !rofi
 !rofi/**
+!quickshell
+!quickshell/**
 !swaync
 !swaync/**
 !waybar

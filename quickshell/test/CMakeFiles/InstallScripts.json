@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/bdon/.config/quickshell/test/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

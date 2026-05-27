@@ -22,6 +22,7 @@
 !nwg-look/**
 !rofi
 !rofi/**
+!Kvantum/KvLibadwaitaDark-Cat
 !quickshell
 !quickshell/**
 !swaync
@@ -39,3 +40,7 @@
 
 # Only arch pc gets to have nvim-hardtime
 nvim/lua/bdon/plugins/hardtime.lua
+
+quickshell/caelestia-ref
+quickshell/caelestia-ref/**
+quickshell/myshell/**

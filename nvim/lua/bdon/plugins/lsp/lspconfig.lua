@@ -35,7 +35,9 @@ return {
       --     }
       --   }
       -- },
-      qmlls = {},
+      qmlls = {
+        cmd = {"qmlls", "-E"}
+      },
 
       lua_ls = {
         on_init = function(client)

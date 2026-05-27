@@ -1,0 +1,2 @@
+/home/bdon/.config/quickshell/test/CMakeFiles/edit_cache.dir
+/home/bdon/.config/quickshell/test/CMakeFiles/rebuild_cache.dir

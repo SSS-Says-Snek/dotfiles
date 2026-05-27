@@ -161,6 +161,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("nm-applet")
     hl.exec_cmd("pasystray")
     hl.exec_cmd("blueman-tray")
+    hl.exec_cmd("qs -c overview")
 
     -- yeahhh
     -- hl.exec_cmd("diurnals")  -- Wait until AUR bump
@@ -267,6 +268,8 @@ hl.bind("SUPER + F",  hl.dsp.window.fullscreen({ mode = 0 }))
 hl.bind("SUPER + K",  hl.dsp.window.move({ workspace = "special" }))
 hl.bind("SUPER + F8", hl.dsp.workspace.toggle_special())
 hl.bind("SUPER + C",  hl.dsp.exec_cmd("copyq toggle"))
+
+hl.bind("SUPER + TAB", hl.dsp.exec_cmd("qs ipc -c overview call overview toggle"))
 
 -- Audio — repeating binds use { repeat = true }
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("pamixer --set-limit 250 --allow-boost --increase 2"), { repeating = true })

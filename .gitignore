@@ -22,7 +22,9 @@
 !nwg-look/**
 !rofi
 !rofi/**
-!Kvantum/KvLibadwaitaDark-Cat
+!Kvantum/
+!Kvantum/KvLibadwaitaDark-Cat/
+!Kvantum/KvLibadwaitaDark-Cat/**
 !quickshell
 !quickshell/**
 !swaync

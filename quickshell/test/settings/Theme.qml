@@ -10,6 +10,7 @@ FileView {
     onFileChanged: reload()
 
     property string accent: "#b4befe"
+    property string mauve: "#cba6f7"
     property string text: "#cdd6f4"
     property string subtext: "#a6adc8"
     property string overlay2: "#9399b2"

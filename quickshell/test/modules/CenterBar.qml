@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import qs.settings
 
 Rectangle {
@@ -8,30 +9,38 @@ Rectangle {
     readonly property int rowSpacing: 15
 
     color: "#1e1e24"
-    implicitWidth: leftBar.implicitWidth + 2 * rowSpacing
+    implicitWidth: centerBar.implicitWidth + 2 * rowSpacing
 
-    anchors.left: parent.left
     anchors.leftMargin: root.rowSpacing
     radius: 9999
 
     Row {
-        id: leftBar
+        id: centerBar
         anchors.fill: parent
         spacing: root.rowSpacing
         anchors.leftMargin: 15
 
-        Image {
-            id: archLogo
-            source: "/home/bdon/.config/waybar/images/arch-logo.png"
+        Row {
+            spacing: 8
             anchors.verticalCenter: parent.verticalCenter
-            width: 25
-            height: 25
+
+            Icon {
+                icon: "clock/2"
+                size: 20
+                color: Theme.mauve
+            }
+
+            Clock {
+                anchors.verticalCenter: parent.verticalCenter
+            }
         }
 
-        Workspaces {
+        Weather {
             anchors.verticalCenter: parent.verticalCenter
-            targetMonitor: root.targetMonitor
         }
 
+        HoverHandler {
+            id: centerArea
+        }
     }
 }

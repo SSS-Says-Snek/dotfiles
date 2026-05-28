@@ -33,7 +33,8 @@ Scope {
                 targetMonitor: panelWindow.modelData.name
             }
 
-            Clock {
+            CenterBar {
+                implicitHeight: panelWindow.implicitHeight
                 anchors.centerIn: parent
             }
         }

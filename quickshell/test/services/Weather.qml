@@ -19,13 +19,11 @@ Singleton {
     })
 
     function processData(text) {
-        console.log(text)
         var dummy = {}
         var json = JSON.parse(text)
         dummy.temp = json.current.temp_f
 
         root.data = dummy
-        console.log(data.temp)
     }
 
     Process {

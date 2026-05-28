@@ -11,6 +11,11 @@ FileView {
 
     property string accent: "#b4befe"
     property string mauve: "#cba6f7"
+    property string sapphire: "#74c7ec"
+    property string blue: "#89b4fa"
+    property string yellow: "#f9e2af"
+    property string peach: "#fab387"
+    property string green: "#a6e3a1"
     property string text: "#cdd6f4"
     property string subtext: "#a6adc8"
     property string overlay2: "#9399b2"

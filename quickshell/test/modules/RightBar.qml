@@ -7,26 +7,39 @@ Rectangle {
     readonly property int rowSpacing: 10
 
     color: "#1e1e24"
-    implicitWidth: centerBar.implicitWidth + 2 * rowSpacing
+    implicitWidth: rightBar.implicitWidth + 2 * rowSpacing
 
+    anchors.rightMargin: root.rowSpacing
     radius: 9999
 
     Row {
-        id: centerBar
+        id: rightBar
         anchors.fill: parent
         spacing: root.rowSpacing
         anchors.leftMargin: root.rowSpacing
 
-        Clock {
+        DiskStat {
             anchors.verticalCenter: parent.verticalCenter
         }
 
-        Weather {
+        AudioStat {
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        TempStat {
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        CpuStat {
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        MemStat {
             anchors.verticalCenter: parent.verticalCenter
         }
 
         HoverHandler {
-            id: centerArea
+            id: rightArea
         }
     }
 }

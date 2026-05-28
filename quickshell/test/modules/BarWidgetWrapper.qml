@@ -13,6 +13,8 @@ Rectangle {
     color: hoverHandler.hovered ? Theme.surface0 : "transparent"
 
     default property Component child
+    signal clicked()
+    signal wheel(WheelEvent event)
 
     Loader {
         id: loader
@@ -22,6 +24,17 @@ Rectangle {
 
     HoverHandler {
         id: hoverHandler
+    }
+
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        hoverEnabled: true
+
+        onWheel: (event) => {
+            root.wheel(event)
+        }
+        onClicked: root.clicked()
     }
 
     Behavior on color {

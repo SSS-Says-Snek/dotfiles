@@ -2,20 +2,22 @@ import QtQuick
 import qs.modules
 import qs.settings
 
+import "../services" as Services
+
 BarWidgetWrapper {
     Row {
         spacing: 5
         anchors.verticalCenter: parent.verticalCenter
 
         Icon {
-            icon: "clock/2"
+            icon: "clarity-thermometer"
             size: 20
-            color: Theme.mauve
+            color: Theme.yellow
         }
 
         Text {
-            text: Time.time
-            color: Theme.mauve
+            text: `${Services.SystemStats.cpuTemp}°C`
+            color: Theme.yellow
 
             anchors.verticalCenter: parent.verticalCenter
 

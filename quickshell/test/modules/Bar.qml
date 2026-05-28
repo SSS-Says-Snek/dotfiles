@@ -37,6 +37,12 @@ Scope {
                 implicitHeight: panelWindow.implicitHeight
                 anchors.centerIn: parent
             }
+
+            RightBar {
+                implicitHeight: panelWindow.implicitHeight
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+            }
         }
     }
 }

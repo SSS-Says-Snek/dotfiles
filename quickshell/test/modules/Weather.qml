@@ -6,7 +6,7 @@ import "../services" as Services
 BarWidgetWrapper {
     Row {
         id: row
-        spacing: 8
+        spacing: 5
 
         Icon {
             anchors.verticalCenter: parent.verticalCenter

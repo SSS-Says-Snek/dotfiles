@@ -33,5 +33,8 @@ Rectangle {
             targetMonitor: root.targetMonitor
         }
 
+        Mpris {
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
 }

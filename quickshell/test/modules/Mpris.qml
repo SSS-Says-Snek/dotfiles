@@ -5,6 +5,9 @@ import qs.settings
 import "../services" as Services
 
 BarWidgetWrapper {
+    id: root
+    readonly property int maxTitleLength: 25
+
     Row {
         spacing: 5
         anchors.verticalCenter: parent.verticalCenter
@@ -50,38 +53,20 @@ BarWidgetWrapper {
             ]
         }
 
-        Item {
-            id: wrap
-            width: Math.min(250, text.implicitWidth)
-            implicitHeight: text.implicitHeight
+        Text {
+            id: text
+            text: title.length < maxTitleLength + 3 ? title : title.substring(0, maxTitleLength) + "..." // + 3 for ellipsis
+            color: Theme.accent
+
+            readonly property string title: Services.MprisController.activeTrack.title
+
+            wrapMode: Text.NoWrap
             anchors.verticalCenter: parent.verticalCenter
 
-            readonly property bool isOverflowing: text.implicitWidth > wrap.width
-
-            clip: true
-
-            Text {
-                id: text
-                text: Services.MprisController.activeTrack.title
-                color: Theme.accent
-
-                wrapMode: Text.NoWrap
-                anchors.verticalCenter: parent.verticalCenter
-
-                font {
-                    family: Theme.font
-                    pixelSize: 13
-                    weight: 600
-                }
-
-                NumberAnimation on x {
-                    id: scrollAnimation
-                    from: wrap.width
-                    to: -text.implicitWidth
-                    duration: 12000
-                    loops: Animation.Infinite
-                    running: wrap.isOverflowing && text.text !== ""
-                }
+            font {
+                family: Theme.font
+                pixelSize: 13
+                weight: 600
             }
         }
     }

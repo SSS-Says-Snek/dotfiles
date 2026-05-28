@@ -2,13 +2,28 @@ import QtQuick
 import qs.modules
 import qs.settings
 
-Text {
-    text: Time.time
-    color: Theme.mauve
+BarWidgetWrapper {
+    Row {
+        spacing: 8
+        anchors.verticalCenter: parent.verticalCenter
 
-    font {
-        family: Theme.font
-        pixelSize: 13
-        weight: 600
+        Icon {
+            icon: "clock/2"
+            size: 20
+            color: Theme.mauve
+        }
+
+        Text {
+            text: Time.time
+            color: Theme.mauve
+
+            anchors.verticalCenter: parent.verticalCenter
+
+            font {
+                family: Theme.font
+                pixelSize: 13
+                weight: 600
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@ Rectangle {
     id: root
     property string targetMonitor: ""
 
-    readonly property int rowSpacing: 15
+    readonly property int rowSpacing: 10
 
     color: "#1e1e24"
     implicitWidth: centerBar.implicitWidth + 2 * rowSpacing
@@ -18,21 +18,10 @@ Rectangle {
         id: centerBar
         anchors.fill: parent
         spacing: root.rowSpacing
-        anchors.leftMargin: 15
+        anchors.leftMargin: root.rowSpacing
 
-        Row {
-            spacing: 8
+        Clock {
             anchors.verticalCenter: parent.verticalCenter
-
-            Icon {
-                icon: "clock/2"
-                size: 20
-                color: Theme.mauve
-            }
-
-            Clock {
-                anchors.verticalCenter: parent.verticalCenter
-            }
         }
 
         Weather {

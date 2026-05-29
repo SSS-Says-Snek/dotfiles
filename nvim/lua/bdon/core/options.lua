@@ -30,6 +30,7 @@ opt.showmode = false
 opt.termguicolors = true
 opt.scrolloff = 8
 opt.cindent = false
+opt.foldenable = false
 
 opt.diffopt = {
   "internal",

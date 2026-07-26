@@ -269,6 +269,9 @@ hl.bind("SUPER + K",  hl.dsp.window.move({ workspace = "special" }))
 hl.bind("SUPER + F8", hl.dsp.workspace.toggle_special())
 hl.bind("SUPER + C",  hl.dsp.exec_cmd("copyq toggle"))
 
+hl.bind("SUPER + F6", hl.dsp.exec_cmd("qs ipc -p '/home/bdon/Downloads/files (2)/' call wha toggleDrawer"))
+hl.bind("SUPER + F7", hl.dsp.exec_cmd("qs ipc -p '/home/bdon/Downloads/files (2)/' call wha toggleEditor"))
+
 hl.bind("SUPER + TAB", hl.dsp.exec_cmd("qs ipc -c overview call overview toggle"))
 
 -- Audio — repeating binds use { repeat = true }

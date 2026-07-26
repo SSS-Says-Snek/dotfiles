@@ -27,6 +27,7 @@ keymap.del("n", "gri")
 keymap.del("n", "gra")
 keymap.del("n", "grn")
 keymap.del("n", "grt")
+keymap.del("n", "grx")
 
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-l>", "<C-w>l")

@@ -13,7 +13,7 @@ Singleton {
 
     FileView {
         id: jsonReader
-        path: ".env"
+        path: Quickshell.shellPath(".env")
         watchChanges: true
         onFileChanged: reload()
 

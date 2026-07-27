@@ -1,3 +1,4 @@
+import Quickshell
 import QtQuick
 
 Rectangle {
@@ -19,14 +20,22 @@ Rectangle {
 
         Clock {
             anchors.verticalCenter: parent.verticalCenter
+            onClicked: popup.expanded = !popup.expanded
         }
 
         Weather {
             anchors.verticalCenter: parent.verticalCenter
+            onClicked: popup.expanded = !popup.expanded
         }
+    }
 
-        HoverHandler {
-            id: centerArea
-        }
+    TapHandler {
+        onTapped: popup.expanded = !popup.expanded
+    }
+
+    CenterPopup {
+        id: popup
+
+        anchorItem: root
     }
 }

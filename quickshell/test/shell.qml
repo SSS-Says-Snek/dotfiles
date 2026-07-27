@@ -4,5 +4,7 @@ import QtQuick
 import "modules"
 
 Scope {
-    Bar {}
+    Bar {
+        id: bar
+    }
 }

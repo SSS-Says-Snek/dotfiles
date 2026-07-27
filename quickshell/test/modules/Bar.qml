@@ -34,6 +34,7 @@ Scope {
             }
 
             CenterBar {
+                id: centerBar
                 implicitHeight: panelWindow.implicitHeight
                 anchors.centerIn: parent
             }

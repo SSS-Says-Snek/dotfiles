@@ -18,39 +18,14 @@ BarWidgetWrapper {
             size: 20
             color: Theme.accent
 
-            states: [
-                State {
-                    name: "spinning"
-                    when: Services.MprisController.isPlaying
-                    PropertyChanges { target: icon; rotation: icon.rotation + 360 }
-                },
-                State {
-                    name: "stopped"
-                    when: !Services.MprisController.isPlaying
-                    PropertyChanges { target: icon; rotation: icon.rotation }
-                }
-            ]
-
-            transitions: [
-                Transition {
-                    from: "stopped"; to: "spinning"
-                    PropertyAnimation {
-                        target: icon
-                        property: "rotation"
-                        duration: 5000
-                        loops: Animation.Infinite
-                    }
-                },
-
-                Transition {
-                    from: "spinning"; to: "stopped"
-                    PropertyAnimation {
-                        target: icon
-                        property: "rotation"
-                        duration: 1000
-                    }
-                }
-            ]
+            NumberAnimation on rotation {
+                from: 0
+                to: 360
+                duration: 5000
+                loops: Animation.Infinite
+                running: true
+                paused: !Services.MprisController.isPlaying
+            }
         }
 
         Text {

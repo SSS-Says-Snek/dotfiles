@@ -46,3 +46,4 @@ nvim/lua/bdon/plugins/hardtime.lua
 quickshell/caelestia-ref
 quickshell/caelestia-ref/**
 quickshell/myshell/**
+quickshell/test-old/**

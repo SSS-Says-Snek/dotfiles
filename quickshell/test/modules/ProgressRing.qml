@@ -1,11 +1,13 @@
 import QtQuick
 import QtQuick.Shapes
 
+import qs.settings
+
 Rectangle {
     id: root
     anchors.fill: parent
     radius: width / 2
-    color: "#a0181825"
+    color: Theme.dashboardBg
 
     property color baseColor
     property color accentColor

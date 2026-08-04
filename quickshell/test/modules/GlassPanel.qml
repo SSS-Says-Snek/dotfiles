@@ -1,6 +1,8 @@
 import QtQuick
 import Quickshell.Widgets
 
+import qs.settings
+
 WrapperRectangle {
     id: root
 
@@ -10,7 +12,7 @@ WrapperRectangle {
     margin: 14
     radius: 14
 
-    color: "#a0181825"
+    color: Theme.dashboardBg
 
     // gradient: Gradient {
     //     GradientStop {

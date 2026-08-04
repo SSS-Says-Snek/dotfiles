@@ -181,31 +181,4 @@ Singleton {
             root.uptime = str;
         }
     }
-
-    Process {
-        id: osAgeProc
-        command: ["stat", "-c", "%Y", "/lost+found"]
-        running: true
-
-        property int lostfoundTimestamp
-
-        stdout: SplitParser {
-            onRead: (data) => {
-                osAgeProc.lostfoundTimestamp = parseInt(data)
-            }
-        }
-
-        onExited: (code, status) => {
-            let now = Date.now() / 1000
-            root.osAge = (now - osAgeProc.lostfoundTimestamp) / 86400
-            console.log(root.osAge)
-        }
-    }
-
-    Connections {
-        target: Time
-        function onIsMidnightChanged() {
-            osAgeProc.running = true
-        }
-    }
 }

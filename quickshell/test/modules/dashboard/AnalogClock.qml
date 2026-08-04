@@ -24,7 +24,7 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: width / 2
-        color: "#a0181825"
+        color: Theme.dashboardBg
     }
 
     // Inner circle

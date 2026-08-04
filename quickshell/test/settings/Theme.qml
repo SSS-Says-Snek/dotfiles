@@ -29,6 +29,8 @@ FileView {
     property string mantle: "#181825"
     property string crust: "#11111b"
 
+    property string dashboardBg: "#a0181825"
+
     property int barHeight: 32
     property string font: "Firacode Nerd Font"
 

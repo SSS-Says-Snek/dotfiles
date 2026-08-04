@@ -5,13 +5,12 @@ import Quickshell
 import Quickshell.Widgets
 import Quickshell.Io
 
-import qs.modules
 import qs.settings
 import qs.services
 
 Rectangle {
     id: root
-    color: "#a0181825"
+    color: Theme.dashboardBg
     radius: 14
 
     property int osAge

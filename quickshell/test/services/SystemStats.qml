@@ -34,6 +34,7 @@ Singleton {
 
     property string hostname
     property string uptime
+    property int osAge
 
     Process {
         id: diskProc
@@ -178,6 +179,33 @@ Singleton {
             if (minutes > 0 || !str)
                 str += `${str ? ", " : ""}${minutes} min${minutes === 1 ? "" : "s"}`;
             root.uptime = str;
+        }
+    }
+
+    Process {
+        id: osAgeProc
+        command: ["stat", "-c", "%Y", "/lost+found"]
+        running: true
+
+        property int lostfoundTimestamp
+
+        stdout: SplitParser {
+            onRead: (data) => {
+                osAgeProc.lostfoundTimestamp = parseInt(data)
+            }
+        }
+
+        onExited: (code, status) => {
+            let now = Date.now() / 1000
+            root.osAge = (now - osAgeProc.lostfoundTimestamp) / 86400
+            console.log(root.osAge)
+        }
+    }
+
+    Connections {
+        target: Time
+        function onIsMidnightChanged() {
+            osAgeProc.running = true
         }
     }
 }

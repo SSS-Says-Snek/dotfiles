@@ -23,8 +23,6 @@ PopupWindow {
     property real revealHeight: expanded ? wheelRadius : 0
 
     function scroll(delta: real): void {
-        console.log(delta)
-
         if (delta > 0) {
             currentIndex += 1;
         }

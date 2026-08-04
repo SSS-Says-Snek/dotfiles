@@ -4,6 +4,7 @@ import QtQuick.Layouts
 
 import qs.settings
 import qs.services
+import qs.modules
 
 Item {
     id: root
@@ -42,48 +43,15 @@ Item {
         radius: width / 2
         color: "#a0181825"
 
-        Shape {
-            anchors.fill: parent
-            preferredRendererType: Shape.CurveRenderer
-            asynchronous: true
+        ProgressRing {
+            baseColor: Theme.surface0
+            accentColor: root.tempColor
+            thickness: root.thickness
+            ringRadius: root.ringRadius
+            progress: root.progress
 
-            ShapePath {
-                strokeColor: Theme.surface0
-                strokeWidth: root.thickness
-                fillColor: "transparent"
-
-                PathAngleArc {
-                    centerX: root.width / 2
-                    centerY: root.height / 2
-                    radiusX: root.ringRadius
-                    radiusY: root.ringRadius
-                    startAngle: -90
-                    sweepAngle: 360
-                }
-            }
-
-            ShapePath {
-                strokeColor: root.progress > 0 ? root.tempColor : "transparent"
-                strokeWidth: root.thickness
-                fillColor: "transparent"
-                capStyle: ShapePath.RoundCap
-
-                PathAngleArc {
-                    centerX: root.width / 2
-                    centerY: root.height / 2
-                    radiusX: root.ringRadius
-                    radiusY: root.ringRadius
-                    startAngle: -180
-                    sweepAngle: 270 * root.progress
-
-                    Behavior on sweepAngle {
-                        NumberAnimation {
-                            duration: 600
-                            easing.type: Easing.OutCubic
-                        }
-                    }
-                }
-            }
+            startAngle: -180
+            sweep: 260
         }
     }
 
@@ -95,7 +63,6 @@ Item {
         ColumnLayout {
             Layout.alignment:  Qt.AlignHCenter
             spacing: -2
-            z: 1
 
             Text {
                 Layout.alignment:  Qt.AlignHCenter

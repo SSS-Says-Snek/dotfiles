@@ -13,11 +13,10 @@ Singleton {
         Qt.formatDateTime(clock.date, "dddd, MMMM dd, yyyy, hh:mm:ss AP")
     }
 
-    readonly property bool isMidnight: false
+    property bool isMidnight: false
 
     SystemClock {
         id: clock
         precision: SystemClock.Seconds
     }
-
 }

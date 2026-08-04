@@ -3,14 +3,18 @@ import QtQuick.Layouts
 
 import Quickshell
 import Quickshell.Widgets
+import Quickshell.Io
 
 import qs.modules
 import qs.settings
 import qs.services
 
 Rectangle {
+    id: root
     color: "#a0181825"
     radius: 14
+
+    property int osAge
 
     GridLayout {
         rows: 4
@@ -70,12 +74,31 @@ Rectangle {
         }
 
         Text {
-            text: " "
+            text: " " + root.osAge + " days"
             color: Theme.text
             font {
                 family: Theme.font
                 pixelSize: 15
             }
+        }
+    }
+
+    Process {
+        id: osAgeProc
+        command: ["stat", "-c", "%Y", "/lost+found"]
+        running: true
+
+        property int lostfoundTimestamp
+
+        stdout: SplitParser {
+            onRead: (data) => {
+                osAgeProc.lostfoundTimestamp = parseInt(data)
+            }
+        }
+
+        onExited: (code, status) => {
+            let now = Date.now() / 1000
+            root.osAge = (now - osAgeProc.lostfoundTimestamp) / 86400
         }
     }
 }

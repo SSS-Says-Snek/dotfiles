@@ -1,6 +1,5 @@
 import QtQuick
 import Quickshell
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 Item {
@@ -18,11 +17,16 @@ Item {
         anchors.fill: parent
 
         source: Quickshell.shellPath("assets/" + root.icon + ".svg")
+        asynchronous: true
 
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            colorization: 1.0
-            colorizationColor: root.color
-        }
+        visible: false
+    }
+
+    MultiEffect {
+        anchors.fill: parent
+
+        source: image
+        colorization: 1.0
+        colorizationColor: root.color
     }
 }

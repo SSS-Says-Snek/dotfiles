@@ -23,10 +23,10 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: width / 2
-        color: "#a0181824"
+        color: "#a0181825"
     }
 
-    // Inner hairline, so the ticks sit in a channel rather than floating.
+    // Inner circle
     Rectangle {
         anchors.centerIn: parent
         width: parent.width - 34

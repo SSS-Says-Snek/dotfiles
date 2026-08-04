@@ -26,6 +26,9 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             width: 25
             height: 25
+            sourceSize.width: Math.round(width * Screen.devicePixelRatio)
+            sourceSize.height: Math.round(height * Screen.devicePixelRatio)
+            asynchronous: true
         }
 
         Workspaces {

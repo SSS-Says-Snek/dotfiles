@@ -12,12 +12,9 @@ Item {
     readonly property int count: tabs.length
     readonly property real sliceAngle: count > 0 ? 360 / count : 0
 
+    // Owned by whoever mounts the wheel, so the position outlives this item.
     property int currentIndex: 0
     readonly property int currentTab: count > 0 ? ((currentIndex % count) + count) % count : 0
-
-    function step(delta: int): void {
-        currentIndex += delta;
-    }
 
     rotation: -currentIndex * sliceAngle
 

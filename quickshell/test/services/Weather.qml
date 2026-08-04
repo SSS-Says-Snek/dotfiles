@@ -9,7 +9,9 @@ import qs.settings
 Singleton {
     id: root
 
-    readonly property int refreshInterval: 120 * 1000
+    // The API updates on the order of ten minutes, so polling faster only spends a curl
+    // process to get the same numbers back.
+    readonly property int refreshInterval: 10 * 60 * 1000
 
     property string outputBuffer: ""
 

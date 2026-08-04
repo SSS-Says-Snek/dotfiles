@@ -16,20 +16,24 @@ PopupWindow {
     property bool expanded: false
     property int wheelRadius: 500
 
-    readonly property alias currentTab: wheelDisplay.currentTab
+    property int currentIndex: 0
+    readonly property int tabCount: tabs.length
+    readonly property int currentTab: tabCount > 0 ? ((currentIndex % tabCount) + tabCount) % tabCount : 0 // truemod
 
     property real scrollAccumulator: 0
+
+    property real revealHeight: expanded ? wheelRadius : 0
 
     function scroll(delta: real): void {
         scrollAccumulator += delta;
 
         while (scrollAccumulator <= -120) {
-            wheelDisplay.step(1);
+            currentIndex += 1;
             scrollAccumulator += 120;
         }
 
         while (scrollAccumulator >= 120) {
-            wheelDisplay.step(-1);
+            currentIndex -= 1;
             scrollAccumulator -= 120;
         }
     }
@@ -39,7 +43,6 @@ PopupWindow {
     implicitHeight: wheelRadius
     grabFocus: false
 
-    // The surface can't animate itself, so it is mapped for the whole reveal and unmapped once the wipe has collapsed again.
     onExpandedChanged: {
         if (expanded)
             visible = true;
@@ -47,6 +50,15 @@ PopupWindow {
             scrollAccumulator = 0;
     }
     onVisibleChanged: if (!visible) expanded = false
+    onRevealHeightChanged: if (revealHeight === 0 && !root.expanded)
+        root.visible = false
+
+    Behavior on revealHeight {
+        NumberAnimation {
+            duration: 400
+            easing.type: Easing.OutExpo
+        }
+    }
 
     anchor {
         window: root.anchorItem.QsWindow.window
@@ -61,148 +73,143 @@ PopupWindow {
         }
     }
 
-    Item {
-        id: reveal
+    property list<Component> tabs: [
+        Component {
+            Item {
+                GridLayout {
+                    id: layout
+
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 20
+                    columns: 4
+                    rowSpacing: 20
+                    columnSpacing: 30
+
+                    // Calendar
+                    GlassPanel {
+                        Layout.columnSpan: 2
+                        implicitWidth: 400
+                        CalendarTab {
+                            id: cal
+                        }
+                    }
+
+                    Rectangle {
+                        Layout.preferredWidth: 100
+                        Layout.preferredHeight: 100
+                        Layout.alignment: Qt.AlignCenter
+                        radius: width / 2
+                    }
+                    AnalogClock {
+                        Layout.preferredWidth: 220
+                        Layout.preferredHeight: 220
+                        Layout.alignment: Qt.AlignCenter
+                    }
+
+                    WeatherRing {
+                        Layout.preferredWidth: 200
+                        Layout.preferredHeight: 200
+                        Layout.alignment: Qt.AlignCenter
+                    }
+
+                    GenInfo {
+                        Layout.columnSpan: 2
+                        Layout.preferredWidth: 360
+                        Layout.preferredHeight: 200
+                    }
+                    Rectangle {
+                        Layout.preferredWidth: 200
+                        Layout.preferredHeight: 200
+                        Layout.alignment: Qt.AlignCenter
+                        radius: width / 2
+                    }
+                }
+            }
+        },
+        Component {
+            MediaTab {}
+        }
+    ]
+
+    Loader {
+        id: content
 
         width: root.width
-        height: root.expanded ? root.wheelRadius : 0
+        height: root.revealHeight
         clip: true
 
-        onHeightChanged: if (height === 0 && !root.expanded)
-            root.visible = false
+        active: root.visible
+        asynchronous: true
+        sourceComponent: dashboard
+    }
 
-        Behavior on height {
-            NumberAnimation {
-                duration: 400
-                easing.type: Easing.OutExpo
-            }
-        }
+    Component {
+        id: dashboard
 
-        // Clips to semi size
-        ClippingRectangle {
-            id: clipRect
-            y: -root.wheelRadius
-            width: root.wheelRadius * 2
-            height: root.wheelRadius * 2
-            radius: root.wheelRadius
-            color: "#1e1e24"
+        Item {
+            // Clips to semi size
+            ClippingRectangle {
+                id: clipRect
+                y: -root.wheelRadius
+                width: root.wheelRadius * 2
+                height: root.wheelRadius * 2
+                radius: root.wheelRadius
+                color: "#1e1e24"
 
-            border.width: 2
-            border.color: Theme.mauve
+                border.width: 2
+                border.color: Theme.mauve
 
-            Wheel {
-                id: wheelDisplay
+                Wheel {
+                    id: wheelDisplay
 
-                anchors.fill: parent
+                    anchors.fill: parent
 
-                background: Image {
-                    source: Quickshell.shellPath("assets/wha1.png")
-                    fillMode: Image.PreserveAspectCrop
-                    sourceSize.width: width
-                    asynchronous: true
-                }
+                    currentIndex: root.currentIndex
+                    tabs: root.tabs
 
-                Component {
-                    Item {
-                        GridLayout {
-                            id: layout
-
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.top: parent.top
-                            anchors.topMargin: 20
-                            columns: 4
-                            rowSpacing: 20
-                            columnSpacing: 30
-
-
-                            // Calendar
-                            GlassPanel {
-                                Layout.columnSpan: 2
-                                implicitWidth: 400
-                                CalendarTab {
-                                    id: cal
-                                }
-                            }
-
-                            Rectangle {
-                                Layout.preferredWidth: 100
-                                Layout.preferredHeight: 100
-                                Layout.alignment: Qt.AlignCenter
-                                radius: width / 2
-                            }
-                            AnalogClock {
-                                Layout.preferredWidth: 220
-                                Layout.preferredHeight: 220
-                                Layout.alignment: Qt.AlignCenter
-                            }
-
-                            WeatherRing {
-                                Layout.preferredWidth: 200
-                                Layout.preferredHeight: 200
-                                Layout.alignment: Qt.AlignCenter
-                            }
-
-                            Rectangle {
-                                Layout.preferredWidth: 120
-                                Layout.preferredHeight: 120
-                                Layout.alignment: Qt.AlignCenter
-                                radius: width / 2
-                            }
-                            Rectangle {
-                                Layout.preferredWidth: 100
-                                Layout.preferredHeight: 100
-                                Layout.alignment: Qt.AlignCenter
-                                radius: width / 2
-                            }
-                            Rectangle {
-                                Layout.preferredWidth: 200
-                                Layout.preferredHeight: 200
-                                Layout.alignment: Qt.AlignCenter
-                                radius: width / 2
-                            }
-                        }
+                    background: Image {
+                        source: Quickshell.shellPath("assets/wha1.png")
+                        fillMode: Image.PreserveAspectCrop
+                        asynchronous: true
                     }
                 }
 
-                Component {
-                    MediaTab {}
+                Rectangle {
+                    height: 3
+                    width: parent.width
+                    color: Theme.mauve
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.verticalCenterOffset: 1
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onWheel: event => root.scroll(event.angleDelta.y)
                 }
             }
 
-            Rectangle {
-                height: 3
-                width: parent.width
-                color: Theme.mauve
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.verticalCenterOffset: 1
-            }
+            Row {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 16
+                spacing: 6
 
-            MouseArea {
-                anchors.fill: parent
-                onWheel: event => root.scroll(event.angleDelta.y)
-            }
-        }
+                Repeater {
+                    model: root.tabCount
 
-        Row {
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 16
-            spacing: 6
+                    Rectangle {
+                        required property int index
 
-            Repeater {
-                model: wheelDisplay.count
+                        width: 8
+                        height: 8
+                        radius: width / 2
+                        color: index === root.currentTab ? Theme.mauve : Theme.surface2
 
-                Rectangle {
-                    required property int index
-
-                    width: 8
-                    height: 8
-                    radius: width / 2
-                    color: index === wheelDisplay.currentTab ? Theme.mauve : Theme.surface2
-
-                    Behavior on color {
-                        ColorAnimation {
-                            duration: 200
+                        Behavior on color {
+                            ColorAnimation {
+                                duration: 200
+                            }
                         }
                     }
                 }

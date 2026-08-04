@@ -90,69 +90,72 @@ Singleton {
             }
         }
     }
-    Process {
-        id: memProc
-        command: ["cat", "/proc/meminfo"]
-        running: true
+    // Reading these through FileView costs a read() per tick. Shelling out to cat meant a
+    // fork and exec of the whole shell process three times every two seconds.
+    FileView {
+        id: memFile
+        path: "/proc/meminfo"
 
-        stdout: StdioCollector {
-            onStreamFinished: {
-                memTotal = Number(text.match(/MemTotal: *(\d+)/)?.[1] ?? 1)
-                memAvailable = Number(text.match(/MemAvailable: *(\d+)/)?.[1] ?? 0)
-                memPercent = (1.0 - memAvailable / memTotal) * 100.0
-            }
+        onLoaded: {
+            const data = text()
+
+            memTotal = Number(data.match(/MemTotal: *(\d+)/)?.[1] ?? 1)
+            memAvailable = Number(data.match(/MemAvailable: *(\d+)/)?.[1] ?? 0)
+            memPercent = (1.0 - memAvailable / memTotal) * 100.0
         }
     }
 
-    Process {
-        id: cpuProc
-        command: ["cat", "/proc/stat"]
-        running: true
+    FileView {
+        id: cpuFile
+        path: "/proc/stat"
 
-        stdout: StdioCollector {
-            onStreamFinished: {
-                const cpuLine = text.match(/^cpu\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/)
-                if (cpuLine) {
-                    const stats = cpuLine.slice(1).map(Number)
-                    const total = stats.reduce((a, b) => a + b, 0)
-                    const idle = stats[3]
+        onLoaded: {
+            const cpuLine = text().match(/^cpu\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/)
+            if (cpuLine) {
+                const stats = cpuLine.slice(1).map(Number)
+                const total = stats.reduce((a, b) => a + b, 0)
+                const idle = stats[3]
 
-                    if (previousCpuStats) {
-                        const totalDiff = total - previousCpuStats.total
-                        const idleDiff = idle - previousCpuStats.idle
-                        const cpuUsage = totalDiff > 0 ? (1 - idleDiff / totalDiff) : 0
-                        cpuPercent = cpuUsage * 100.0
-                    }
-
-                    previousCpuStats = { total: total, idle: idle }
+                if (previousCpuStats) {
+                    const totalDiff = total - previousCpuStats.total
+                    const idleDiff = idle - previousCpuStats.idle
+                    const cpuUsage = totalDiff > 0 ? (1 - idleDiff / totalDiff) : 0
+                    cpuPercent = cpuUsage * 100.0
                 }
+
+                previousCpuStats = { total: total, idle: idle }
             }
         }
     }
 
-    Process {
-        id: tempProc
-        command: ["cat", tempMonitor]
-        running: true
+    FileView {
+        id: tempFile
+        path: root.tempMonitor
 
-        stdout: StdioCollector {
-            onStreamFinished: {
-                cpuTemp = parseInt(text) / 1000
-            }
-        }
+        onLoaded: cpuTemp = parseInt(text()) / 1000
     }
 
     Timer {
         running: true
-        interval: 1
+        interval: 2000
         repeat: true
-        onTriggered: {
-            memProc.running = true
-            cpuProc.running = true
-            diskProc.running = true
-            tempProc.running = true
+        triggeredOnStart: true
 
-            interval = 2000
+        onTriggered: {
+            memFile.reload()
+            cpuFile.reload()
+            tempFile.reload()
         }
+    }
+
+    // df is the one reading that still needs a process, and disk usage moves slowly
+    // enough that once a minute is plenty.
+    Timer {
+        running: true
+        interval: 60000
+        repeat: true
+        triggeredOnStart: true
+
+        onTriggered: diskProc.running = true
     }
 }

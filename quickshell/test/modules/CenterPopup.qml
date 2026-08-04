@@ -6,6 +6,7 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs.settings
+import qs.modules.dashboard
 
 PopupWindow {
     id: root
@@ -129,11 +130,10 @@ PopupWindow {
                                 Layout.alignment: Qt.AlignCenter
                                 radius: width / 2
                             }
-                            Rectangle {
+                            AnalogClock {
                                 Layout.preferredWidth: 220
                                 Layout.preferredHeight: 220
                                 Layout.alignment: Qt.AlignCenter
-                                radius: width / 2
                             }
 
                             WeatherRing {

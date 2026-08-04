@@ -50,6 +50,7 @@ return {
         vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end,
     })
+    vim.treesitter.language.register('qmljs', 'qml')
 
     configs.setup({
       ensure_installed = {

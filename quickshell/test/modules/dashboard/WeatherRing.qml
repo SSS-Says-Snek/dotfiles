@@ -3,7 +3,7 @@ import QtQuick.Shapes
 import QtQuick.Layouts
 
 import qs.settings
-import "../services" as Services
+import "../../services" as Services
 
 Item {
     id: root
@@ -93,11 +93,12 @@ Item {
         spacing: -15
 
         ColumnLayout {
-            spacing: -3
+            Layout.alignment:  Qt.AlignHCenter
+            spacing: -2
 
             Text {
                 Layout.alignment:  Qt.AlignHCenter
-                text: Math.round(Services.Weather.data.temp) + "°"
+                text: Math.round(Services.Weather.data.temp) + "°F"
                 color: root.tempColor
 
                 font {

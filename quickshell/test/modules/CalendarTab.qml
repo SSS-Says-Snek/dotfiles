@@ -65,8 +65,9 @@ Item {
                     horizontalAlignment: Text.AlignHCenter
 
                     font {
+                        family: Theme.font
                         weight: 500
-                        pixelSize: 18
+                        pixelSize: 16
                     }
                 }
             }
@@ -95,6 +96,7 @@ Item {
                         id: txt
 
                         font {
+                            family: Theme.font
                             weight: 500
                             pixelSize: 18
                         }

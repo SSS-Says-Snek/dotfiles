@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Shapes
+import QtQuick.Layouts
 
 import qs.settings
 import "../services" as Services
@@ -20,7 +21,7 @@ Item {
 
     // Lerp the hues
     readonly property color tempColor: {
-        const stops = [[0, Theme.sapphire], [0.4, Theme.green], [0.7, Theme.yellow], [1, Theme.red]];
+        const stops = [[0, Theme.sapphire], [0.6, Theme.green], [0.8, Theme.yellow], [1, Theme.red]];
 
         for (let i = 1; i < stops.length; i++)
             if (progress <= stops[i][0])
@@ -86,15 +87,47 @@ Item {
         }
     }
 
-    Text {
+    ColumnLayout {
         anchors.centerIn: parent
+        anchors.verticalCenterOffset: 0
+        spacing: -15
 
-        text: Services.Weather.icon
-        color: root.tempColor
+        ColumnLayout {
+            spacing: -3
 
-        font {
-            family: Theme.font
-            pixelSize: Math.round(Math.min(root.width, root.height) * 0.64)
+            Text {
+                Layout.alignment:  Qt.AlignHCenter
+                text: Math.round(Services.Weather.data.temp) + "°"
+                color: root.tempColor
+
+                font {
+                    family: Theme.font
+                    pixelSize: 14
+                }
+            }
+
+            Text {
+                Layout.alignment:  Qt.AlignHCenter
+                text: Services.Weather.text
+                color: root.tempColor
+
+                font {
+                    family: Theme.font
+                    pixelSize: 14
+                }
+            }
         }
+
+        Text {
+            Layout.alignment:  Qt.AlignHCenter
+            text: Services.Weather.icon
+            color: root.tempColor
+
+            font {
+                family: Theme.font
+                pixelSize: Math.round(Math.min(root.width, root.height) * 0.44)
+            }
+        }
+
     }
 }

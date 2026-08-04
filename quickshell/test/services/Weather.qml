@@ -16,10 +16,11 @@ Singleton {
     property var data: ({
         temp: "∞",
         weatherCode: 1000,
-        isDay: true
+        isDay: true,
     })
 
     readonly property string icon: codeToIcon(data.weatherCode, data.isDay)
+    readonly property string text: codeToText(data.weatherCode)
 
     function processData(text) {
         var dummy = {}
@@ -57,6 +58,33 @@ Singleton {
             return "\ue318";
 
         return "\ue374";
+    }
+
+    // js mk anthr fnctn atp bru
+    function codeToText(code) {
+        const fog = [1030, 1135, 1147];
+        const thunder = [1087, 1273, 1276, 1279, 1282];
+        const snow = [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258];
+        const sleet = [1069, 1072, 1168, 1171, 1198, 1201, 1204, 1207, 1237, 1249, 1252, 1261, 1264];
+
+        if (code === 1000)
+            return "Clear"
+        if (code === 1003)
+            return "Part Cloudy"
+        if (code === 1006 || code === 1009)
+            return "Cloudy";
+        if (fog.includes(code))
+            return "Foggy";
+        if (thunder.includes(code))
+            return "Thunder";
+        if (snow.includes(code))
+            return "Snowy";
+        if (sleet.includes(code))
+            return "Sleet";
+        if (code >= 1063)
+            return "Rainy";
+
+        return "???";
     }
 
     Process {

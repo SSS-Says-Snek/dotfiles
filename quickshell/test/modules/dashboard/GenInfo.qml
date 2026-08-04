@@ -5,6 +5,8 @@ import Quickshell
 import Quickshell.Widgets
 
 import qs.modules
+import qs.settings
+import qs.services
 
 Rectangle {
     color: "#a0181825"
@@ -13,7 +15,7 @@ Rectangle {
     GridLayout {
         rows: 4
         columns: 2
-        columnSpacing: 30
+        columnSpacing: 10
         anchors.margins: 20
         anchors.fill: parent
 
@@ -25,8 +27,8 @@ Rectangle {
             ClippingRectangle {
                 id: avatar
 
-                width: 140
-                height: 140
+                width: 130
+                height: 130
                 radius: width / 2
 
                 Image {
@@ -40,21 +42,40 @@ Rectangle {
 
         }
 
-        Rectangle {
-            width: 150
-            height: 20
+        Text {
+            text: "󰣇 Arch Linux" // Too lazy, hardcode
+            color: Theme.text
+            font {
+                family: Theme.font
+                pixelSize: 15
+            }
         }
-        Rectangle {
-            width: 100
-            height: 20
+
+        Text {
+            text: " " + SystemStats.username
+            color: Theme.text
+            font {
+                family: Theme.font
+                pixelSize: 15
+            }
         }
-        Rectangle {
-            width: 100
-            height: 20
+
+        Text {
+            text: "󰔠 " + SystemStats.uptime
+            color: Theme.text
+            font {
+                family: Theme.font
+                pixelSize: 15
+            }
         }
-        Rectangle {
-            width: 100
-            height: 20
+
+        Text {
+            text: " "
+            color: Theme.text
+            font {
+                family: Theme.font
+                pixelSize: 15
+            }
         }
     }
 }

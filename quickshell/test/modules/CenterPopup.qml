@@ -20,21 +20,17 @@ PopupWindow {
     readonly property int tabCount: tabs.length
     readonly property int currentTab: tabCount > 0 ? ((currentIndex % tabCount) + tabCount) % tabCount : 0 // truemod
 
-    property real scrollAccumulator: 0
-
     property real revealHeight: expanded ? wheelRadius : 0
 
     function scroll(delta: real): void {
-        scrollAccumulator += delta;
+        console.log(delta)
 
-        while (scrollAccumulator <= -120) {
+        if (delta > 0) {
             currentIndex += 1;
-            scrollAccumulator += 120;
         }
 
-        while (scrollAccumulator >= 120) {
+        if (delta < 0) {
             currentIndex -= 1;
-            scrollAccumulator -= 120;
         }
     }
 
@@ -46,8 +42,6 @@ PopupWindow {
     onExpandedChanged: {
         if (expanded)
             visible = true;
-        else
-            scrollAccumulator = 0;
     }
     onVisibleChanged: if (!visible) expanded = false
     onRevealHeightChanged: if (revealHeight === 0 && !root.expanded)

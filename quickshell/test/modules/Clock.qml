@@ -1,6 +1,7 @@
 import QtQuick
 import qs.modules
 import qs.settings
+import qs.services
 
 BarWidgetWrapper {
     Row {

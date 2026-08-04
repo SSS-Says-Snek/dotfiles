@@ -3,7 +3,7 @@ import QtQuick.Shapes
 import QtQuick.Layouts
 
 import qs.settings
-import "../../services" as Services
+import qs.services
 
 Item {
     id: root
@@ -13,7 +13,7 @@ Item {
     property real maxTemp: 110
     property real thickness: 24
 
-    readonly property real temp: parseFloat(Services.Weather.data.temp)
+    readonly property real temp: parseFloat(Weather.data.temp)
     readonly property bool hasReading: !isNaN(temp)
     readonly property real progress: hasReading ? Math.max(0, Math.min(1, (temp - minTemp) / (maxTemp - minTemp))) : 0
 
@@ -90,15 +90,16 @@ Item {
     ColumnLayout {
         anchors.centerIn: parent
         anchors.verticalCenterOffset: 0
-        spacing: -15
+        spacing: -5
 
         ColumnLayout {
             Layout.alignment:  Qt.AlignHCenter
             spacing: -2
+            z: 1
 
             Text {
                 Layout.alignment:  Qt.AlignHCenter
-                text: Math.round(Services.Weather.data.temp) + "°F"
+                text: Math.round(Weather.data.temp) + "°F"
                 color: root.tempColor
 
                 font {
@@ -109,7 +110,7 @@ Item {
 
             Text {
                 Layout.alignment:  Qt.AlignHCenter
-                text: Services.Weather.text
+                text: Weather.text
                 color: root.tempColor
 
                 font {
@@ -121,12 +122,12 @@ Item {
 
         Text {
             Layout.alignment:  Qt.AlignHCenter
-            text: Services.Weather.icon
+            text: Weather.icon
             color: root.tempColor
 
             font {
                 family: Theme.font
-                pixelSize: Math.round(Math.min(root.width, root.height) * 0.44)
+                pixelSize: Math.round(Math.min(root.width, root.height) * 0.40)
             }
         }
 

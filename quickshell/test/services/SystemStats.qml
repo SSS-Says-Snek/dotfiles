@@ -29,6 +29,12 @@ Singleton {
         percentText: "0%"
     })
 
+    readonly property string username: Quickshell.env("USER")
+    readonly property string wm: Quickshell.env("XDG_CURRENT_DESKTOP") || Quickshell.env("XDG_SESSION_DESKTOP")
+
+    property string hostname
+    property string uptime
+
     Process {
         id: diskProc
         command: ["df", "-k"] // KB blocks
@@ -74,24 +80,13 @@ Singleton {
                     percentText: percent
                 }
 
-                // if (fs === "tmpfs" || fs === "devtmpfs" || fs === "efivarfs" || fs === "none" || fs === "overlay" || fs === "squashfs") {
-                //     spc.push(obj)
-                // } else if (mount === "/" || mount.startsWith("/boot") || mount.startsWith("/home") || mount.startsWith("/usr") || mount.startsWith("/var")) {
-                //     sys.push(obj)
-                // } else if (mount.startsWith("/run") || mount.startsWith("/sys") || mount.startsWith("/dev")) {
-                //     spc.push(obj)
-                // } else {
-                //     usr.push(obj)
-                // }
-
                 if (mount === "/") {
-                    rootDisk = obj
+                    root.rootDisk = obj
                 }
             }
         }
     }
-    // Reading these through FileView costs a read() per tick. Shelling out to cat meant a
-    // fork and exec of the whole shell process three times every two seconds.
+
     FileView {
         id: memFile
         path: "/proc/meminfo"
@@ -99,9 +94,9 @@ Singleton {
         onLoaded: {
             const data = text()
 
-            memTotal = Number(data.match(/MemTotal: *(\d+)/)?.[1] ?? 1)
-            memAvailable = Number(data.match(/MemAvailable: *(\d+)/)?.[1] ?? 0)
-            memPercent = (1.0 - memAvailable / memTotal) * 100.0
+            root.memTotal = Number(data.match(/MemTotal: *(\d+)/)?.[1] ?? 1)
+            root.memAvailable = Number(data.match(/MemAvailable: *(\d+)/)?.[1] ?? 0)
+            root.memPercent = (1.0 - root.memAvailable / root.memTotal) * 100.0
         }
     }
 
@@ -116,14 +111,14 @@ Singleton {
                 const total = stats.reduce((a, b) => a + b, 0)
                 const idle = stats[3]
 
-                if (previousCpuStats) {
-                    const totalDiff = total - previousCpuStats.total
-                    const idleDiff = idle - previousCpuStats.idle
+                if (root.previousCpuStats) {
+                    const totalDiff = total - root.previousCpuStats.total
+                    const idleDiff = idle - root.previousCpuStats.idle
                     const cpuUsage = totalDiff > 0 ? (1 - idleDiff / totalDiff) : 0
-                    cpuPercent = cpuUsage * 100.0
+                    root.cpuPercent = cpuUsage * 100.0
                 }
 
-                previousCpuStats = { total: total, idle: idle }
+                root.previousCpuStats = { total: total, idle: idle }
             }
         }
     }
@@ -132,7 +127,7 @@ Singleton {
         id: tempFile
         path: root.tempMonitor
 
-        onLoaded: cpuTemp = parseInt(text()) / 1000
+        onLoaded: root.cpuTemp = parseInt(text()) / 1000
     }
 
     Timer {
@@ -157,5 +152,32 @@ Singleton {
         triggeredOnStart: true
 
         onTriggered: diskProc.running = true
+    }
+
+    FileView {
+        path: "/proc/sys/kernel/hostname"
+        onLoaded: root.hostname = text().trim()
+    }
+
+    FileView {
+        id: fileUptime
+
+        path: "/proc/uptime"
+        onLoaded: {
+            const up = parseInt(text().split(" ")[0] ?? 0);
+
+            const days = Math.floor(up / 86400);
+            const hours = Math.floor((up % 86400) / 3600);
+            const minutes = Math.floor((up % 3600) / 60);
+
+            let str = "";
+            if (days > 0)
+                str += `${days} day${days === 1 ? "" : "s"}`;
+            if (hours > 0)
+                str += `${str ? ", " : ""}${hours} hr${hours === 1 ? "" : "s"}`;
+            if (minutes > 0 || !str)
+                str += `${str ? ", " : ""}${minutes} min${minutes === 1 ? "" : "s"}`;
+            root.uptime = str;
+        }
     }
 }

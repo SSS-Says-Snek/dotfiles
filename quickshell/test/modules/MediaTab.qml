@@ -6,7 +6,12 @@ import qs.settings
 Item {
     id: root
 
+    implicitWidth: content.implicitWidth
+    implicitHeight: content.y + content.implicitHeight
+
     Column {
+        id: content
+
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: 28

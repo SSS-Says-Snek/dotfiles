@@ -15,6 +15,7 @@ FileView {
     property string blue: "#89b4fa"
     property string yellow: "#f9e2af"
     property string peach: "#fab387"
+    property string red: "#f38ba8"
     property string green: "#a6e3a1"
     property string text: "#cdd6f4"
     property string subtext: "#a6adc8"
@@ -30,4 +31,5 @@ FileView {
 
     property int barHeight: 32
     property string font: "Firacode Nerd Font"
+
 }

@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import Quickshell
 import Quickshell.Widgets
 import QtQuick
+import QtQuick.Layouts
 
 import qs.settings
 
@@ -12,7 +13,7 @@ PopupWindow {
     required property Item anchorItem
 
     property bool expanded: false
-    property int wheelRadius: 400
+    property int wheelRadius: 500
 
     readonly property alias currentTab: wheelDisplay.currentTab
 
@@ -71,7 +72,7 @@ PopupWindow {
 
         Behavior on height {
             NumberAnimation {
-                duration: 300
+                duration: 400
                 easing.type: Easing.OutExpo
             }
         }
@@ -88,18 +89,6 @@ PopupWindow {
             border.width: 2
             border.color: Theme.mauve
 
-            // Image {
-            //     anchors.left: parent.left
-            //     anchors.right: parent.right
-            //     anchors.bottom: parent.bottom
-            //     height: parent.height / 2
-            //
-            //     source: Quickshell.shellPath("assets/bg.png")
-            //     fillMode: Image.PreserveAspectCrop
-            //     sourceSize.width: width
-            //     asynchronous: true
-            // }
-
             Wheel {
                 id: wheelDisplay
 
@@ -114,20 +103,62 @@ PopupWindow {
 
                 Component {
                     Item {
-                        Row {
-                            anchors.centerIn: parent
-                            spacing: 10
-                            Rectangle {
-                                implicitWidth: 100
-                                implicitHeight: 100
+                        GridLayout {
+                            id: layout
+
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.top: parent.top
+                            anchors.topMargin: 20
+                            columns: 4
+                            rowSpacing: 20
+                            columnSpacing: 30
+
+
+                            // Calendar
+                            GlassPanel {
+                                Layout.columnSpan: 2
+                                implicitWidth: 400
+                                CalendarTab {
+                                    id: cal
+                                }
                             }
 
-                            CalendarTab {
+                            Rectangle {
+                                Layout.preferredWidth: 100
+                                Layout.preferredHeight: 100
+                                Layout.alignment: Qt.AlignCenter
+                                radius: width / 2
+                            }
+                            Rectangle {
+                                Layout.preferredWidth: 220
+                                Layout.preferredHeight: 220
+                                Layout.alignment: Qt.AlignCenter
+                                radius: width / 2
+                            }
+
+                            WeatherRing {
+                                Layout.preferredWidth: 200
+                                Layout.preferredHeight: 200
+                                Layout.alignment: Qt.AlignCenter
                             }
 
                             Rectangle {
-                                implicitWidth: 100
-                                implicitHeight: 100
+                                Layout.preferredWidth: 120
+                                Layout.preferredHeight: 120
+                                Layout.alignment: Qt.AlignCenter
+                                radius: width / 2
+                            }
+                            Rectangle {
+                                Layout.preferredWidth: 100
+                                Layout.preferredHeight: 100
+                                Layout.alignment: Qt.AlignCenter
+                                radius: width / 2
+                            }
+                            Rectangle {
+                                Layout.preferredWidth: 200
+                                Layout.preferredHeight: 200
+                                Layout.alignment: Qt.AlignCenter
+                                radius: width / 2
                             }
                         }
                     }

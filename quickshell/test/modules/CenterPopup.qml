@@ -78,25 +78,35 @@ PopupWindow {
                     rowSpacing: 20
                     columnSpacing: 30
 
-                    // Calendar
-                    GlassPanel {
-                        Layout.columnSpan: 2
-                        implicitWidth: 400
-                        CalendarTab {
-                            id: cal
-                        }
-                    }
+                    RowLayout {
+                        Layout.columnSpan: 4
+                        Layout.fillWidth: true
 
-                    Rectangle {
-                        Layout.preferredWidth: 100
-                        Layout.preferredHeight: 100
-                        Layout.alignment: Qt.AlignCenter
-                        radius: width / 2
-                    }
-                    AnalogClock {
-                        Layout.preferredWidth: 220
-                        Layout.preferredHeight: 220
-                        Layout.alignment: Qt.AlignCenter
+                        // Calendar
+                        GlassPanel {
+                            Layout.columnSpan: 2
+                            implicitWidth: 400
+                            CalendarTab {
+                                id: cal
+                            }
+                        }
+
+                        Item { Layout.fillWidth: true } // spacers
+
+                        Rectangle {
+                            Layout.preferredWidth: 100
+                            Layout.preferredHeight: 100
+                            Layout.alignment: Qt.AlignCenter
+                            radius: width / 2
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        AnalogClock {
+                            Layout.preferredWidth: 220
+                            Layout.preferredHeight: 220
+                            Layout.alignment: Qt.AlignCenter
+                        }
                     }
 
                     WeatherRing {
@@ -110,11 +120,10 @@ PopupWindow {
                         Layout.preferredWidth: 360
                         Layout.preferredHeight: 200
                     }
-                    Rectangle {
+                    VolumeRing {
                         Layout.preferredWidth: 200
                         Layout.preferredHeight: 200
                         Layout.alignment: Qt.AlignCenter
-                        radius: width / 2
                     }
                 }
             }

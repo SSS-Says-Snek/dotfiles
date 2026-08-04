@@ -176,7 +176,7 @@ Singleton {
                 str += `${days} day${days === 1 ? "" : "s"}`;
             if (hours > 0)
                 str += `${str ? ", " : ""}${hours} hr${hours === 1 ? "" : "s"}`;
-            if (minutes > 0 || !str)
+            if ((minutes > 0 || !str) && !(days > 0 && hours > 0))
                 str += `${str ? ", " : ""}${minutes} min${minutes === 1 ? "" : "s"}`;
             root.uptime = str;
         }

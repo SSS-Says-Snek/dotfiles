@@ -24,7 +24,6 @@ Item {
             model: Hyprland.workspaces
 
             Rectangle {
-
                 id: workspaceIndiv
                 visible: modelData.id >= 1 && modelData.monitor?.name === root.targetMonitor
 

@@ -1,11 +1,9 @@
 pragma Singleton
 import QtQuick
-import Quickshell
 import Quickshell.Io
 
 FileView {
     id: root
-    path: Quickshell.shellPath("theme/colors.json")
     watchChanges: true
     onFileChanged: reload()
 

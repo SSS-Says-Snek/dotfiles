@@ -1,7 +1,7 @@
 import Quickshell // for PanelWindow
 import QtQuick
 
-import "modules"
+import qs.modules
 
 Scope {
     Bar {

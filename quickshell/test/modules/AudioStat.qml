@@ -2,7 +2,7 @@ import QtQuick
 import qs.modules
 import qs.settings
 
-import "../services" as Services
+import qs.services
 
 BarWidgetWrapper {
     Row {
@@ -10,7 +10,7 @@ BarWidgetWrapper {
         spacing: 5
         anchors.verticalCenter: parent.verticalCenter
 
-        property string overallColor: Services.Audio.sinkMuted ? Theme.text : Theme.peach
+        property string overallColor: Audio.sinkMuted ? Theme.text : Theme.peach
 
         Icon {
             icon: "mdi-speakerphone"
@@ -26,7 +26,7 @@ BarWidgetWrapper {
         }
 
         Icon {
-            icon: Services.Audio.micMuted ? "mdi-microphone-off" : "mdi-microphone"
+            icon: Audio.micMuted ? "mdi-microphone-off" : "mdi-microphone"
             size: 20
             color: row.overallColor
 
@@ -39,7 +39,7 @@ BarWidgetWrapper {
         }
 
         Text {
-            text: `${Math.round(Services.Audio.value * 100)}%`
+            text: `${Math.round(Audio.value * 100)}%`
             color: row.overallColor
 
             anchors.verticalCenter: parent.verticalCenter
@@ -61,9 +61,9 @@ BarWidgetWrapper {
 
     onWheel: (event) => {
         if (event.angleDelta.y > 0) {
-            Services.Audio.incVolume()
+            Audio.incVolume()
         } else {
-            Services.Audio.decVolume()
+            Audio.decVolume()
         }
     }
 }

@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Shapes
 import QtQuick.Layouts
 
 import qs.settings
@@ -14,8 +13,10 @@ Item {
     property real maxTemp: 110
     property real thickness: 24
 
-
     readonly property real ringRadius: (Math.min(width, height) - thickness) / 2
+
+    readonly property real progress: Audio.value / Audio.maxVolume
+    readonly property color ringColor: Audio.sinkMuted ? Theme.overlay0 : Theme.peach
 
     Rectangle {
         anchors.fill: parent
@@ -24,13 +25,13 @@ Item {
 
         ProgressRing {
             baseColor: Theme.surface0
-            accentColor: Theme.peach
+            accentColor: root.ringColor
             thickness: root.thickness
             ringRadius: root.ringRadius
-            progress: 1
+            progress: root.progress
 
             startAngle: -30
-            sweep: -190
+            sweep: -270
         }
     }
 
@@ -38,38 +39,39 @@ Item {
         anchors.centerIn: parent
         anchors.verticalCenterOffset: 0
         spacing: -5
-
-        ColumnLayout {
-            Layout.alignment:  Qt.AlignHCenter
-            spacing: -2
-
-            // Text {
-            //     Layout.alignment:  Qt.AlignHCenter
-            //     text: Math.round(Weather.data.temp) + "°F"
-            //     color: root.tempColor
-            //
-            //     font {
-            //         family: Theme.font
-            //         pixelSize: 14
-            //     }
-            // }
-            //
-            // Text {
-            //     Layout.alignment:  Qt.AlignHCenter
-            //     text: Weather.text
-            //     color: root.tempColor
-            //
-            //     font {
-            //         family: Theme.font
-            //         pixelSize: 14
-            //     }
-            // }
-        }
+        //
+        // ColumnLayout {
+        //     Layout.alignment:  Qt.AlignHCenter
+        //     spacing: -2
+        //
+        //     Text {
+        //         Layout.alignment:  Qt.AlignHCenter
+        //         text: Math.round(Audio.value * 100) + "%"
+        //         color: root.ringColor
+        //
+        //         font {
+        //             family: Theme.font
+        //             pixelSize: 14
+        //         }
+        //     }
+        //
+        //     Text {
+        //         visible: Audio.sinkMuted
+        //         Layout.alignment:  Qt.AlignHCenter
+        //         text: "Muted"
+        //         color: root.ringColor
+        //
+        //         font {
+        //             family: Theme.font
+        //             pixelSize: 14
+        //         }
+        //     }
+        // }
 
         Text {
             Layout.alignment:  Qt.AlignHCenter
-            text: ""
-            color: Theme.peach
+            text: Audio.sinkMuted ? "󰝟" : "󰕾"
+            color: root.ringColor
 
             font {
                 family: Theme.font

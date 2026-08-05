@@ -93,11 +93,10 @@ PopupWindow {
 
                         Item { Layout.fillWidth: true } // spacers
 
-                        Rectangle {
-                            Layout.preferredWidth: 100
-                            Layout.preferredHeight: 100
+                        UsageBars {
+                            Layout.preferredWidth: 150
+                            Layout.preferredHeight: 220
                             Layout.alignment: Qt.AlignCenter
-                            radius: width / 2
                         }
 
                         Item { Layout.fillWidth: true }

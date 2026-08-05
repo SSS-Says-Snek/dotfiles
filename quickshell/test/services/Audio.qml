@@ -41,7 +41,16 @@ Singleton {
     }
 
     function setVolume(volume) {
-        if (volume < 0) volume = 0
-        if (volume > maxVolume) volume = maxVolume
+        if (!sink?.audio)
+            return;
+        if (volume < 0)
+            volume = 0;
+        if (volume > maxVolume)
+            volume = maxVolume;
+        sink.audio.volume = volume;
+    }
+
+    function toggleMute() {
+        sink.audio.muted = !sink.audio.muted
     }
 }

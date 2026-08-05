@@ -29,9 +29,12 @@ Item {
             thickness: root.thickness
             ringRadius: root.ringRadius
             progress: root.progress
+            transparentBg: true
 
-            startAngle: -30
+            startAngle: 330
             sweep: -270
+            interactive: true
+            onMoved: value => Audio.setVolume(value * Audio.maxVolume)
         }
     }
 
@@ -71,11 +74,27 @@ Item {
         Text {
             Layout.alignment:  Qt.AlignHCenter
             text: Audio.sinkMuted ? "󰝟" : "󰕾"
-            color: root.ringColor
+            color: hoverHandler.hovered ? Theme.yellow : root.ringColor
 
             font {
                 family: Theme.font
                 pixelSize: Math.round(Math.min(root.width, root.height) * 0.40)
+            }
+
+            HoverHandler {
+                id: hoverHandler
+                cursorShape: Qt.PointingHandCursor
+            }
+
+            TapHandler {
+                onTapped: Audio.toggleMute()
+            }
+
+            Behavior on color {
+                ColorAnimation {
+                    duration: 200
+                    easing.type: Easing.OutQuad
+                }
             }
         }
 

@@ -100,6 +100,32 @@ PopupWindow {
                     asynchronous: true
                 }
 
+                ProgressRing {
+                    anchors.centerIn: parent
+                    baseColor: Theme.surface0
+                    accentColor: Theme.text
+                    thickness: 8
+                    ringRadius: 174 // oh yeah line it up with that
+                    progress: {
+                        const player = MprisController.activePlayer;
+                        if (!player || player.length <= 0)
+                            return 0;
+                        return player.position / player.length;
+                    }
+                    transparentBg: true
+                    interactive: true
+
+                    startAngle: 165
+                    sweep: -150
+
+                    onMoved: value => {
+                        const player = MprisController.activePlayer;
+                        if (!player?.canSeek || player.length <= 0)
+                            return;
+                        player.position = value * player.length;
+                    }
+                }
+
                 ClippingRectangle {
                     id: coverFrame
 
@@ -145,15 +171,13 @@ PopupWindow {
                             hoverEnabled: true
                             cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-                            onClicked: {
-                                MprisController.togglePlaying()
-                            }
+                            onClicked: MprisController.togglePlaying()
                         }
 
                         Behavior on opacity {
                             NumberAnimation {
                                 duration: 200
-                                easing: Easing.OutQuad
+                                easing.type: Easing.OutQuad
                             }
                         }
                     }
@@ -197,19 +221,6 @@ PopupWindow {
                             family: Theme.font
                         }
                     }
-                }
-
-                ProgressRing {
-                    anchors.centerIn: parent
-                    baseColor: Theme.surface0
-                    accentColor: Theme.text
-                    thickness: 8
-                    ringRadius: 174 // oh yeah line it up with that
-                    progress: MprisController.activePlayer.position / MprisController.activePlayer.length
-                    transparentBg: true
-
-                    startAngle: 165
-                    sweep: -150
                 }
 
                 Icon {

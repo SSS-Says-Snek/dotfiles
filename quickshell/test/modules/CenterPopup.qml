@@ -160,6 +160,12 @@ PopupWindow {
                 border.width: 2
                 border.color: Theme.mauve
 
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
+                    onWheel: event => root.scroll(event.angleDelta.y)
+                }
+
                 Wheel {
                     id: wheelDisplay
 
@@ -181,11 +187,6 @@ PopupWindow {
                     color: Theme.mauve
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.verticalCenterOffset: 1
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onWheel: event => root.scroll(event.angleDelta.y)
                 }
             }
 

@@ -141,6 +141,7 @@ Singleton {
             memFile.reload()
             cpuFile.reload()
             tempFile.reload()
+            fileUptime.reload()
         }
     }
 

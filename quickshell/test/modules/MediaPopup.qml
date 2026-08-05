@@ -34,6 +34,20 @@ PopupWindow {
     onRevealHeightChanged: if (revealHeight === 0 && !root.expanded)
         root.visible = false
 
+    function formatTime(seconds) {
+        let hrs = Math.floor(seconds / 3600)
+        let mins = Math.floor(seconds / 60)
+
+        let paddedMinutes = String(mins).padStart(2, '0')
+        let paddedSeconds = String(Math.floor(seconds % 60)).padStart(2, '0') 
+        let str = ""
+        if (hrs > 0) {
+            str += `${hrs}:${paddedMinutes}:${paddedSeconds}`
+        }
+        str += `${mins}:${paddedSeconds}`
+        return str
+    }
+
     Behavior on revealHeight {
         NumberAnimation {
             duration: 400
@@ -112,6 +126,37 @@ PopupWindow {
                             paused: !MprisController.isPlaying
                         }
                     }
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "#80000000"
+                        opacity: mouseArea.containsMouse ? 1 : 0
+
+                        Icon {
+                            anchors.centerIn: parent
+                            icon: MprisController.isPlaying ? "mdi-pause" : "mdi-play"
+                            size: 50
+                            color: Theme.text
+                        }
+
+                        MouseArea {
+                            id: mouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+                            onClicked: {
+                                MprisController.togglePlaying()
+                            }
+                        }
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 200
+                                easing: Easing.OutQuad
+                            }
+                        }
+                    }
                 }
 
                 Column {
@@ -138,6 +183,22 @@ PopupWindow {
                     }
                 }
 
+                Row {
+                    anchors.horizontalCenter: coverFrame.horizontalCenter
+                    anchors.top: coverFrame.bottom
+                    anchors.topMargin: 12
+                    spacing: 4
+
+                    Text {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: formatTime(MprisController.activePlayer.position) + " / " + formatTime(MprisController.activePlayer.length)
+                        color: Theme.text
+                        font {
+                            family: Theme.font
+                        }
+                    }
+                }
+
                 ProgressRing {
                     anchors.centerIn: parent
                     baseColor: Theme.surface0
@@ -151,6 +212,35 @@ PopupWindow {
                     sweep: -150
                 }
 
+                Icon {
+                    id: previous
+
+                    anchors.verticalCenter: coverFrame.verticalCenter
+                    anchors.right: coverFrame.left
+                    anchors.rightMargin: 18
+
+                    icon: "mdi-previous"
+                    size: 38
+                    color: Theme.text
+                    interactive: true
+                    enabled: MprisController.canGoPrevious
+                    onClicked: MprisController.previous()
+                }
+
+                Icon {
+                    id: next
+
+                    anchors.verticalCenter: coverFrame.verticalCenter
+                    anchors.left: coverFrame.right
+                    anchors.leftMargin: 18
+
+                    icon: "mdi-next"
+                    size: 38
+                    color: Theme.text
+                    interactive: true
+                    enabled: MprisController.canGoNext
+                    onClicked: MprisController.next()
+                }
 
                 Timer {
                     // only emit the signal when the position is actually changing.
@@ -158,8 +248,9 @@ PopupWindow {
                     // Make sure the position updates at least once per second.
                     interval: 500
                     repeat: true
-                    // emit the positionChanged signal every second.
-                    onTriggered: MprisController.activePlayer.positionChanged()
+                    onTriggered: {
+                        MprisController.activePlayer.positionChanged()
+                    }
                 }
             }
         }

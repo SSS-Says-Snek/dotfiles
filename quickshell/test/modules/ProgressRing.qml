@@ -7,7 +7,7 @@ Rectangle {
     id: root
     anchors.fill: parent
     radius: width / 2
-    color: Theme.dashboardBg
+    color: transparentBg ? "transparent" : Theme.dashboardBg
 
     property color baseColor
     property color accentColor
@@ -17,7 +17,11 @@ Rectangle {
     property int startAngle: 0
     property int sweep: 360
 
+    property int baseStartAngle: startAngle
+    property int baseSweep: sweep
+
     property real progress: 0.0
+    property bool transparentBg: false
 
     Shape {
         anchors.fill: parent
@@ -28,14 +32,15 @@ Rectangle {
             strokeColor: root.baseColor
             strokeWidth: root.thickness
             fillColor: "transparent"
+            capStyle: ShapePath.RoundCap
 
             PathAngleArc {
                 centerX: root.width / 2
                 centerY: root.height / 2
                 radiusX: root.ringRadius
                 radiusY: root.ringRadius
-                startAngle: -90
-                sweepAngle: 360
+                startAngle: root.baseStartAngle
+                sweepAngle: root.baseSweep
             }
         }
 

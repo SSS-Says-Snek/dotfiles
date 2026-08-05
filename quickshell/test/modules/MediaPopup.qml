@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import Quickshell
 import Quickshell.Widgets
+import Quickshell.Services.Mpris
 import QtQuick
 
 import qs.settings
@@ -101,6 +102,15 @@ PopupWindow {
                         fillMode: Image.PreserveAspectCrop
                         sourceSize.width: width
                         asynchronous: true
+
+                        NumberAnimation on rotation {
+                            from: 0
+                            to: 360
+                            duration: 30000
+                            loops: Animation.Infinite
+                            running: true
+                            paused: !MprisController.isPlaying
+                        }
                     }
                 }
 
@@ -115,7 +125,7 @@ PopupWindow {
                         width: 220
                         text: MprisController.activeTrack.title
                         color: Theme.text
-                        pixelSize: 14
+                        pixelSize: 16
                         weight: 800
                     }
 
@@ -124,8 +134,32 @@ PopupWindow {
                         width: 220
                         text: MprisController.activeTrack.artist
                         color: Theme.subtext
-                        pixelSize: 12
+                        pixelSize: 14
                     }
+                }
+
+                ProgressRing {
+                    anchors.centerIn: parent
+                    baseColor: Theme.surface0
+                    accentColor: Theme.text
+                    thickness: 8
+                    ringRadius: 174 // oh yeah line it up with that
+                    progress: MprisController.activePlayer.position / MprisController.activePlayer.length
+                    transparentBg: true
+
+                    startAngle: 165
+                    sweep: -150
+                }
+
+
+                Timer {
+                    // only emit the signal when the position is actually changing.
+                    running: MprisController.activePlayer.playbackState == MprisPlaybackState.Playing
+                    // Make sure the position updates at least once per second.
+                    interval: 500
+                    repeat: true
+                    // emit the positionChanged signal every second.
+                    onTriggered: MprisController.activePlayer.positionChanged()
                 }
             }
         }

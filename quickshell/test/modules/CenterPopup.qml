@@ -83,9 +83,14 @@ PopupWindow {
                         Layout.fillWidth: true
 
                         // Calendar
-                        GlassPanel {
+                        WrapperRectangle {
                             Layout.columnSpan: 2
                             implicitWidth: 400
+
+                            margin: 14
+                            radius: 14
+                            color: Theme.dashboardBg
+
                             CalendarTab {
                                 id: cal
                             }

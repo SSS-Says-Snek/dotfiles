@@ -1,0 +1,31 @@
+import QtQuick
+import qs.modules
+import qs.settings
+
+import qs.services
+
+BarWidgetWrapper {
+    Row {
+        spacing: 5
+        anchors.verticalCenter: parent.verticalCenter
+
+        Icon {
+            icon: "mdi-notif"
+            size: 20
+            color: Theme.text
+        }
+
+        Text {
+            text: NotifServer.trackedNotifications.values.length
+            color: Theme.text
+
+            anchors.verticalCenter: parent.verticalCenter
+
+            font {
+                family: Theme.font
+                pixelSize: 13
+                weight: 600
+            }
+        }
+    }
+}

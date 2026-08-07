@@ -21,6 +21,10 @@ Rectangle {
         spacing: root.rowSpacing
         anchors.leftMargin: root.rowSpacing
 
+        NotifStat {
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
         DiskStat {
             anchors.verticalCenter: parent.verticalCenter
         }

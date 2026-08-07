@@ -1,5 +1,7 @@
 import QtQuick
 
+import qs.modules
+
 Rectangle {
     id: root
     property string targetMonitor: ""
@@ -36,10 +38,16 @@ Rectangle {
 
         MemStat {
             anchors.verticalCenter: parent.verticalCenter
+            onClicked: rightPopup.expanded = !rightPopup.expanded
         }
 
         HoverHandler {
             id: rightArea
         }
+    }
+
+    RightPopup {
+        id: rightPopup
+        anchorItem: rightBar
     }
 }

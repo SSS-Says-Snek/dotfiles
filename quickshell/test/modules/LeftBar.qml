@@ -1,6 +1,5 @@
 pragma ComponentBehavior: Bound
 import QtQuick
-import qs.settings
 
 Rectangle {
     id: root
@@ -44,7 +43,6 @@ Rectangle {
         }
     }
 
-    // Outside the Row so it isn't treated as a layout child (same as CenterBar → CenterPopup).
     MediaPopup {
         id: popup
         anchorItem: mpris

@@ -1,12 +1,13 @@
 pragma ComponentBehavior: Bound
 
-import Quickshell
-import Quickshell.Widgets
-import Quickshell.Services.Mpris
+import QtQuick.Layouts
 import QtQuick
 
+import Quickshell
+import Quickshell.Widgets
+
+import qs.modules.panel
 import qs.settings
-import qs.services
 
 PopupWindow {
     id: root
@@ -14,9 +15,9 @@ PopupWindow {
     required property Item anchorItem
 
     property bool expanded: false
-    property int popupWidth: 400
+    property int popupWidth: 500
 
-    property int popupHeight: 600
+    property int popupHeight: 650
 
     property real revealHeight: expanded ? popupHeight : 0
 
@@ -27,12 +28,12 @@ PopupWindow {
 
     onExpandedChanged: {
         if (expanded)
-            visible = true;
+        visible = true;
     }
     onVisibleChanged: if (!visible)
-        expanded = false
+    expanded = false
     onRevealHeightChanged: if (revealHeight === 0 && !root.expanded)
-        root.visible = false
+    root.visible = false
 
     Behavior on revealHeight {
         NumberAnimation {
@@ -70,7 +71,8 @@ PopupWindow {
     Component {
         id: circle
         Item {
-            Rectangle {
+            ClippingRectangle {
+                id: rect
                 width: root.popupWidth
                 height: root.popupHeight
                 radius: 20
@@ -78,6 +80,106 @@ PopupWindow {
 
                 border.width: 2
                 border.color: Theme.accent
+
+                property list<Component> tabs: [
+                    Component {
+                        Item {
+                            Rectangle {
+                                anchors.fill: parent
+                                color: "transparent"
+                            }
+                        }
+                    }
+                ]
+                property int index: 0
+
+                Image {
+                    anchors.centerIn: parent
+                    source: Quickshell.shellPath("assets/wha2.png")
+                    fillMode: Image.PreserveAspectCrop
+                    asynchronous: true
+
+                    NumberAnimation on rotation {
+                        from: 0
+                        to: 360
+                        duration: 100000
+                        loops: Animation.Infinite
+                        running: true
+                    }
+                }
+
+                // Rectangle {
+                //     anchors.fill: parent
+                //     color: "#80000000"
+                // }
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 15
+
+                    spacing: 10
+
+                    RowLayout {
+                        id: toc
+
+                        Layout.fillWidth: true
+                        spacing: 8
+                        uniformCellSizes: true
+
+                        TabButton {
+                            id: dashTab
+                            Layout.fillWidth: true
+                            icon: "mdi-dashboard"
+                            text: "Control Panel"
+                        }
+
+                        TabButton {
+                            id: notifTab
+                            Layout.fillWidth: true
+                            icon: "mdi-notif"
+                            text: "Notifications"
+                        }
+
+                        TabButton {
+                            id: perfTab
+                            Layout.fillWidth: true
+                            icon: "mdi-performance"
+                            text: "Performance"
+                        }
+                    }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 2
+                        color: Theme.surface2
+                    }
+
+                    Item {
+                        id: tabHost
+
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        clip: true
+
+                        Repeater {
+                            model: rect.tabs.length
+
+                            Item {
+                                id: slice
+
+                                required property int index
+
+                                anchors.fill: tabHost
+                                visible: slice.index === rect.index
+
+                                Loader {
+                                    anchors.fill: parent
+                                    sourceComponent: rect.tabs[slice.index]
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

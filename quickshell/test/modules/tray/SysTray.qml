@@ -26,7 +26,7 @@ Rectangle {
         spacing: root.spacing
 
         Repeater {
-            model: SystemTray.items
+            model: SystemTray.items.values.filter(i => !General.hiddenIcons.includes(i.id))
 
             MouseArea {
                 id: trayItem
@@ -42,9 +42,10 @@ Rectangle {
 
                 onClicked: event => {
                     if (event.button === Qt.LeftButton) {
-                        if (trayItem.modelData.onlyMenu)
+                        // console.log(trayItem.modelData.id)
+                        if (trayItem.modelData.onlyMenu) {
                             trayItem.openMenu();
-                        else
+                        } else
                             trayItem.modelData.activate();
                     } else if (event.button === Qt.RightButton) {
                         trayItem.openMenu();

@@ -187,11 +187,11 @@ PopupWindow {
                     anchors.horizontalCenter: coverFrame.horizontalCenter
                     anchors.bottom: coverFrame.top
                     anchors.bottomMargin: 12
+                    width: 220
                     spacing: 4
 
                     Marquee {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width: 220
+                        width: parent.width
                         text: MprisController.activeTrack.title
                         color: Theme.text
                         pixelSize: 16
@@ -199,8 +199,7 @@ PopupWindow {
                     }
 
                     Marquee {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width: 220
+                        width: parent.width
                         text: MprisController.activeTrack.artist
                         color: Theme.subtext
                         pixelSize: 14

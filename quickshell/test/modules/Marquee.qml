@@ -13,24 +13,20 @@ Item {
     property int pauseMs: 0
     property int pixelsPerSecond: 40
 
-    readonly property bool overflowing: metrics.width > width
+    readonly property real textWidth: label.implicitWidth
+    readonly property bool overflowing: textWidth > width && text.length > 0
+
+    property real scrollOffset: 0
 
     width: 220
-    implicitHeight: metrics.height
+    implicitHeight: label.implicitHeight
     clip: true
-
-    TextMetrics {
-        id: metrics
-        text: root.text
-        font: label.font
-    }
 
     Row {
         id: row
 
         spacing: root.gap
-        // center when it fits, start flush left for the scroll.
-        x: root.overflowing ? 0 : (root.width - metrics.width) / 2
+        x: root.overflowing ? root.scrollOffset : (root.width - root.textWidth) / 2
 
         Text {
             id: label
@@ -53,18 +49,24 @@ Item {
 
     SequentialAnimation {
         id: scroll
-        running: root.overflowing && root.visible && root.text.length > 0
+
+        running: root.overflowing && root.visible
         loops: Animation.Infinite
 
+        PropertyAction {
+            target: root
+            property: "scrollOffset"
+            value: 0
+        }
         PauseAnimation {
             duration: root.pauseMs
         }
         NumberAnimation {
-            target: row
-            property: "x"
+            target: root
+            property: "scrollOffset"
             from: 0
-            to: -(metrics.width + root.gap)
-            duration: Math.max(1, Math.round((metrics.width + root.gap) / root.pixelsPerSecond * 1000))
+            to: -(root.textWidth + root.gap)
+            duration: Math.max(1, Math.round((root.textWidth + root.gap) / root.pixelsPerSecond * 1000))
             easing.type: Easing.Linear
         }
         PauseAnimation {
@@ -72,14 +74,12 @@ Item {
         }
 
         onRunningChanged: if (!running)
-            row.x = root.overflowing ? 0 : (root.width - metrics.width) / 2
+            root.scrollOffset = 0
     }
 
-    onOverflowingChanged: {
-        scroll.restart()
-        if (!overflowing)
-            row.x = (root.width - metrics.width) / 2
+    onTextChanged: {
+        root.scrollOffset = 0;
+        if (scroll.running)
+            scroll.restart();
     }
-
-    onTextChanged: scroll.restart()
 }

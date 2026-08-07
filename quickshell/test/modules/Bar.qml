@@ -6,44 +6,39 @@ import QtQuick
 import qs.modules
 import qs.settings
 
-Scope {
-    id: root
-    property string time
+Variants {
+    model: Quickshell.screens;
 
-    Variants {
-        model: Quickshell.screens;
+    PanelWindow {
+        required property var modelData
+        screen: modelData
+        id: panelWindow
 
-        PanelWindow {
-            required property var modelData
-            screen: modelData
-            id: panelWindow
+        anchors {
+            top: true
+            left: true
+            right: true
+        }
 
-            anchors {
-                top: true
-                left: true
-                right: true
-            }
+        implicitHeight: Theme.barHeight
 
-            implicitHeight: Theme.barHeight
+        color: "transparent"
 
-            color: "transparent"
+        LeftBar {
+            implicitHeight: panelWindow.implicitHeight
+            targetMonitor: panelWindow.modelData.name
+        }
 
-            LeftBar {
-                implicitHeight: panelWindow.implicitHeight
-                targetMonitor: panelWindow.modelData.name
-            }
+        CenterBar {
+            id: centerBar
+            implicitHeight: panelWindow.implicitHeight
+            anchors.centerIn: parent
+        }
 
-            CenterBar {
-                id: centerBar
-                implicitHeight: panelWindow.implicitHeight
-                anchors.centerIn: parent
-            }
-
-            RightBar {
-                implicitHeight: panelWindow.implicitHeight
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-            }
+        RightBar {
+            implicitHeight: panelWindow.implicitHeight
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
         }
     }
 }

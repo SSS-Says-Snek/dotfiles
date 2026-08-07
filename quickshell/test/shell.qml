@@ -9,15 +9,20 @@ Scope {
         id: bar
     }
 
-    NotifOverlay {
-        id: notifOverlay
+    Variants {
+        model: Quickshell.screens
 
-        anchors {
-            top: true
-            right: true
+        NotifOverlay {
+            required property var modelData
+            screen: modelData
+
+            anchors {
+                top: true
+                right: true
+            }
+
+            margins.top: Theme.barHeight + 20
+            margins.right: 20
         }
-
-        margins.top: Theme.barHeight + 20
-        margins.right: 20
     }
 }

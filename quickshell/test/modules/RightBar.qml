@@ -1,6 +1,7 @@
 import QtQuick
 
 import qs.modules
+import qs.modules.tray
 
 Rectangle {
     id: root
@@ -43,6 +44,12 @@ Rectangle {
 
         HoverHandler {
             id: rightArea
+        }
+
+        SysTray {
+            id: sysTray
+
+            anchors.verticalCenter: parent.verticalCenter
         }
     }
 

@@ -25,14 +25,55 @@ PopupWindow {
     readonly property int panelPadding: 6
     readonly property int gap: 6
 
+    readonly property real contentWidth: content.item ? content.item.implicitWidth : 1
+    readonly property real contentHeight: content.item ? content.item.implicitHeight : 1
+
+    property bool sizeTransitionsEnabled: false
+    property real panelWidth: 1
+    property real panelHeight: 1
+
     color: "transparent"
     grabFocus: true
 
-    implicitWidth: Math.max(1, content.implicitWidth)
-    implicitHeight: Math.max(1, content.implicitHeight)
+    implicitWidth: Math.max(1, Math.round(panelWidth))
+    implicitHeight: Math.max(1, Math.round(panelHeight))
 
-    onVisibleChanged: if (!visible)
-        navigation = []
+    onContentWidthChanged: if (visible)
+        panelWidth = contentWidth
+    onContentHeightChanged: if (visible)
+        panelHeight = contentHeight
+
+    onNavigationChanged: if (visible)
+        sizeTransitionsEnabled = true
+
+    onVisibleChanged: {
+        if (visible) {
+            sizeTransitionsEnabled = false;
+            panelWidth = contentWidth;
+            panelHeight = contentHeight;
+        } else {
+            sizeTransitionsEnabled = false;
+            navigation = [];
+            panelWidth = 1;
+            panelHeight = 1;
+        }
+    }
+
+    Behavior on panelWidth {
+        enabled: root.sizeTransitionsEnabled
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.OutQuad
+        }
+    }
+
+    Behavior on panelHeight {
+        enabled: root.sizeTransitionsEnabled
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.OutQuad
+        }
+    }
 
     anchor {
         window: root.anchorItem.QsWindow.window
@@ -81,6 +122,10 @@ PopupWindow {
             implicitWidth: list.implicitWidth + 2 * root.panelPadding
             implicitHeight: list.implicitHeight + 2 * root.panelPadding
 
+            width: root.implicitWidth
+            height: root.implicitHeight
+            clip: true
+
             radius: 16
             color: "#1e1e24"
             border.width: 1
@@ -89,7 +134,9 @@ PopupWindow {
             TrayMenuList {
                 id: list
 
-                anchors.fill: parent
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
                 anchors.margins: root.panelPadding
 
                 entries: root.entries

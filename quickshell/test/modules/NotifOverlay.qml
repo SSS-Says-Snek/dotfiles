@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Wayland
 import Quickshell.Services.Notifications
 
 import qs.services
@@ -10,6 +11,7 @@ import qs.settings
 
 PanelWindow {
     id: root
+    WlrLayershell.layer: WlrLayer.Overlay
 
     readonly property int padding: 12
     readonly property int iconSize: 68

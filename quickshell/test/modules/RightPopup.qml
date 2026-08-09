@@ -7,6 +7,7 @@ import Quickshell
 import Quickshell.Widgets
 
 import qs.modules.panel
+import qs.modules.notif
 import qs.settings
 
 PopupWindow {
@@ -86,7 +87,24 @@ PopupWindow {
                         Item {
                             Rectangle {
                                 anchors.fill: parent
-                                color: "transparent"
+                                color: Theme.mauve
+                                radius: 10
+                            }
+                        }
+                    },
+
+                    Component {
+                        NotifPanel {
+                            anchors.fill: parent
+                        }
+                    },
+
+                    Component {
+                        Item {
+                            Rectangle {
+                                anchors.fill: parent
+                                color: Theme.green
+                                radius: 10
                             }
                         }
                     }
@@ -131,6 +149,8 @@ PopupWindow {
                             Layout.fillWidth: true
                             icon: "mdi-dashboard"
                             text: "Control Panel"
+                            selected: rect.index == 0
+                            onClicked: rect.index = 0
                         }
 
                         TabButton {
@@ -138,6 +158,8 @@ PopupWindow {
                             Layout.fillWidth: true
                             icon: "mdi-notif"
                             text: "Notifications"
+                            selected: rect.index == 1
+                            onClicked: rect.index = 1
                         }
 
                         TabButton {
@@ -145,6 +167,8 @@ PopupWindow {
                             Layout.fillWidth: true
                             icon: "mdi-performance"
                             text: "Performance"
+                            selected: rect.index == 2
+                            onClicked: rect.index = 2
                         }
                     }
 
@@ -154,27 +178,46 @@ PopupWindow {
                         color: Theme.surface2
                     }
 
-                    Item {
+                    ClippingRectangle {
                         id: tabHost
 
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        clip: true
+                        color: "transparent"
+                        radius: 20
 
-                        Repeater {
-                            model: rect.tabs.length
+                        Row {
+                            id: tabStrip
 
-                            Item {
-                                id: slice
+                            height: parent.height
+                            x: -rect.index * tabHost.width - rect.index * spacing
+                            spacing: 30
 
-                                required property int index
+                            Behavior on x {
+                                NumberAnimation {
+                                    duration: 200
+                                    easing.type: Easing.OutCubic
+                                }
+                            }
 
-                                anchors.fill: tabHost
-                                visible: slice.index === rect.index
+                            Repeater {
+                                model: rect.tabs.length
 
-                                Loader {
-                                    anchors.fill: parent
-                                    sourceComponent: rect.tabs[slice.index]
+                                Item {
+                                    id: slice
+
+                                    required property int index
+
+                                    width: tabHost.width
+                                    height: tabHost.height
+
+                                    Loader {
+                                        anchors.fill: parent
+                                        // Stay loaded so neighbors are visible mid-swipe.
+                                        active: true
+                                        asynchronous: true
+                                        sourceComponent: rect.tabs[slice.index]
+                                    }
                                 }
                             }
                         }

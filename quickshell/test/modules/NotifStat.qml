@@ -5,6 +5,8 @@ import qs.settings
 import qs.services
 
 BarWidgetWrapper {
+    cursorShape: Qt.PointingHandCursor
+
     Row {
         spacing: 5
         anchors.verticalCenter: parent.verticalCenter
@@ -16,7 +18,7 @@ BarWidgetWrapper {
         }
 
         Text {
-            text: NotifServer.trackedNotifications.values.length
+            text: NotifServer.history.count
             color: Theme.text
 
             anchors.verticalCenter: parent.verticalCenter

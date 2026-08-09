@@ -7,7 +7,9 @@ return {
     ai.setup({
       custom_textobjects = {
         f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
-      }
+      },
+
+      n_lines = 500
     })
 
     local miniclue = require('mini.clue')

@@ -13,6 +13,8 @@ Rectangle {
     color: hoverHandler.hovered ? Theme.surface0 : "transparent"
 
     default property Component child
+
+    property var cursorShape: Qt.ArrowCursor
     signal clicked()
     signal wheel(WheelEvent event)
 
@@ -35,6 +37,7 @@ Rectangle {
             root.wheel(event)
         }
         onClicked: root.clicked()
+        cursorShape: root.cursorShape
     }
 
     Behavior on color {

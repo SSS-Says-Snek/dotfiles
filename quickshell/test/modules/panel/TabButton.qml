@@ -9,6 +9,9 @@ Rectangle {
 
     property string icon
     property string text
+    property bool selected
+
+    signal clicked()
 
     color: hoverHandler.hovered ? Theme.dashboardBg : "transparent"
     radius: 10
@@ -20,6 +23,22 @@ Rectangle {
         id: hoverHandler
     }
 
+    TapHandler {
+        onTapped: {
+            root.clicked()
+            clickAnim.start()
+        }
+    }
+
+    ColorAnimation {
+        id: clickAnim
+        duration: 600
+        easing.type: Easing.OutQuad
+        target: root
+        property: "color"
+        from: Theme.surface0
+        to: root.color
+    }
     Behavior on color {
         ColorAnimation {
             duration: 200
@@ -37,17 +56,24 @@ Rectangle {
             Layout.alignment: Qt.AlignHCenter
             icon: root.icon
             size: 30
-            color: Theme.text
+            color: root.selected ? Theme.blue : Theme.text
         }
 
         Text {
             Layout.alignment: Qt.AlignHCenter
             text: root.text
-            color: Theme.text
+            color: root.selected ? Theme.blue : Theme.text
             horizontalAlignment: Text.AlignHCenter
             font {
                 family: Theme.font
                 pixelSize: 14
+            }
+
+            Behavior on color {
+                ColorAnimation {
+                    duration: 200
+                    easing.type: Easing.OutQuad
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ import Quickshell // for PanelWindow
 import QtQuick
 
 import qs.modules
+import qs.modules.notif
 import qs.settings
 
 Scope {

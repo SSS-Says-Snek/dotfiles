@@ -5,7 +5,6 @@ import Quickshell
 import Quickshell.Wayland
 
 import qs.services
-import qs.modules
 
 PanelWindow {
     id: root

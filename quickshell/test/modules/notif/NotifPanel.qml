@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 
 import qs.services
-import qs.modules
 import qs.settings
 
 Item {
@@ -28,7 +27,7 @@ Item {
             width: list.width
             autoClose: false
 
-            onDismiss: NotifServer.history.remove(entry.index)
+            onExplicitDismiss: NotifServer.history.remove(entry.index)
         }
 
         Text {

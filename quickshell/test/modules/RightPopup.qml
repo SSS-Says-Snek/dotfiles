@@ -21,6 +21,7 @@ PopupWindow {
     property int popupHeight: 650
 
     property real revealHeight: expanded ? popupHeight : 0
+    property int index: 0
 
     color: "transparent"
     implicitWidth: popupWidth
@@ -109,7 +110,6 @@ PopupWindow {
                         }
                     }
                 ]
-                property int index: 0
 
                 Image {
                     anchors.centerIn: parent
@@ -149,8 +149,8 @@ PopupWindow {
                             Layout.fillWidth: true
                             icon: "mdi-dashboard"
                             text: "Control Panel"
-                            selected: rect.index == 0
-                            onClicked: rect.index = 0
+                            selected: root.index == 0
+                            onClicked: root.index = 0
                         }
 
                         TabButton {
@@ -158,8 +158,8 @@ PopupWindow {
                             Layout.fillWidth: true
                             icon: "mdi-notif"
                             text: "Notifications"
-                            selected: rect.index == 1
-                            onClicked: rect.index = 1
+                            selected: root.index == 1
+                            onClicked: root.index = 1
                         }
 
                         TabButton {
@@ -167,8 +167,8 @@ PopupWindow {
                             Layout.fillWidth: true
                             icon: "mdi-performance"
                             text: "Performance"
-                            selected: rect.index == 2
-                            onClicked: rect.index = 2
+                            selected: root.index == 2
+                            onClicked: root.index = 2
                         }
                     }
 
@@ -190,7 +190,7 @@ PopupWindow {
                             id: tabStrip
 
                             height: parent.height
-                            x: -rect.index * tabHost.width - rect.index * spacing
+                            x: -root.index * tabHost.width - root.index * spacing
                             spacing: 30
 
                             Behavior on x {

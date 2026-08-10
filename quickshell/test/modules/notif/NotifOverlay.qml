@@ -52,7 +52,7 @@ PanelWindow {
                 time: ""
                 urgency: wrap.modelData.urgency
 
-                onDismiss: wrap.modelData.dismiss()
+                onDismiss: {}
                 onExplicitDismiss: {
                     NotifServer.history.remove(wrap.index)
                     wrap.modelData.dismiss()

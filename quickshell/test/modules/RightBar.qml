@@ -8,6 +8,7 @@ Rectangle {
     property string targetMonitor: ""
 
     readonly property int rowSpacing: 10
+    property int desiredIndex: 0
 
     color: "#1e1e24"
     implicitWidth: rightBar.implicitWidth + 2 * rowSpacing
@@ -23,6 +24,13 @@ Rectangle {
 
         NotifStat {
             anchors.verticalCenter: parent.verticalCenter
+            onClicked: {
+                if (!rightPopup.expanded) {
+                    root.desiredIndex = 1
+                    rightPopupTimer.restart()
+                }
+                rightPopup.expanded = !rightPopup.expanded
+            }
         }
 
         DiskStat {
@@ -60,5 +68,11 @@ Rectangle {
     RightPopup {
         id: rightPopup
         anchorItem: rightBar
+    }
+
+    Timer {
+        id: rightPopupTimer
+        interval: 400
+        onTriggered: rightPopup.index = root.desiredIndex
     }
 }

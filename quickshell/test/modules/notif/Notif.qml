@@ -34,6 +34,18 @@ Item {
     signal dismiss()
     signal explicitDismiss()
 
+    // image is already resolved (qsimage/file/image://icon); appIcon is usually a
+    // bare theme name, so it needs iconPath unless it's already a path or url.
+    function resolveIcon(image: string, appIcon: string): string {
+        if (image)
+            return image;
+        if (!appIcon)
+            return "";
+        if (appIcon.startsWith("/") || appIcon.indexOf("://") >= 0)
+            return appIcon;
+        return Quickshell.iconPath(appIcon, true);
+    }
+
     width: ListView.view ? ListView.view.width : 0
     height: closing ? 0 : openHeight
     opacity: closing ? 0 : 1
@@ -84,7 +96,13 @@ Item {
         border.color: root.urgency == NotificationUrgency.Critical ? Theme.red : Theme.mauve
         clip: true
 
+        // Only popups fade in. History rows are created whenever ListView
+        // realizes them (scrolling, index shifts), so animating there reads as
+        // unrelated cards spontaneously re-animating.
         Component.onCompleted: {
+            if (!root.autoClose)
+                return;
+
             opacity = 0;
             appear.start();
         }
@@ -109,20 +127,27 @@ Item {
             spacing: 12
 
             Image {
-                Layout.preferredWidth: root.iconSize
+                id: iconImage
+
+                // Collapse the slot when nothing loads so the text reflows
+                // instead of leaving a blank 68px gap for a broken handle.
+                Layout.preferredWidth: visible ? root.iconSize : 0
                 Layout.preferredHeight: root.iconSize
                 Layout.alignment: Qt.AlignVCenter
 
                 fillMode: Image.PreserveAspectFit
-                visible: source.toString() !== ""
-                source: {
-                    if (root.image)
-                        return root.image;
-                    if (root.appIcon)
-                        return Quickshell.iconPath(root.appIcon);
-                    return "";
-                }
+                visible: status === Image.Ready
+                source: root.resolveIcon(root.image, root.appIcon)
                 asynchronous: true
+
+                // A dead image handle (or a bad path) falls back to the app icon.
+                onStatusChanged: {
+                    if (status !== Image.Error)
+                        return;
+                    const fallback = root.resolveIcon("", root.appIcon);
+                    if (fallback && source.toString() !== fallback)
+                        source = fallback;
+                }
             }
 
             ColumnLayout {

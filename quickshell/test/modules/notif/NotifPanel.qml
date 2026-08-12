@@ -27,7 +27,10 @@ Item {
             width: list.width
             autoClose: false
 
-            onExplicitDismiss: NotifServer.history.remove(entry.index)
+            // forget() also releases the notification's retain lock.
+            onExplicitDismiss: {
+                NotifServer.forget(entry.index)
+            }
         }
 
         Text {

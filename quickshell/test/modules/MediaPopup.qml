@@ -38,13 +38,14 @@ PopupWindow {
         let hrs = Math.floor(seconds / 3600)
         let mins = Math.floor(seconds / 60)
 
-        let paddedMinutes = String(mins).padStart(2, '0')
         let paddedSeconds = String(Math.floor(seconds % 60)).padStart(2, '0') 
         let str = ""
         if (hrs > 0) {
-            str += `${hrs}:${paddedMinutes}:${paddedSeconds}`
+            let paddedMinutes = String(mins - hrs*60).padStart(2, '0')
+            str = `${hrs}:${paddedMinutes}:${paddedSeconds}`
+        } else {
+            str = `${mins}:${paddedSeconds}`
         }
-        str += `${mins}:${paddedSeconds}`
         return str
     }
 
@@ -68,7 +69,6 @@ PopupWindow {
         }
     }
 
-    // Built when mapped and torn down when closed, same pattern as CenterPopup.
     Loader {
         id: content
 
@@ -253,9 +253,7 @@ PopupWindow {
                 }
 
                 Timer {
-                    // only emit the signal when the position is actually changing.
                     running: MprisController.activePlayer.playbackState == MprisPlaybackState.Playing
-                    // Make sure the position updates at least once per second.
                     interval: 500
                     repeat: true
                     onTriggered: {

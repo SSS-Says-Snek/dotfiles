@@ -234,7 +234,6 @@ Item {
         if (root.externalClose) {
             root.explicitClose = true
             root.requestDismiss()
-            root.externalClose = false
         }
     }
 }

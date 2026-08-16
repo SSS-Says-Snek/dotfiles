@@ -42,10 +42,8 @@ Scope {
     }
 
     function clear(): void {
-        for (let i = 0; i < history.count; i++)
-            root.release(history.get(i).notifId);
-
-        history.clear();
+        for (let i = history.count - 1; i >= 0; i--)
+            root.forget(i)
     }
 
     NotificationServer {

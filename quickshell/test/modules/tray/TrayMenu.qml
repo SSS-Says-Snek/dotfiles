@@ -15,6 +15,8 @@ PopupWindow {
     // Submenus drill down in place; each element is { handle, title }.
     property var navigation: []
 
+    property bool holdOpeners: false
+
     // Entries of the level currently on screen, from the deepest live opener.
     readonly property var entries: {
         const count = openers.count;
@@ -51,11 +53,25 @@ PopupWindow {
             sizeTransitionsEnabled = false;
             panelWidth = contentWidth;
             panelHeight = contentHeight;
+            holdOpeners = false;
+            releaseTimer.stop();
         } else {
             sizeTransitionsEnabled = false;
-            navigation = [];
             panelWidth = 1;
             panelHeight = 1;
+
+            if (!holdOpeners)
+                navigation = [];
+        }
+    }
+
+    Timer {
+        id: releaseTimer
+
+        interval: 400
+        onTriggered: {
+            root.holdOpeners = false;
+            root.navigation = [];
         }
     }
 
@@ -99,7 +115,7 @@ PopupWindow {
     Instantiator {
         id: openers
 
-        model: root.visible ? root.navigation.length + 1 : 0
+        model: (root.visible || root.holdOpeners) ? root.navigation.length + 1 : 0
 
         delegate: QsMenuOpener {
             required property int index
@@ -142,7 +158,11 @@ PopupWindow {
                 entries: root.entries
                 backTitle: root.navigation.length > 0 ? root.navigation[root.navigation.length - 1].title : ""
 
-                onActivated: root.visible = false
+                onActivated: {
+                    root.holdOpeners = true;
+                    root.visible = false;
+                    releaseTimer.restart();
+                }
                 onSubmenuRequested: (handle, title) => root.navigation = [...root.navigation, {
                         handle,
                         title

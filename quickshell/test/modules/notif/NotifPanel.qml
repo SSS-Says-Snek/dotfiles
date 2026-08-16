@@ -8,11 +8,63 @@ import qs.settings
 Item {
     id: root
 
+    readonly property int headerHeight: 28
+
+    property bool closeAll: false
+
+    Text {
+        id: clearAll
+
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.rightMargin: 4
+        height: root.headerHeight
+
+        visible: list.count > 0
+        verticalAlignment: Text.AlignVCenter
+        text: "Clear All"
+        color: clearHover.hovered ? Theme.accent : Theme.subtext
+
+        font {
+            family: Theme.font
+            pixelSize: 14
+        }
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 200
+                easing.type: Easing.OutQuad
+            }
+        }
+
+        HoverHandler {
+            id: clearHover
+
+            cursorShape: Qt.PointingHandCursor
+        }
+
+        TapHandler {
+            onTapped: {
+                root.closeAll = true
+                resetCloseAll.restart()
+            }
+        }
+
+        Timer {
+            id: resetCloseAll
+            interval: 100
+            onTriggered: root.closeAll = false
+        }
+    }
+
     ListView {
         id: list
 
-        anchors.fill: parent
-        topMargin: 8
+        anchors.top: parent.top
+        anchors.topMargin: list.count > 0 ? root.headerHeight : 0
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
         bottomMargin: 8
         clip: true
         spacing: 0
@@ -26,6 +78,8 @@ Item {
 
             width: list.width
             autoClose: false
+
+            externalClose: root.closeAll
 
             // forget() also releases the notification's retain lock.
             onExplicitDismiss: {

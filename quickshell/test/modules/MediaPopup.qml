@@ -38,10 +38,10 @@ PopupWindow {
         let hrs = Math.floor(seconds / 3600)
         let mins = Math.floor(seconds / 60)
 
-        let paddedSeconds = String(Math.floor(seconds % 60)).padStart(2, '0') 
+        let paddedSeconds = String(Math.floor(seconds % 60)).padStart(2, '0')
         let str = ""
         if (hrs > 0) {
-            let paddedMinutes = String(mins - hrs*60).padStart(2, '0')
+            let paddedMinutes = String(mins - hrs * 60).padStart(2, '0')
             str = `${hrs}:${paddedMinutes}:${paddedSeconds}`
         } else {
             str = `${mins}:${paddedSeconds}`
@@ -257,7 +257,7 @@ PopupWindow {
                     interval: 500
                     repeat: true
                     onTriggered: {
-                        MprisController.activePlayer.positionChanged()
+                        MprisController.activePlayer.positionChanged();
                     }
                 }
             }

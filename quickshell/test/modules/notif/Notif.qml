@@ -30,12 +30,11 @@ Item {
 
     property bool closing: false
     property bool explicitClose: false
+    property bool externalClose: false // like external NotifPanel requests close all through this binding
 
     signal dismiss()
     signal explicitDismiss()
 
-    // image is already resolved (qsimage/file/image://icon); appIcon is usually a
-    // bare theme name, so it needs iconPath unless it's already a path or url.
     function resolveIcon(image: string, appIcon: string): string {
         if (image)
             return image;
@@ -96,9 +95,6 @@ Item {
         border.color: root.urgency == NotificationUrgency.Critical ? Theme.red : Theme.mauve
         clip: true
 
-        // Only popups fade in. History rows are created whenever ListView
-        // realizes them (scrolling, index shifts), so animating there reads as
-        // unrelated cards spontaneously re-animating.
         Component.onCompleted: {
             if (!root.autoClose)
                 return;
@@ -129,8 +125,6 @@ Item {
             Image {
                 id: iconImage
 
-                // Collapse the slot when nothing loads so the text reflows
-                // instead of leaving a blank 68px gap for a broken handle.
                 Layout.preferredWidth: visible ? root.iconSize : 0
                 Layout.preferredHeight: root.iconSize
                 Layout.alignment: Qt.AlignVCenter
@@ -140,7 +134,6 @@ Item {
                 source: root.resolveIcon(root.image, root.appIcon)
                 asynchronous: true
 
-                // A dead image handle (or a bad path) falls back to the app icon.
                 onStatusChanged: {
                     if (status !== Image.Error)
                         return;
@@ -234,6 +227,14 @@ Item {
 
         HoverHandler {
             id: hoverHandler
+        }
+    }
+
+    onExternalCloseChanged: {
+        if (root.externalClose) {
+            root.explicitClose = true
+            root.requestDismiss()
+            root.externalClose = false
         }
     }
 }

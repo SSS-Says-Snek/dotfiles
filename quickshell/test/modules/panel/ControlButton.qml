@@ -8,14 +8,17 @@ Rectangle {
     id: root
 
     property string icon
+    property string title: ""
     property string text
     property bool active
     property bool hasSubmenu: false
+    property Component submenu
 
     readonly property int hPad: 10
     readonly property int vPad: 12
 
     signal clicked()
+    signal innerClicked()
 
     color: {
         if (root.active) {
@@ -66,32 +69,82 @@ Rectangle {
     RowLayout {
         id: dashCol
 
-        anchors.centerIn: parent
+        anchors.fill: parent
+        anchors.leftMargin: root.hPad
+        anchors.rightMargin: root.hPad
+        anchors.topMargin: root.vPad
+        anchors.bottomMargin: root.vPad
         spacing: 18
 
         Rectangle {
-            Layout.alignment: Qt.AlignHCenter
+            Layout.alignment: Qt.AlignVCenter
             width: 50
             height: 50
             radius: 999
-            color: root.active ? Theme.surface0 : Theme.base
+            color: {
+                if (root.active) {
+                    if (innerHover.hovered) {
+                        return Theme.surface1
+                    }
+                    return Theme.surface0
+                }
+
+                if (innerHover.hovered) {
+                    return Theme.surface0
+                }
+                return Theme.base
+            }
 
             Icon {
                 anchors.centerIn: parent
                 icon: root.icon
                 size: 25
-                color: root.active ? Theme.blue : Theme.overlay0
+                color: {
+                    if (root.active) {
+                        if (innerHover.hovered) {
+                            return Qt.lighter(Theme.blue, 1.1)
+                        }
+                        return Theme.blue
+                    }
+
+                    if (innerHover.hovered) {
+                        return Theme.overlay1
+                    }
+                    return Theme.overlay0
+                }
+            }
+
+            Behavior on color {
+                ColorAnimation {
+                    duration: 200
+                    easing.type: Easing.OutQuad
+                }
+            }
+
+            HoverHandler {
+                id: innerHover
+            }
+
+            TapHandler {
+                id: innerTap
+                gesturePolicy: TapHandler.ReleaseWithinBounds
+                onTapped: {
+                    root.innerClicked()
+                    root.active = !root.active
+                }
             }
         }
 
         ColumnLayout {
-            Layout.alignment: Qt.AlignHCenter
+            Layout.alignment: Qt.AlignVCenter
+            Layout.fillWidth: true
             spacing: 4
 
             Text {
-                Layout.alignment: Qt.AlignVCenter
-                text: "Wi-Fi"
+                Layout.fillWidth: true
+                text: root.title || root.text
                 color: root.active ? Theme.base : Theme.text
+                elide: Text.ElideRight
 
                 font {
                     family: Theme.font
@@ -99,10 +152,11 @@ Rectangle {
                 }
             }
             Text {
-                Layout.alignment: Qt.AlignVCenter
+                Layout.fillWidth: true
+                visible: root.title !== ""
                 text: root.text
                 color: root.active ? Theme.base : Theme.subtext
-                horizontalAlignment: Text.AlignHCenter
+                elide: Text.ElideRight
                 font {
                     family: Theme.font
                     pixelSize: 13
@@ -117,19 +171,12 @@ Rectangle {
             }
         }
 
-        // Rectangle {
-        //     Layout.alignment: Qt.AlignHCenter
-        //     width: 30
-        //     height: 30
-        //     color: "transparent"
-        //     visible: root.hasSubmenu
-        //
-        //     Icon {
-        //         anchors.fill: parent
-        //         size: 20
-        //         icon: "mdi-nav-next"
-        //         color: Theme.overlay0
-        //     }
-        // }
+        Icon {
+            Layout.alignment: Qt.AlignVCenter
+            visible: root.hasSubmenu
+            icon: "mdi-nav-next"
+            size: 20
+            color: root.active ? Theme.base : Theme.overlay0
+        }
     }
 }

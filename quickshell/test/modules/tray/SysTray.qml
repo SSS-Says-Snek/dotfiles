@@ -26,7 +26,7 @@ Rectangle {
         spacing: root.spacing
 
         Repeater {
-            model: SystemTray.items.values.filter(i => !General.hiddenIcons.includes(i.id))
+            model: SystemTray.items
 
             MouseArea {
                 id: trayItem
@@ -37,12 +37,12 @@ Rectangle {
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
 
+                visible: !General.hiddenIcons.includes(trayItem.modelData.id)
                 implicitWidth: root.iconSize
                 implicitHeight: root.iconSize
 
                 onClicked: event => {
                     if (event.button === Qt.LeftButton) {
-                        // console.log(trayItem.modelData.id)
                         if (trayItem.modelData.onlyMenu) {
                             trayItem.openMenu();
                         } else
@@ -71,17 +71,38 @@ Rectangle {
                 }
 
                 Image {
+                    id: probe
+
+                    visible: false
+                    width: 0
+                    height: 0
+                    source: trayItem.modelData.icon
+                    sourceSize.width: Math.round(root.iconSize * Screen.devicePixelRatio)
+                    sourceSize.height: Math.round(root.iconSize * Screen.devicePixelRatio)
+                    fillMode: Image.PreserveAspectFit
+                    asynchronous: false
+
+                    onStatusChanged: {
+                        if (status === Image.Ready && source.toString() !== "")
+                            icon.source = source;
+                    }
+                    Component.onCompleted: {
+                        if (status === Image.Ready && source.toString() !== "")
+                            icon.source = source;
+                    }
+                }
+
+                Image {
                     id: icon
 
                     anchors.centerIn: parent
                     width: root.iconSize
                     height: root.iconSize
 
-                    source: trayItem.modelData.icon
                     sourceSize.width: Math.round(root.iconSize * Screen.devicePixelRatio)
                     sourceSize.height: Math.round(root.iconSize * Screen.devicePixelRatio)
                     fillMode: Image.PreserveAspectFit
-                    asynchronous: true
+                    asynchronous: false
                     smooth: true
 
                     opacity: trayItem.containsMouse ? 1 : 0.85

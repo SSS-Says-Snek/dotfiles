@@ -57,7 +57,6 @@ PopupWindow {
         }
     }
 
-    // Built when mapped and torn down when closed, same pattern as CenterPopup.
     Loader {
         id: content
 
@@ -85,12 +84,8 @@ PopupWindow {
 
                 property list<Component> tabs: [
                     Component {
-                        Item {
-                            Rectangle {
-                                anchors.fill: parent
-                                color: Theme.mauve
-                                radius: 10
-                            }
+                        ControlPanel {
+                            anchors.fill: parent
                         }
                     },
 
@@ -125,11 +120,6 @@ PopupWindow {
                         running: true
                     }
                 }
-
-                // Rectangle {
-                //     anchors.fill: parent
-                //     color: "#80000000"
-                // }
 
                 ColumnLayout {
                     anchors.fill: parent
@@ -166,7 +156,7 @@ PopupWindow {
                             id: perfTab
                             Layout.fillWidth: true
                             icon: "mdi-performance"
-                            text: "Performance"
+                            text: "Statistics"
                             selected: root.index == 2
                             onClicked: root.index = 2
                         }

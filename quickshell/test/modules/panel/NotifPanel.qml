@@ -4,6 +4,7 @@ import QtQuick
 
 import qs.services
 import qs.settings
+import qs.modules.notif
 
 Item {
     id: root

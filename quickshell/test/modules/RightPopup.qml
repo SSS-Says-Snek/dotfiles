@@ -18,7 +18,7 @@ PopupWindow {
     property bool expanded: false
     property int popupWidth: 500
 
-    property int popupHeight: 700
+    property int popupHeight: 750
 
     property real revealHeight: expanded ? popupHeight : 0
     property int index: 0

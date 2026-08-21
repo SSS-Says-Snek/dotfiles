@@ -14,10 +14,16 @@ Singleton {
     property var wifiConn: wifiDevice ? wifiDevice.networks.values.find(n => n.connected) : null // undefined if no conned network, null if no device
     property bool wifiConnected
     property bool wifiEnabled: Networking.wifiEnabled
-    property string connectingSsid: wifiDevice ? wifiDevice.networks.values.find(n => n.state == 1)?.name : ""
+    property string connectingSsid: {
+        if (!wifiDevice) {
+            return ""
+        }
+        let connectingNetwork = wifiDevice.networks.values.find(n => n.state == 1)
+        return connectingNetwork ? connectingNetwork.name : ""
+    }
 
     property var ethDevice: Networking.devices.values.find(d => d.type == DeviceType.Wired)
-    property var ethConn: ethDevice.network
+    property var ethConn: ethDevice?.network
 
     readonly property alias wifiNetworks: wifiNetworkModel
     property var wifiCurrent: null
@@ -119,19 +125,19 @@ Singleton {
 
     Process {
         id: disconnectWifiProc
-        command: ["nmcli", "device", "disconnect", root.wifiDevice.name]
+        command: ["nmcli", "device", "disconnect", root.wifiDevice?.name]
         running: false
     }
 
     Process {
         id: connectEthProc
-        command: ["nmcli", "device", "connect", root.ethDevice.name]
+        command: ["nmcli", "device", "connect", root.ethDevice?.name]
         running: false
     }
 
     Process {
         id: disconnectEthProc
-        command: ["nmcli", "device", "disconnect", root.ethDevice.name]
+        command: ["nmcli", "device", "disconnect", root.ethDevice?.name]
         running: false
     }
 

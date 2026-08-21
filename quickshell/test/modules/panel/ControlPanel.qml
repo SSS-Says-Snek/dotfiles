@@ -89,13 +89,13 @@ Item {
                     }
                     onClicked: {
                         if (Network.wifiEnabled)
-                        root.push(wifiBtn.submenu, wifiBtn.title)
+                            root.push(wifiBtn.submenu, wifiBtn.title)
                     }
                     onInnerClicked: {
                         if (Network.wifiEnabled)
-                        Network.disableWifi()
+                            Network.disableWifi()
                         else
-                        Network.enableWifi()
+                            Network.enableWifi()
                     }
                 }
 
@@ -107,7 +107,7 @@ Item {
                     icon: "mdi-ethernet"
                     title: "Ethernet"
                     text: {
-                        if (!Network.ethDevice.hasLink) {
+                        if (!Network.ethDevice?.hasLink) {
                             return "No Link"
                         }
                         if (Network.ethDevice?.state == 1) {
@@ -122,9 +122,9 @@ Item {
                     hasSubmenu: false
                     onInnerClicked: {
                         if (Network.ethDevice?.state == 2)
-                        Network.disconnectEth()
+                            Network.disconnectEth()
                         else
-                        Network.connectEth()
+                            Network.connectEth()
                     }
                 }
 
@@ -143,7 +143,7 @@ Item {
 
                 ControlButton {
                     Layout.fillWidth: true
-                    title: "Do Not Disturb"
+                    title: "DnD Mode"
                     icon: NotifServer.doNotDisturb ? "mat-dnd-on" : "mat-dnd-off"
                     text: NotifServer.doNotDisturb ? "On" : "Off"
                     active: NotifServer.doNotDisturb
@@ -156,20 +156,40 @@ Item {
                     Layout.fillWidth: true
                     icon: "mdi-dashboard"
                     title: "Night Light"
-                    text: "On"
-                    active: true
+                    text: NightLight.isOn ? "On" : "Off"
+                    active: NightLight.isOn
+                    onInnerClicked: {
+                        NightLight.toggle()
+                    }
                 }
 
                 ControlButton {
+                    id: audioInputBtn
                     Layout.fillWidth: true
                     icon: "mdi-dashboard"
                     title: "Audio Input"
+                    text: Audio.micMuted ? "Muted" : Audio.source.nickname
+                    active: !Audio.micMuted
+                    hasSubmenu: true
+                    submenu: Component {
+                        AudioInputPage {}
+                    }
+                    onClicked: root.push(submenu, title)
+                    onInnerClicked: Audio.toggleMic()
                 }
 
                 ControlButton {
                     Layout.fillWidth: true
                     icon: "mdi-dashboard"
                     title: "Audio Output"
+                    text: Audio.sinkMuted ? "Deafened" : Audio.sink.nickname
+                    active: !Audio.sinkMuted
+                    hasSubmenu: true
+                    submenu: Component {
+                        AudioOutputPage {}
+                    }
+                    onClicked: root.push(submenu, title)
+                    onInnerClicked: Audio.toggleMute()
                 }
             }
         }

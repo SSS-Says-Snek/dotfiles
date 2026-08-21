@@ -144,9 +144,8 @@ hl.gesture({
 -- hl.exec_cmd() spawns async, no need for & disown
 hl.on("hyprland.start", function()
     hl.exec_cmd("awww-daemon")
-    hl.exec_cmd("gammastep-indicator")
-    hl.exec_cmd("waybar")
-    hl.exec_cmd("swaync")
+    hl.exec_cmd("hyprsunset")
+    hl.exec_cmd("/home/bdon/.config/quickshell/test/run.sh")
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     hl.exec_cmd("awww img wallpapers/moony-night.png")
     hl.exec_cmd("fcitx5 && fcitx5-remote -r")

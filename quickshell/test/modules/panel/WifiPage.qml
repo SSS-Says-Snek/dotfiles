@@ -131,11 +131,11 @@ Item {
                 clip: true
 
                 modelData: ({
-                    ssid: entry.ssid,
-                    icon: entry.icon,
-                    security: entry.security,
-                    saved: entry.saved
-                })
+                        ssid: entry.ssid,
+                        icon: entry.icon,
+                        security: entry.security,
+                        saved: entry.saved
+                    })
 
                 status: {
                     if (Network.wifiDevice?.state == 1 && entry.ssid == Network.connectingSsid) {

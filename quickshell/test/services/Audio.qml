@@ -10,14 +10,8 @@ Singleton {
     property PwNode sink: Pipewire.defaultAudioSink
     property PwNode source: Pipewire.defaultAudioSource
 
-    property var allSources: Pipewire.nodes.values.filter(n => n.audio && !n.isSink)
-    //
-    // onAllSourcesChanged: {
-    //     for (let source of allSources) {
-    //         console.log(source.nickname)
-    //         console.log(source.description)
-    //     }
-    // }
+    property var allSources: Pipewire.nodes.values.filter(n => n.audio && !n.isSink && !n.isStream)
+    property var allSinks: Pipewire.nodes.values.filter(n => n.audio && n.isSink && !n.isStream)
 
     property bool micMuted: source?.audio.muted ?? false
     property bool sinkMuted: sink?.audio.muted ?? false
@@ -26,7 +20,41 @@ Singleton {
     readonly property real maxVolume: 2.5
 
     PwObjectTracker {
-        objects: [sink, source]
+        objects: {
+            const list = [];
+            for (const n of root.allSources) {
+                if (n)
+                    list.push(n);
+            }
+            for (const n of root.allSinks) {
+                if (n)
+                    list.push(n);
+            }
+            if (root.sink)
+                list.push(root.sink);
+            if (root.source)
+                list.push(root.source);
+            return list;
+        }
+    }
+
+    function nodeIconName(node): string {
+        const props = node?.properties;
+        if (!props)
+            return "";
+        return props["device.icon-name"] || props["media.icon-name"] || props["application.icon-name"] || "";
+    }
+
+    function setSource(node): void {
+        if (!node)
+            return;
+        Pipewire.preferredDefaultAudioSource = node;
+    }
+
+    function setSink(node): void {
+        if (!node)
+            return;
+        Pipewire.preferredDefaultAudioSink = node;
     }
 
     function incVolume() {
@@ -61,5 +89,9 @@ Singleton {
 
     function toggleMute() {
         sink.audio.muted = !sink.audio.muted
+    }
+
+    function toggleMic() {
+        source.audio.muted = !source.audio.muted
     }
 }

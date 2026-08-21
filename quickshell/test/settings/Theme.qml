@@ -31,5 +31,4 @@ FileView {
 
     property int barHeight: 32
     property string font: "Firacode Nerd Font"
-
 }

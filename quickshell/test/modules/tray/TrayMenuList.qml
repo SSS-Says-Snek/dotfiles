@@ -17,9 +17,9 @@ ColumnLayout {
     required property var entries
     property string backTitle: "" // back row
 
-    signal activated()
+    signal activated
     signal submenuRequested(QsMenuHandle handle, string title)
-    signal backRequested()
+    signal backRequested
 
     spacing: 2
 
@@ -76,19 +76,19 @@ ColumnLayout {
                 iconSource: entry.modelData.icon
                 leading: {
                     if (entry.modelData.buttonType === QsMenuButtonType.None)
-                        return "";
-                    return entry.modelData.checkState === Qt.Checked ? "●" : "○";
+                        return ""
+                    return entry.modelData.checkState === Qt.Checked ? "●" : "○"
                 }
                 trailing: entry.modelData.hasChildren ? "›" : ""
 
                 onClicked: {
                     if (entry.modelData.hasChildren) {
-                        root.submenuRequested(entry.modelData, entry.modelData.text);
-                        return;
+                        root.submenuRequested(entry.modelData, entry.modelData.text)
+                        return
                     }
 
-                    entry.modelData.triggered();
-                    root.activated();
+                    entry.modelData.triggered()
+                    root.activated()
                 }
             }
         }

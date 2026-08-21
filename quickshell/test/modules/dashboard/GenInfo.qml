@@ -42,7 +42,6 @@ Rectangle {
                     asynchronous: true
                 }
             }
-
         }
 
         Text {
@@ -90,7 +89,7 @@ Rectangle {
         property int lostfoundTimestamp
 
         stdout: SplitParser {
-            onRead: (data) => {
+            onRead: data => {
                 osAgeProc.lostfoundTimestamp = parseInt(data)
             }
         }

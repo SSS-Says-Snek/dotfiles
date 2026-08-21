@@ -15,26 +15,26 @@ Singleton {
     signal dismissed(string kind)
 
     function open(kind: string, payload: var): void {
-        root.kind = kind;
-        root.payload = payload ?? {};
-        root.visible = true;
+        root.kind = kind
+        root.payload = payload ?? {}
+        root.visible = true
     }
 
     function accept(result: var): void {
-        const k = root.kind;
-        root.visible = false;
-        root.accepted(k, result ?? {});
-        root.kind = "";
-        root.payload = {};
+        const k = root.kind
+        root.visible = false
+        root.accepted(k, result ?? {})
+        root.kind = ""
+        root.payload = {}
     }
 
     function dismiss(): void {
-        const k = root.kind;
+        const k = root.kind
         if (!k && !root.visible)
-            return;
-        root.visible = false;
-        root.dismissed(k);
-        root.kind = "";
-        root.payload = {};
+            return
+        root.visible = false
+        root.dismissed(k)
+        root.kind = ""
+        root.payload = {}
     }
 }

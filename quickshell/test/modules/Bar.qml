@@ -7,12 +7,12 @@ import qs.modules
 import qs.settings
 
 Variants {
-    model: Quickshell.screens;
+    model: Quickshell.screens
 
     PanelWindow {
+        id: panelWindow
         required property var modelData
         screen: modelData
-        id: panelWindow
 
         anchors {
             top: true

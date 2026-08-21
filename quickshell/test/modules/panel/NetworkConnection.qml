@@ -13,7 +13,7 @@ Rectangle {
     radius: 16
     color: hover.hovered ? Theme.dashboardBg : "#80000000"
 
-    signal clicked()
+    signal clicked
 
     Behavior on color {
         ColorAnimation {

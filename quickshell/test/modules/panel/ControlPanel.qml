@@ -15,13 +15,13 @@ Item {
     property Component submenu: null
 
     function push(comp: Component, title: string): void {
-        root.submenu = comp;
-        root.submenuTitle = title;
-        root.page = 1;
+        root.submenu = comp
+        root.submenuTitle = title
+        root.page = 1
     }
 
     function pop(): void {
-        root.page = 0;
+        root.page = 0
     }
 
     clip: true

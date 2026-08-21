@@ -72,7 +72,7 @@ Item {
         // }
 
         Text {
-            Layout.alignment:  Qt.AlignHCenter
+            Layout.alignment: Qt.AlignHCenter
             text: Audio.sinkMuted ? "󰝟" : "󰕾"
             color: hoverHandler.hovered ? Theme.yellow : root.ringColor
 
@@ -97,6 +97,5 @@ Item {
                 }
             }
         }
-
     }
 }

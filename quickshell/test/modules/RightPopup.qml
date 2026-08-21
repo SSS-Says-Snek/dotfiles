@@ -31,12 +31,12 @@ PopupWindow {
 
     onExpandedChanged: {
         if (expanded)
-        visible = true;
+            visible = true
     }
     onVisibleChanged: if (!visible)
-    expanded = false
+        expanded = false
     onRevealHeightChanged: if (revealHeight === 0 && !root.expanded)
-    root.visible = false
+        root.visible = false
 
     Behavior on revealHeight {
         NumberAnimation {
@@ -50,11 +50,11 @@ PopupWindow {
         adjustment: PopupAdjustment.None
 
         onAnchoring: {
-            const item = root.anchorItem;
-            const pos = item.QsWindow.contentItem.mapFromItem(item, (item.width - root.width) / 2, item.height);
+            const item = root.anchorItem
+            const pos = item.QsWindow.contentItem.mapFromItem(item, (item.width - root.width) / 2, item.height)
 
-            root.anchor.rect.x = pos.x;
-            root.anchor.rect.y = pos.y;
+            root.anchor.rect.x = pos.x
+            root.anchor.rect.y = pos.y
         }
     }
 
@@ -89,13 +89,11 @@ PopupWindow {
                             anchors.fill: parent
                         }
                     },
-
                     Component {
                         NotifPanel {
                             anchors.fill: parent
                         }
                     },
-
                     Component {
                         Item {
                             Rectangle {

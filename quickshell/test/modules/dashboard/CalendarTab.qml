@@ -24,21 +24,34 @@ Item {
         let year = new Date().getFullYear()
         let month = new Date().getMonth()
         let day = new Date().getDate()
-        let dayOfWeek = ((new Date(year, month, 0).getDay() - 1) % 7 + 7) % 7 // truemod
+        let dayOfWeek = ((new Date(year, month, 0).getDay() - 1) % 7 + 7) % 7
+        // truemod
 
         let prevMonthOffset = dayOfWeek
         let prevMonthDays = getNumDaysInMonth(2026, month - 1)
         for (let i = prevMonthOffset; i >= 0; i--) {
-            res.push({day: prevMonthDays - i + 1, isToday: false, isCurrMonth: false})
+            res.push({
+                day: prevMonthDays - i + 1,
+                isToday: false,
+                isCurrMonth: false
+            })
         }
 
         for (let i = 0; i < getNumDaysInMonth(2026, month); i++) {
-            res.push({day: i + 1, isToday: i + 1 == day, isCurrMonth: true})
+            res.push({
+                day: i + 1,
+                isToday: i + 1 == day,
+                isCurrMonth: true
+            })
         }
 
-        let resLen = res.length;
+        let resLen = res.length
         for (let i = 0; i < 42 - resLen; i++) {
-            res.push({day: i + 1, isToday: false, isCurrMonth: false})
+            res.push({
+                day: i + 1,
+                isToday: false,
+                isCurrMonth: false
+            })
         }
         return res
     }
@@ -90,10 +103,9 @@ Item {
 
                     color: modelData.isToday ? Theme.blue : hover.hovered ? Theme.surface0 : "transparent"
 
-
                     Text {
-                        anchors.horizontalCenter: parent.horizontalCenter
                         id: txt
+                        anchors.horizontalCenter: parent.horizontalCenter
 
                         font {
                             family: Theme.font

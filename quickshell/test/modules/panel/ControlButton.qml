@@ -17,8 +17,8 @@ Rectangle {
     readonly property int hPad: 10
     readonly property int vPad: 12
 
-    signal clicked()
-    signal innerClicked()
+    signal clicked
+    signal innerClicked
 
     color: {
         if (root.active) {

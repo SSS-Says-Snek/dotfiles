@@ -78,8 +78,8 @@ Item {
     }
 
     onTextChanged: {
-        root.scrollOffset = 0;
+        root.scrollOffset = 0
         if (scroll.running)
-            scroll.restart();
+            scroll.restart()
     }
 }

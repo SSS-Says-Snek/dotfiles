@@ -15,7 +15,7 @@ Rectangle {
     default property Component child
 
     property var cursorShape: Qt.ArrowCursor
-    signal clicked()
+    signal clicked
     signal wheel(WheelEvent event)
 
     Loader {
@@ -33,7 +33,7 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
 
-        onWheel: (event) => {
+        onWheel: event => {
             root.wheel(event)
         }
         onClicked: root.clicked()

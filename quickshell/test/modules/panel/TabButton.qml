@@ -11,7 +11,7 @@ Rectangle {
     property string text
     property bool selected
 
-    signal clicked()
+    signal clicked
 
     color: hoverHandler.hovered ? Theme.dashboardBg : "transparent"
     radius: 10

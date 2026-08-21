@@ -12,8 +12,8 @@ Item {
     property string connectingSsid: ""
 
     function needsPassword(security): bool {
-        const s = String(security ?? "").trim().toUpperCase();
-        return s !== "" && s !== "--" && s !== "NONE" && s !== "OPEN";
+        const s = String(security ?? "").trim().toUpperCase()
+        return s !== "" && s !== "--" && s !== "NONE" && s !== "OPEN"
     }
 
     function connectWifi(ssid: string, password = "") {
@@ -23,11 +23,11 @@ Item {
 
     function promptWifi(net): void {
         if (!net || !net.ssid) {
-            return;
+            return
         }
         if (!root.needsPassword(net.security) || net.saved) {
-            root.connectWifi(net.ssid);
-            return;
+            root.connectWifi(net.ssid)
+            return
         }
 
         Dialogs.open("wifiPassword", {
@@ -42,7 +42,7 @@ Item {
 
         function onAccepted(kind: string, result: var): void {
             if (kind !== "wifiPassword") {
-                return;
+                return
             }
 
             root.connectWifi(result.ssid, result.password)
@@ -94,11 +94,11 @@ Item {
                 clip: true
 
                 modelData: ({
-                    ssid: entry.ssid,
-                    icon: entry.icon,
-                    security: entry.security,
-                    saved: entry.saved
-                })
+                        ssid: entry.ssid,
+                        icon: entry.icon,
+                        security: entry.security,
+                        saved: entry.saved
+                    })
 
                 status: {
                     if (Network.wifiDevice?.state == 1 && entry.ssid == root.connectingSsid) {

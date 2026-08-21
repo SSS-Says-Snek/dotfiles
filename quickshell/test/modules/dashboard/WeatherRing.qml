@@ -22,20 +22,20 @@ Item {
 
     // Lerp the hues
     readonly property color tempColor: {
-        const stops = [[0, Theme.sapphire], [0.6, Theme.green], [0.8, Theme.yellow], [1, Theme.red]];
+        const stops = [[0, Theme.sapphire], [0.6, Theme.green], [0.8, Theme.yellow], [1, Theme.red]]
 
         for (let i = 1; i < stops.length; i++)
             if (progress <= stops[i][0])
-                return mix(stops[i - 1][1], stops[i][1], (progress - stops[i - 1][0]) / (stops[i][0] - stops[i - 1][0]));
+                return mix(stops[i - 1][1], stops[i][1], (progress - stops[i - 1][0]) / (stops[i][0] - stops[i - 1][0]))
 
-        return stops[stops.length - 1][1];
+        return stops[stops.length - 1][1]
     }
 
     function mix(from, to, t) {
-        const a = Qt.color(from);
-        const b = Qt.color(to);
+        const a = Qt.color(from)
+        const b = Qt.color(to)
 
-        return Qt.rgba(a.r + (b.r - a.r) * t, a.g + (b.g - a.g) * t, a.b + (b.b - a.b) * t, 1);
+        return Qt.rgba(a.r + (b.r - a.r) * t, a.g + (b.g - a.g) * t, a.b + (b.b - a.b) * t, 1)
     }
 
     Rectangle {
@@ -61,11 +61,11 @@ Item {
         spacing: -5
 
         ColumnLayout {
-            Layout.alignment:  Qt.AlignHCenter
+            Layout.alignment: Qt.AlignHCenter
             spacing: -2
 
             Text {
-                Layout.alignment:  Qt.AlignHCenter
+                Layout.alignment: Qt.AlignHCenter
                 text: Math.round(Weather.data.temp) + "°F"
                 color: root.tempColor
 
@@ -76,7 +76,7 @@ Item {
             }
 
             Text {
-                Layout.alignment:  Qt.AlignHCenter
+                Layout.alignment: Qt.AlignHCenter
                 text: Weather.text
                 color: root.tempColor
 
@@ -88,7 +88,7 @@ Item {
         }
 
         Text {
-            Layout.alignment:  Qt.AlignHCenter
+            Layout.alignment: Qt.AlignHCenter
             text: Weather.icon
             color: root.tempColor
 
@@ -97,6 +97,5 @@ Item {
                 pixelSize: Math.round(Math.min(root.width, root.height) * 0.40)
             }
         }
-
     }
 }

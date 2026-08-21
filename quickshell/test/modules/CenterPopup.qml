@@ -25,11 +25,11 @@ PopupWindow {
 
     function scroll(delta: real): void {
         if (delta > 0) {
-            currentIndex += 1;
+            currentIndex += 1
         }
 
         if (delta < 0) {
-            currentIndex -= 1;
+            currentIndex -= 1
         }
     }
 
@@ -40,9 +40,10 @@ PopupWindow {
 
     onExpandedChanged: {
         if (expanded)
-            visible = true;
+            visible = true
     }
-    onVisibleChanged: if (!visible) expanded = false
+    onVisibleChanged: if (!visible)
+        expanded = false
     onRevealHeightChanged: if (revealHeight === 0 && !root.expanded)
         root.visible = false
 
@@ -58,11 +59,11 @@ PopupWindow {
         adjustment: PopupAdjustment.None
 
         onAnchoring: {
-            const item = root.anchorItem;
-            const pos = item.QsWindow.contentItem.mapFromItem(item, (item.width - root.width) / 2, item.height);
+            const item = root.anchorItem
+            const pos = item.QsWindow.contentItem.mapFromItem(item, (item.width - root.width) / 2, item.height)
 
-            root.anchor.rect.x = pos.x;
-            root.anchor.rect.y = pos.y;
+            root.anchor.rect.x = pos.x
+            root.anchor.rect.y = pos.y
         }
     }
 
@@ -97,7 +98,9 @@ PopupWindow {
                             }
                         }
 
-                        Item { Layout.fillWidth: true } // spacers
+                        Item {
+                            Layout.fillWidth: true
+                        } // spacers
 
                         UsageBars {
                             Layout.preferredWidth: 150
@@ -105,7 +108,9 @@ PopupWindow {
                             Layout.alignment: Qt.AlignCenter
                         }
 
-                        Item { Layout.fillWidth: true }
+                        Item {
+                            Layout.fillWidth: true
+                        }
 
                         AnalogClock {
                             Layout.preferredWidth: 220

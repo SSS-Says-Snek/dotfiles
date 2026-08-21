@@ -25,20 +25,20 @@ Scope {
     }
 
     function release(id): void {
-        const lock = root.locks[id];
+        const lock = root.locks[id]
         if (!lock)
-            return;
+            return
 
-        delete root.locks[id];
-        lock.destroy();
+        delete root.locks[id]
+        lock.destroy()
     }
 
     function forget(index: int): void {
         if (index < 0 || index >= history.count)
-            return;
+            return
 
-        root.release(history.get(index).notifId);
-        history.remove(index);
+        root.release(history.get(index).notifId)
+        history.remove(index)
     }
 
     function clear(): void {
@@ -54,11 +54,11 @@ Scope {
         imageSupported: true
 
         onNotification: notification => {
-            notification.tracked = true;
+            notification.tracked = true
 
             root.locks[notification.id] = lockComponent.createObject(root, {
                 object: notification
-            });
+            })
 
             history.insert(0, {
                 notifId: notification.id,
@@ -69,7 +69,7 @@ Scope {
                 appIcon: notification.appIcon || "",
                 time: Qt.formatDateTime(new Date(), "HH:mm"),
                 urgency: notification.urgency
-            });
+            })
         }
     }
 }

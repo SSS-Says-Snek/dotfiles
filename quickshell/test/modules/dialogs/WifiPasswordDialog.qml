@@ -105,12 +105,12 @@ DialogCard {
 
     function submit(): void {
         if (pass.text.length === 0)
-            return;
+            return
         Dialogs.accept({
             ssid: root.ssid,
             security: root.security,
             password: pass.text
-        });
+        })
     }
 
     Component.onCompleted: pass.forceActiveFocus()

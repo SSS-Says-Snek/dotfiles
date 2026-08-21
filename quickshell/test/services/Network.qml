@@ -11,13 +11,13 @@ import Quickshell.Io
 Singleton {
     id: root
     property var wifiDevice: Networking.devices.values.find(d => d.type == DeviceType.Wifi)
-    property var wifiConn:  wifiDevice ? wifiDevice.networks.values.find(n => n.connected) : null // undefined if no conned network, null if no device
+    property var wifiConn: wifiDevice ? wifiDevice.networks.values.find(n => n.connected) : null // undefined if no conned network, null if no device
     property bool wifiPresent
     property bool wifiConnected
     property bool wifiEnabled: Networking.wifiEnabled
 
     property var ethDevice: Networking.devices.values.find(d => d.type == DeviceType.Wired)
-    property var ethConn:  ethDevice ? ethDevice.networks.values.find(n => n.connected) : null // undefined if no conned network, null if no device
+    property var ethConn: ethDevice ? ethDevice.networks.values.find(n => n.connected) : null // undefined if no conned network, null if no device
     property bool ethActive: ethConn == null ? false : true
 
     readonly property alias wifiNetworks: wifiNetworkModel
@@ -37,41 +37,41 @@ Singleton {
             signal: String(n.signal ?? ""),
             security: String(n.security ?? ""),
             saved: n.saved === true
-        };
+        }
     }
 
     function syncNetworks(nets) {
         for (let i = wifiNetworkModel.count - 1; i >= 0; i--) {
-            const ssid = wifiNetworkModel.get(i).ssid;
+            const ssid = wifiNetworkModel.get(i).ssid
             if (!nets.some(n => String(n.ssid ?? "") === ssid))
-                wifiNetworkModel.remove(i);
+                wifiNetworkModel.remove(i)
         }
 
         for (let i = 0; i < nets.length; i++) {
-            const row = root.rowFor(nets[i]);
+            const row = root.rowFor(nets[i])
             if (!row.ssid)
-                continue;
+                continue
 
-            let at = -1;
+            let at = -1
             for (let j = 0; j < wifiNetworkModel.count; j++) {
                 if (wifiNetworkModel.get(j).ssid === row.ssid) {
-                    at = j;
-                    break;
+                    at = j
+                    break
                 }
             }
 
             if (at === -1) {
-                wifiNetworkModel.insert(Math.min(i, wifiNetworkModel.count), row);
-                continue;
+                wifiNetworkModel.insert(Math.min(i, wifiNetworkModel.count), row)
+                continue
             }
 
             if (at !== i)
-                wifiNetworkModel.move(at, i, 1);
+                wifiNetworkModel.move(at, i, 1)
 
-            const existing = wifiNetworkModel.get(i);
+            const existing = wifiNetworkModel.get(i)
             for (const key of ["icon", "signal", "security", "saved"]) {
                 if (existing[key] !== row[key])
-                    wifiNetworkModel.setProperty(i, key, row[key]);
+                    wifiNetworkModel.setProperty(i, key, row[key])
             }
         }
     }
@@ -149,7 +149,8 @@ Singleton {
         repeat: true
         interval: 1000
         onTriggered: {
-            if (!wifiProc.running) wifiProc.running = true
+            if (!wifiProc.running)
+                wifiProc.running = true
         }
     }
 }

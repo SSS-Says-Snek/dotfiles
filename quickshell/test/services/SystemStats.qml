@@ -19,15 +19,15 @@ Singleton {
     property real memPercent: 0
 
     property var rootDisk: ({
-        bg: "",
-        name: "",
-        mount: "",
-        total: "",
-        used: "",
-        free: "",
-        percent: 0,
-        percentText: "0%"
-    })
+            bg: "",
+            name: "",
+            mount: "",
+            total: "",
+            used: "",
+            free: "",
+            percent: 0,
+            percentText: "0%"
+        })
 
     readonly property string username: Quickshell.env("USER")
     readonly property string wm: Quickshell.env("XDG_CURRENT_DESKTOP") || Quickshell.env("XDG_SESSION_DESKTOP")
@@ -43,14 +43,15 @@ Singleton {
         property var accumulatedLines: []
 
         stdout: SplitParser {
-            onRead: (data) => {
+            onRead: data => {
                 diskProc.accumulatedLines.push(data)
             }
         }
 
         onExited: (code, status) => {
             let lines = diskProc.accumulatedLines
-            diskProc.accumulatedLines = [] // Reset
+            diskProc.accumulatedLines = []
+            // Reset
 
             let sys = []
             let usr = []
@@ -58,26 +59,28 @@ Singleton {
 
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i].trim()
-                if (line === "" || line.startsWith("Filesystem")) continue // Omit first header 
+                if (line === "" || line.startsWith("Filesystem"))
+                    // Omit first header
 
+                    continue
                 const parts = line.split(/\s+/)
-                if (parts.length < 6) continue
-
+                if (parts.length < 6)
+                    continue
                 const fs = parts[0]
                 const total = parseInt(parts[1]) * 1024
                 const used = parseInt(parts[2]) * 1024
                 const avail = parseInt(parts[3]) * 1024
-                const percent = parts[4] 
+                const percent = parts[4]
                 const mount = parts[5]
 
                 const obj = {
-                    bg: fs, 
+                    bg: fs,
                     name: fs,
                     mount: mount,
                     total: total,
                     used: used,
                     free: avail,
-                    percent: parseInt(percent.replace("%","")) / 100.0,
+                    percent: parseInt(percent.replace("%", "")) / 100.0,
                     percentText: percent
                 }
 
@@ -119,7 +122,10 @@ Singleton {
                     root.cpuPercent = cpuUsage * 100.0
                 }
 
-                root.previousCpuStats = { total: total, idle: idle }
+                root.previousCpuStats = {
+                    total: total,
+                    idle: idle
+                }
             }
         }
     }
@@ -166,20 +172,20 @@ Singleton {
 
         path: "/proc/uptime"
         onLoaded: {
-            const up = parseInt(text().split(" ")[0] ?? 0);
+            const up = parseInt(text().split(" ")[0] ?? 0)
 
-            const days = Math.floor(up / 86400);
-            const hours = Math.floor((up % 86400) / 3600);
-            const minutes = Math.floor((up % 3600) / 60);
+            const days = Math.floor(up / 86400)
+            const hours = Math.floor((up % 86400) / 3600)
+            const minutes = Math.floor((up % 3600) / 60)
 
-            let str = "";
+            let str = ""
             if (days > 0)
-                str += `${days} day${days === 1 ? "" : "s"}`;
+                str += `${days} day${days === 1 ? "" : "s"}`
             if (hours > 0)
-                str += `${str ? ", " : ""}${hours} hr${hours === 1 ? "" : "s"}`;
+                str += `${str ? ", " : ""}${hours} hr${hours === 1 ? "" : "s"}`
             if ((minutes > 0 || !str) && !(days > 0 && hours > 0))
-                str += `${str ? ", " : ""}${minutes} min${minutes === 1 ? "" : "s"}`;
-            root.uptime = str;
+                str += `${str ? ", " : ""}${minutes} min${minutes === 1 ? "" : "s"}`
+            root.uptime = str
         }
     }
 }

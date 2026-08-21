@@ -8,17 +8,17 @@ Rectangle {
     property string label: ""
     property bool accent: false
 
-    signal clicked()
+    signal clicked
 
     implicitHeight: 38
     radius: 12
     opacity: enabled ? 1 : 0.4
     color: {
         if (!enabled)
-            return Theme.surface0;
+            return Theme.surface0
         if (accent)
-            return hover.hovered ? Qt.lighter(Theme.blue, 1.1) : Theme.blue;
-        return hover.hovered ? Theme.dashboardBg : Theme.surface0;
+            return hover.hovered ? Qt.lighter(Theme.blue, 1.1) : Theme.blue
+        return hover.hovered ? Theme.dashboardBg : Theme.surface0
     }
 
     Behavior on color {

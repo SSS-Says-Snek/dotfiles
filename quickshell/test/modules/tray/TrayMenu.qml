@@ -19,9 +19,9 @@ PopupWindow {
 
     // Entries of the level currently on screen, from the deepest live opener.
     readonly property var entries: {
-        const count = openers.count;
-        const opener = count > 0 ? openers.objectAt(count - 1) : null;
-        return opener ? opener.children : null;
+        const count = openers.count
+        const opener = count > 0 ? openers.objectAt(count - 1) : null
+        return opener ? opener.children : null
     }
 
     readonly property int panelPadding: 6
@@ -50,18 +50,18 @@ PopupWindow {
 
     onVisibleChanged: {
         if (visible) {
-            sizeTransitionsEnabled = false;
-            panelWidth = contentWidth;
-            panelHeight = contentHeight;
-            holdOpeners = false;
-            releaseTimer.stop();
+            sizeTransitionsEnabled = false
+            panelWidth = contentWidth
+            panelHeight = contentHeight
+            holdOpeners = false
+            releaseTimer.stop()
         } else {
-            sizeTransitionsEnabled = false;
-            panelWidth = 1;
-            panelHeight = 1;
+            sizeTransitionsEnabled = false
+            panelWidth = 1
+            panelHeight = 1
 
             if (!holdOpeners)
-                navigation = [];
+                navigation = []
         }
     }
 
@@ -70,8 +70,8 @@ PopupWindow {
 
         interval: 400
         onTriggered: {
-            root.holdOpeners = false;
-            root.navigation = [];
+            root.holdOpeners = false
+            root.navigation = []
         }
     }
 
@@ -96,16 +96,16 @@ PopupWindow {
         adjustment: PopupAdjustment.Slide
 
         onAnchoring: {
-            const item = root.anchorItem;
-            const pos = item.QsWindow.contentItem.mapFromItem(item, (item.width - root.width) / 2, item.height + root.gap);
+            const item = root.anchorItem
+            const pos = item.QsWindow.contentItem.mapFromItem(item, (item.width - root.width) / 2, item.height + root.gap)
 
-            root.anchor.rect.x = pos.x;
-            root.anchor.rect.y = pos.y;
+            root.anchor.rect.x = pos.x
+            root.anchor.rect.y = pos.y
         }
     }
 
     function toggle(): void {
-        visible = !visible;
+        visible = !visible
     }
 
     // One opener per level of the path. Apps that build submenus lazily only fill a
@@ -159,14 +159,16 @@ PopupWindow {
                 backTitle: root.navigation.length > 0 ? root.navigation[root.navigation.length - 1].title : ""
 
                 onActivated: {
-                    root.holdOpeners = true;
-                    root.visible = false;
-                    releaseTimer.restart();
+                    root.holdOpeners = true
+                    root.visible = false
+                    releaseTimer.restart()
                 }
-                onSubmenuRequested: (handle, title) => root.navigation = [...root.navigation, {
-                        handle,
-                        title
-                    }]
+                onSubmenuRequested: (handle, title) => root.navigation = [...root.navigation,
+                        {
+                            handle,
+                            title
+                        }
+                    ]
                 onBackRequested: root.navigation = root.navigation.slice(0, -1)
             }
         }

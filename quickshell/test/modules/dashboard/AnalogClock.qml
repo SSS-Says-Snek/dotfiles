@@ -16,9 +16,9 @@ Item {
     readonly property real plateRadius: Math.min(width, height) / 2
 
     function fade(base, alpha) {
-        const c = Qt.color(base);
+        const c = Qt.color(base)
 
-        return Qt.rgba(c.r, c.g, c.b, alpha);
+        return Qt.rgba(c.r, c.g, c.b, alpha)
     }
 
     Rectangle {
@@ -92,7 +92,7 @@ Item {
         }
     }
 
-    // Minute hand 
+    // Minute hand
     Item {
         anchors.fill: parent
         rotation: 6 * root.now.getMinutes() + 0.1 * root.now.getSeconds()

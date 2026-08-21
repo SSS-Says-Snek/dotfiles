@@ -14,7 +14,7 @@ Rectangle {
     readonly property int hPad: 10
     readonly property int iconSize: 16
 
-    signal clicked()
+    signal clicked
 
     implicitWidth: hPad + content.implicitWidth + (trailingLabel.visible ? 8 + trailingLabel.implicitWidth : 0) + hPad
     implicitHeight: 28
@@ -72,8 +72,8 @@ Rectangle {
             text: root.label
             color: {
                 if (!root.interactive)
-                    return Theme.overlay0;
-                return hover.hovered ? Theme.crust : Theme.text;
+                    return Theme.overlay0
+                return hover.hovered ? Theme.crust : Theme.text
             }
 
             font {

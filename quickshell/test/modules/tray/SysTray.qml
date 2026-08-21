@@ -44,13 +44,13 @@ Rectangle {
                 onClicked: event => {
                     if (event.button === Qt.LeftButton) {
                         if (trayItem.modelData.onlyMenu) {
-                            trayItem.openMenu();
+                            trayItem.openMenu()
                         } else
-                            trayItem.modelData.activate();
+                            trayItem.modelData.activate()
                     } else if (event.button === Qt.RightButton) {
-                        trayItem.openMenu();
+                        trayItem.openMenu()
                     } else if (event.button === Qt.MiddleButton) {
-                        trayItem.modelData.secondaryActivate();
+                        trayItem.modelData.secondaryActivate()
                     }
                 }
 
@@ -58,9 +58,9 @@ Rectangle {
 
                 function openMenu(): void {
                     if (!trayItem.modelData.hasMenu)
-                        return;
+                        return
 
-                    menu.toggle();
+                    menu.toggle()
                 }
 
                 TrayMenu {
@@ -84,11 +84,11 @@ Rectangle {
 
                     onStatusChanged: {
                         if (status === Image.Ready && source.toString() !== "")
-                            icon.source = source;
+                            icon.source = source
                     }
                     Component.onCompleted: {
                         if (status === Image.Ready && source.toString() !== "")
-                            icon.source = source;
+                            icon.source = source
                     }
                 }
 

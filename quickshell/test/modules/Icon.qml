@@ -14,7 +14,7 @@ Item {
 
     readonly property bool hovered: hover.hovered
 
-    signal clicked()
+    signal clicked
 
     implicitWidth: size
     implicitHeight: size

@@ -34,52 +34,52 @@ Rectangle {
     readonly property real visualProgress: dragging ? dragProgress : Math.max(0, Math.min(1, progress))
 
     function normDeg(deg) {
-        deg %= 360;
+        deg %= 360
         if (deg < 0)
-            deg += 360;
-        return deg;
+            deg += 360
+        return deg
     }
 
     function angleAt(px, py) {
-        const cx = width / 2;
-        const cy = height / 2;
-        return Math.atan2(py - cy, px - cx) * 180 / Math.PI;
+        const cx = width / 2
+        const cy = height / 2
+        return Math.atan2(py - cy, px - cx) * 180 / Math.PI
     }
 
     function progressFromPoint(px, py) {
-        const deg = angleAt(px, py);
-        const absSweep = Math.abs(root.sweep);
+        const deg = angleAt(px, py)
+        const absSweep = Math.abs(root.sweep)
 
         if (absSweep < 0.001)
-            return 0;
+            return 0
 
-        let delta;
+        let delta
         if (root.sweep >= 0)
-            delta = normDeg(deg - root.startAngle);
+            delta = normDeg(deg - root.startAngle)
         else
-            delta = normDeg(root.startAngle - deg);
+            delta = normDeg(root.startAngle - deg)
 
         if (delta > absSweep)
-            return (delta - absSweep) < (360 - delta) ? 1 : 0;
+            return (delta - absSweep) < (360 - delta) ? 1 : 0
 
-        return delta / absSweep;
+        return delta / absSweep
     }
 
     function isOnRing(px, py) {
-        const cx = width / 2;
-        const cy = height / 2;
-        const dx = px - cx;
-        const dy = py - cy;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const absSweep = Math.abs(root.sweep);
-        const deg = angleAt(px, py);
+        const cx = width / 2
+        const cy = height / 2
+        const dx = px - cx
+        const dy = py - cy
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        const absSweep = Math.abs(root.sweep)
+        const deg = angleAt(px, py)
 
         if (Math.abs(dist - root.ringRadius) > Math.max(root.thickness * 1.5, 16)) // tolerance
-            return false;
+            return false
 
         // How far along the sweep direction from startAngle to this point.
-        const delta = root.sweep >= 0 ? normDeg(deg - root.startAngle) : normDeg(root.startAngle - deg);
-        return delta <= absSweep;
+        const delta = root.sweep >= 0 ? normDeg(deg - root.startAngle) : normDeg(root.startAngle - deg)
+        return delta <= absSweep
     }
 
     Shape {
@@ -126,7 +126,6 @@ Rectangle {
                 }
             }
 
-
             Behavior on strokeColor {
                 ColorAnimation {
                     duration: 200
@@ -147,28 +146,28 @@ Rectangle {
 
         onPressed: mouse => {
             if (!root.isOnRing(mouse.x, mouse.y)) {
-                mouse.accepted = false;
-                return;
+                mouse.accepted = false
+                return
             }
 
-            root.dragging = true;
-            root.dragProgress = root.progressFromPoint(mouse.x, mouse.y);
-            root.moved(root.dragProgress);
+            root.dragging = true
+            root.dragProgress = root.progressFromPoint(mouse.x, mouse.y)
+            root.moved(root.dragProgress)
         }
 
         onPositionChanged: mouse => {
             if (!root.dragging)
-                return;
+                return
 
-            root.dragProgress = root.progressFromPoint(mouse.x, mouse.y);
-            root.moved(root.dragProgress);
+            root.dragProgress = root.progressFromPoint(mouse.x, mouse.y)
+            root.moved(root.dragProgress)
         }
 
         onReleased: {
             if (!root.dragging)
-                return;
+                return
 
-            root.dragging = false;
+            root.dragging = false
         }
 
         onCanceled: root.dragging = false
@@ -178,9 +177,9 @@ Rectangle {
         onWheel: event => {
             for (let p = root.parent; p; p = p.parent) {
                 if (typeof p.scroll === "function") {
-                    p.scroll(event.angleDelta.y);
-                    event.accepted = true;
-                    return;
+                    p.scroll(event.angleDelta.y)
+                    event.accepted = true
+                    return
                 }
             }
         }

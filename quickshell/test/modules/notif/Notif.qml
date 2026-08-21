@@ -32,17 +32,17 @@ Item {
     property bool explicitClose: false
     property bool externalClose: false // like external NotifPanel requests close all through this binding
 
-    signal dismiss()
-    signal explicitDismiss()
+    signal dismiss
+    signal explicitDismiss
 
     function resolveIcon(image: string, appIcon: string): string {
         if (image)
-            return image;
+            return image
         if (!appIcon)
-            return "";
+            return ""
         if (appIcon.startsWith("/") || appIcon.indexOf("://") >= 0)
-            return appIcon;
-        return Quickshell.iconPath(appIcon, true);
+            return appIcon
+        return Quickshell.iconPath(appIcon, true)
     }
 
     width: ListView.view ? ListView.view.width : 0
@@ -66,9 +66,9 @@ Item {
 
     function requestDismiss(): void {
         if (closing)
-            return;
-        closing = true;
-        dismissTimer.restart();
+            return
+        closing = true
+        dismissTimer.restart()
     }
 
     Timer {
@@ -97,10 +97,10 @@ Item {
 
         Component.onCompleted: {
             if (!root.autoClose)
-                return;
+                return
 
-            opacity = 0;
-            appear.start();
+            opacity = 0
+            appear.start()
         }
 
         NumberAnimation {
@@ -136,10 +136,10 @@ Item {
 
                 onStatusChanged: {
                     if (status !== Image.Error)
-                        return;
-                    const fallback = root.resolveIcon("", root.appIcon);
+                        return
+                    const fallback = root.resolveIcon("", root.appIcon)
                     if (fallback && source.toString() !== fallback)
-                        source = fallback;
+                        source = fallback
                 }
             }
 

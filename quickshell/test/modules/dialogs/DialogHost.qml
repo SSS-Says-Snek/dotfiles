@@ -26,9 +26,9 @@ PanelWindow {
     function componentFor(kind: string): Component {
         switch (kind) {
         case "wifiPassword":
-            return wifiPasswordDialog;
+            return wifiPasswordDialog
         default:
-            return null;
+            return null
         }
     }
 

@@ -59,7 +59,7 @@ BarWidgetWrapper {
         }
     }
 
-    onWheel: (event) => {
+    onWheel: event => {
         if (event.angleDelta.y > 0) {
             Audio.incVolume()
         } else {

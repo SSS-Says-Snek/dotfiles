@@ -16,10 +16,10 @@ Singleton {
     property string outputBuffer: ""
 
     property var data: ({
-        temp: "∞",
-        weatherCode: 1000,
-        isDay: true,
-    })
+            temp: "∞",
+            weatherCode: 1000,
+            isDay: true
+        })
 
     readonly property string icon: codeToIcon(data.weatherCode, data.isDay)
     readonly property string text: codeToText(data.weatherCode)
@@ -36,57 +36,57 @@ Singleton {
 
     // https://www.weatherapi.com/docs/weather_conditions.json
     function codeToIcon(code, isDay) {
-        const fog = [1030, 1135, 1147];
-        const thunder = [1087, 1273, 1276, 1279, 1282];
-        const snow = [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258];
-        const sleet = [1069, 1072, 1168, 1171, 1198, 1201, 1204, 1207, 1237, 1249, 1252, 1261, 1264];
+        const fog = [1030, 1135, 1147]
+        const thunder = [1087, 1273, 1276, 1279, 1282]
+        const snow = [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258]
+        const sleet = [1069, 1072, 1168, 1171, 1198, 1201, 1204, 1207, 1237, 1249, 1252, 1261, 1264]
 
         if (code === 1000)
-            return isDay ? "\ue30d" : "\ue32b";
+            return isDay ? "\ue30d" : "\ue32b"
         if (code === 1003)
-            return isDay ? "\ue302" : "\ue379";
+            return isDay ? "\ue302" : "\ue379"
         if (code === 1006 || code === 1009)
-            return "\ue312";
+            return "\ue312"
         if (fog.includes(code))
-            return "\ue313";
+            return "\ue313"
         if (thunder.includes(code))
-            return "\ue31d";
+            return "\ue31d"
         if (snow.includes(code))
-            return "\ue31a";
+            return "\ue31a"
         if (sleet.includes(code))
-            return "\ue3ad";
+            return "\ue3ad"
         // Everything left above the clear/cloudy codes is drizzle, rain or showers.
         if (code >= 1063)
-            return "\ue318";
+            return "\ue318"
 
-        return "\ue374";
+        return "\ue374"
     }
 
     // js mk anthr fnctn atp bru
     function codeToText(code) {
-        const fog = [1030, 1135, 1147];
-        const thunder = [1087, 1273, 1276, 1279, 1282];
-        const snow = [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258];
-        const sleet = [1069, 1072, 1168, 1171, 1198, 1201, 1204, 1207, 1237, 1249, 1252, 1261, 1264];
+        const fog = [1030, 1135, 1147]
+        const thunder = [1087, 1273, 1276, 1279, 1282]
+        const snow = [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258]
+        const sleet = [1069, 1072, 1168, 1171, 1198, 1201, 1204, 1207, 1237, 1249, 1252, 1261, 1264]
 
         if (code === 1000)
             return "Clear"
         if (code === 1003)
             return "Part Cloudy"
         if (code === 1006 || code === 1009)
-            return "Cloudy";
+            return "Cloudy"
         if (fog.includes(code))
-            return "Foggy";
+            return "Foggy"
         if (thunder.includes(code))
-            return "Thunder";
+            return "Thunder"
         if (snow.includes(code))
-            return "Snowy";
+            return "Snowy"
         if (sleet.includes(code))
-            return "Sleet";
+            return "Sleet"
         if (code >= 1063)
-            return "Rainy";
+            return "Rainy"
 
-        return "???";
+        return "???"
     }
 
     Process {

@@ -6,7 +6,7 @@ import qs.settings
 
 Item {
     id: root
-    
+
     property string targetMonitor: ""
 
     implicitWidth: workspaceRow.width

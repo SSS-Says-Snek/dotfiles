@@ -28,7 +28,7 @@ PopupWindow {
 
     onExpandedChanged: {
         if (expanded)
-            visible = true;
+            visible = true
     }
     onVisibleChanged: if (!visible)
         expanded = false
@@ -62,11 +62,11 @@ PopupWindow {
         adjustment: PopupAdjustment.None
 
         onAnchoring: {
-            const item = root.anchorItem;
-            const pos = item.QsWindow.contentItem.mapFromItem(item, (item.width - root.width) / 2, item.height);
+            const item = root.anchorItem
+            const pos = item.QsWindow.contentItem.mapFromItem(item, (item.width - root.width) / 2, item.height)
 
-            root.anchor.rect.x = pos.x;
-            root.anchor.rect.y = pos.y;
+            root.anchor.rect.x = pos.x
+            root.anchor.rect.y = pos.y
         }
     }
 
@@ -108,10 +108,10 @@ PopupWindow {
                     thickness: 8
                     ringRadius: 174 // oh yeah line it up with that
                     progress: {
-                        const player = MprisController.activePlayer;
+                        const player = MprisController.activePlayer
                         if (!player || player.length <= 0)
-                            return 0;
-                        return player.position / player.length;
+                            return 0
+                        return player.position / player.length
                     }
                     transparentBg: true
                     interactive: true
@@ -120,10 +120,10 @@ PopupWindow {
                     sweep: -150
 
                     onMoved: value => {
-                        const player = MprisController.activePlayer;
+                        const player = MprisController.activePlayer
                         if (!player?.canSeek || player.length <= 0)
-                            return;
-                        player.position = value * player.length;
+                            return
+                        player.position = value * player.length
                     }
                 }
 
@@ -258,7 +258,7 @@ PopupWindow {
                     interval: 500
                     repeat: true
                     onTriggered: {
-                        MprisController.activePlayer.positionChanged();
+                        MprisController.activePlayer.positionChanged()
                     }
                 }
 

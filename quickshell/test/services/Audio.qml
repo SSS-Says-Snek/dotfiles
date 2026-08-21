@@ -10,6 +10,15 @@ Singleton {
     property PwNode sink: Pipewire.defaultAudioSink
     property PwNode source: Pipewire.defaultAudioSource
 
+    property var allSources: Pipewire.nodes.values.filter(n => n.audio && !n.isSink)
+    //
+    // onAllSourcesChanged: {
+    //     for (let source of allSources) {
+    //         console.log(source.nickname)
+    //         console.log(source.description)
+    //     }
+    // }
+
     property bool micMuted: source?.audio.muted ?? false
     property bool sinkMuted: sink?.audio.muted ?? false
     property real value: sink?.audio.volume ?? 0

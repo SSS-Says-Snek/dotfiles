@@ -154,7 +154,6 @@ Singleton {
         onTriggered: {
             if (!wifiProc.running)
                 wifiProc.running = true
-            console.log(root.ethConn.state)
         }
     }
 }

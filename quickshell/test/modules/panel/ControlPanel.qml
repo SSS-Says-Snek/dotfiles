@@ -84,16 +84,18 @@ Item {
                     }
                     active: Network.wifiEnabled
                     hasSubmenu: Network.wifiEnabled
-                    submenu: wifiPage
+                    submenu: Component {
+                        WifiPage {}
+                    }
                     onClicked: {
                         if (Network.wifiEnabled)
-                            root.push(wifiBtn.submenu, wifiBtn.title)
+                        root.push(wifiBtn.submenu, wifiBtn.title)
                     }
                     onInnerClicked: {
                         if (Network.wifiEnabled)
-                            Network.disableWifi()
+                        Network.disableWifi()
                         else
-                            Network.enableWifi()
+                        Network.enableWifi()
                     }
                 }
 
@@ -120,9 +122,9 @@ Item {
                     hasSubmenu: false
                     onInnerClicked: {
                         if (Network.ethDevice?.state == 2)
-                            Network.disconnectEth()
+                        Network.disconnectEth()
                         else
-                            Network.connectEth()
+                        Network.connectEth()
                     }
                 }
 
@@ -161,13 +163,13 @@ Item {
                 ControlButton {
                     Layout.fillWidth: true
                     icon: "mdi-dashboard"
-                    text: "Control Panel"
+                    title: "Audio Input"
                 }
 
                 ControlButton {
                     Layout.fillWidth: true
                     icon: "mdi-dashboard"
-                    text: "Control Panel"
+                    title: "Audio Output"
                 }
             }
         }
@@ -227,12 +229,6 @@ Item {
                 }
             }
         }
-    }
-
-    Component {
-        id: wifiPage
-
-        WifiPage {}
     }
 
     Component {

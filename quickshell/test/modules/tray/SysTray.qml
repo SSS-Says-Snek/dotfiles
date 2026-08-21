@@ -59,7 +59,6 @@ Rectangle {
                 function openMenu(): void {
                     if (!trayItem.modelData.hasMenu)
                         return
-
                     menu.toggle()
                 }
 

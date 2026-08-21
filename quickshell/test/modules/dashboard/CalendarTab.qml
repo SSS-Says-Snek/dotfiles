@@ -24,7 +24,7 @@ Item {
         let year = new Date().getFullYear()
         let month = new Date().getMonth()
         let day = new Date().getDate()
-        let dayOfWeek = ((new Date(year, month, 0).getDay() - 1) % 7 + 7) % 7
+        let dayOfWeek = ((new Date(year, month, 0).getDay() - 1) % 7 + 7) % 7;
         // truemod
 
         let prevMonthOffset = dayOfWeek

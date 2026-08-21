@@ -51,7 +51,6 @@ Singleton {
             const row = root.rowFor(nets[i])
             if (!row.ssid)
                 continue
-
             let at = -1
             for (let j = 0; j < wifiNetworkModel.count; j++) {
                 if (wifiNetworkModel.get(j).ssid === row.ssid) {

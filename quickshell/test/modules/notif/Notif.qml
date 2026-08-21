@@ -98,7 +98,6 @@ Item {
         Component.onCompleted: {
             if (!root.autoClose)
                 return
-
             opacity = 0
             appear.start()
         }

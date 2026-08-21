@@ -28,7 +28,6 @@ Scope {
         const lock = root.locks[id]
         if (!lock)
             return
-
         delete root.locks[id]
         lock.destroy()
     }
@@ -36,7 +35,6 @@ Scope {
     function forget(index: int): void {
         if (index < 0 || index >= history.count)
             return
-
         root.release(history.get(index).notifId)
         history.remove(index)
     }

@@ -158,7 +158,6 @@ Rectangle {
         onPositionChanged: mouse => {
             if (!root.dragging)
                 return
-
             root.dragProgress = root.progressFromPoint(mouse.x, mouse.y)
             root.moved(root.dragProgress)
         }
@@ -166,7 +165,6 @@ Rectangle {
         onReleased: {
             if (!root.dragging)
                 return
-
             root.dragging = false
         }
 

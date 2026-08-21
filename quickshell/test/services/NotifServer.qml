@@ -9,6 +9,7 @@ Scope {
 
     readonly property var trackedNotifications: notifServer.trackedNotifications
     readonly property alias history: historyModel
+    property bool doNotDisturb: false
 
     property var locks: ({})
 
@@ -52,13 +53,15 @@ Scope {
         imageSupported: true
 
         onNotification: notification => {
-            notification.tracked = true
+            if (!root.doNotDisturb) {
+                notification.tracked = true
+            }
 
             root.locks[notification.id] = lockComponent.createObject(root, {
                 object: notification
             })
 
-            history.insert(0, {
+            root.history.insert(0, {
                 notifId: notification.id,
                 summary: notification.summary || "",
                 body: notification.body || "",

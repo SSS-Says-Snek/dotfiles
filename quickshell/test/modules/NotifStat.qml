@@ -12,7 +12,7 @@ BarWidgetWrapper {
         anchors.verticalCenter: parent.verticalCenter
 
         Icon {
-            icon: "mdi-notif"
+            icon: NotifServer.doNotDisturb ? "mdi-notif-off" : "mdi-notif"
             size: 20
             color: Theme.text
         }

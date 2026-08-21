@@ -128,10 +128,7 @@ Rectangle {
             TapHandler {
                 id: innerTap
                 gesturePolicy: TapHandler.ReleaseWithinBounds
-                onTapped: {
-                    root.innerClicked()
-                    root.active = !root.active
-                }
+                onTapped: root.innerClicked()
             }
         }
 

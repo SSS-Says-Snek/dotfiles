@@ -3,13 +3,15 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 
+import Quickshell
+
 import qs.services
+import qs.settings
 
 Item {
     id: root
 
     property int connectionHeight: 52
-    property string connectingSsid: ""
 
     function needsPassword(security): bool {
         const s = String(security ?? "").trim().toUpperCase()
@@ -18,7 +20,6 @@ Item {
 
     function connectWifi(ssid: string, password = "") {
         Network.connectWifi(ssid, password)
-        root.connectingSsid = ssid
     }
 
     function promptWifi(net): void {
@@ -50,6 +51,42 @@ Item {
     }
 
     ColumnLayout {
+        anchors.centerIn: parent
+        spacing: 18
+        opacity: Network.wifiNetworks.count == 0
+
+        Rectangle {
+            Layout.alignment: Qt.AlignCenter
+            width: 240
+            height: 240
+            color: "transparent"
+
+            AnimatedImage {
+                anchors.fill: parent
+                source: Quickshell.shellPath("assets/loading.gif")
+                speed: 0.8
+            }
+        }
+
+        Text {
+            Layout.alignment: Qt.AlignCenter
+            text: "Scanning Wi-Fi Networks..."
+            color: Theme.text
+
+            font {
+                family: Theme.font
+            }
+        }
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 200
+                easing: Easing.OutQuad
+            }
+        }
+    }
+
+    ColumnLayout {
         anchors.fill: parent
         spacing: 6
 
@@ -62,7 +99,7 @@ Item {
             status: "Connected"
             modelData: Network.wifiCurrent ?? {
                 ssid: "",
-                icon: "0"
+                icon: "1"
             }
 
             Behavior on Layout.preferredHeight {
@@ -94,14 +131,14 @@ Item {
                 clip: true
 
                 modelData: ({
-                        ssid: entry.ssid,
-                        icon: entry.icon,
-                        security: entry.security,
-                        saved: entry.saved
-                    })
+                    ssid: entry.ssid,
+                    icon: entry.icon,
+                    security: entry.security,
+                    saved: entry.saved
+                })
 
                 status: {
-                    if (Network.wifiDevice?.state == 1 && entry.ssid == root.connectingSsid) {
+                    if (Network.wifiDevice?.state == 1 && entry.ssid == Network.connectingSsid) {
                         return "Connecting"
                     }
                     return entry.saved ? "Saved" : "Unknown"

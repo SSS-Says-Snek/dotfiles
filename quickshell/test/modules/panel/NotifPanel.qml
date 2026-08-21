@@ -1,10 +1,12 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Layouts
 
 import qs.services
 import qs.settings
 import qs.modules.notif
+import qs.modules
 
 Item {
     id: root
@@ -88,14 +90,25 @@ Item {
             }
         }
 
-        Text {
+        ColumnLayout {
             anchors.centerIn: parent
             visible: list.count === 0
-            text: "No notifications"
-            color: Theme.subtext
-            font {
-                family: Theme.font
-                pixelSize: 14
+
+            Icon {
+                Layout.alignment: Qt.AlignCenter
+                icon: "mdi-notif"
+                color: Theme.subtext
+                size: 120
+            }
+
+            Text {
+                Layout.alignment: Qt.AlignCenter
+                text: "No notifications"
+                color: Theme.subtext
+                font {
+                    family: Theme.font
+                    pixelSize: 14
+                }
             }
         }
     }

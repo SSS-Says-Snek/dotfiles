@@ -54,13 +54,28 @@ Item {
 
                 ControlButton {
                     id: wifiBtn
+                    visible: Network.wifiDevice
 
                     Layout.fillWidth: true
-                    icon: "mdi-dashboard"
+                    icon: {
+                        if (!Network.wifiEnabled) {
+                            return "mat-wifi-off"
+                        }
+                        if (Network.wifiDevice?.state == 1) {
+                            return "mat-wifi-not-connected"
+                        }
+                        if (!Network.wifiConn) {
+                            return "mat-wifi-not-connected"
+                        }
+                        return "mat-wifi"
+                    }
                     title: "Wi-Fi"
                     text: {
                         if (!Network.wifiEnabled) {
                             return "Off"
+                        }
+                        if (Network.wifiDevice?.state == 1) {
+                            return "Connecting"
                         }
                         if (!Network.wifiConn) {
                             return "Not Connected"
@@ -75,31 +90,64 @@ Item {
                             root.push(wifiBtn.submenu, wifiBtn.title)
                     }
                     onInnerClicked: {
-                        if (active) {
+                        if (Network.wifiEnabled)
                             Network.disableWifi()
-                        } else {
+                        else
                             Network.enableWifi()
-                        }
                     }
                 }
 
                 ControlButton {
-                    id: btBtn
+                    id: ethBtn
+                    visible: Network.ethDevice
 
                     Layout.fillWidth: true
-                    icon: "mdi-dashboard"
-                    title: "Bluetooth"
-                    text: "Not connected"
-                    hasSubmenu: true
-                    submenu: bluetoothPage
-                    onClicked: root.push(btBtn.submenu, btBtn.title)
+                    icon: "mdi-ethernet"
+                    title: "Ethernet"
+                    text: {
+                        if (!Network.ethDevice.hasLink) {
+                            return "No Link"
+                        }
+                        if (Network.ethDevice?.state == 1) {
+                            return "Connecting"
+                        }
+                        if (Network.ethDevice?.state == 4) {
+                            return "Not Connected"
+                        }
+                        return Network.ethConn.name
+                    }
+                    active: Network.ethDevice?.state != 4
+                    hasSubmenu: false
+                    onInnerClicked: {
+                        if (Network.ethDevice?.state == 2)
+                            Network.disconnectEth()
+                        else
+                            Network.connectEth()
+                    }
                 }
+
+                // Got no bluetooth to test it out :sob:
+                // ControlButton {
+                //     id: btBtn
+                //
+                //     Layout.fillWidth: true
+                //     icon: "mdi-dashboard"
+                //     title: "Bluetooth"
+                //     text: "Not connected"
+                //     hasSubmenu: true
+                //     submenu: bluetoothPage
+                //     onClicked: root.push(btBtn.submenu, btBtn.title)
+                // }
 
                 ControlButton {
                     Layout.fillWidth: true
-                    icon: "mdi-dashboard"
-                    title: "Quiet Mode"
-                    text: "Off"
+                    title: "Do Not Disturb"
+                    icon: NotifServer.doNotDisturb ? "mat-dnd-on" : "mat-dnd-off"
+                    text: NotifServer.doNotDisturb ? "On" : "Off"
+                    active: NotifServer.doNotDisturb
+                    onInnerClicked: {
+                        NotifServer.doNotDisturb = !NotifServer.doNotDisturb
+                    }
                 }
 
                 ControlButton {

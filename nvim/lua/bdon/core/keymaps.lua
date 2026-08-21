@@ -77,3 +77,5 @@ end
 
 vim.keymap.set("n", "ge", function() jumpWithVirtLineDiags(1) end, { desc = "󰒕 Next diagnostic" })
 vim.keymap.set("n", "gE", function() jumpWithVirtLineDiags(-1) end, { desc = "󰒕 Prev diagnostic" })
+
+vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'LSP rename symbol' })

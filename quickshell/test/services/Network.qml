@@ -14,10 +14,10 @@ Singleton {
     property var wifiConn: wifiDevice ? wifiDevice.networks.values.find(n => n.connected) : null // undefined if no conned network, null if no device
     property bool wifiConnected
     property bool wifiEnabled: Networking.wifiEnabled
+    property string connectingSsid: wifiDevice ? wifiDevice.networks.values.find(n => n.state == 1)?.name : ""
 
     property var ethDevice: Networking.devices.values.find(d => d.type == DeviceType.Wired)
-    property var ethConn: ethDevice ? ethDevice.networks.values.find(n => n.connected) : null // undefined if no conned network, null if no device
-    property bool ethActive: ethConn == null ? false : true
+    property var ethConn: ethDevice.network
 
     readonly property alias wifiNetworks: wifiNetworkModel
     property var wifiCurrent: null
@@ -104,6 +104,14 @@ Singleton {
         Networking.wifiEnabled = true
     }
 
+    function connectEth() {
+        connectEthProc.running = true
+    }
+
+    function disconnectEth() {
+        disconnectEthProc.running = true
+    }
+
     Process {
         id: connectWifiProc
         running: false
@@ -112,6 +120,18 @@ Singleton {
     Process {
         id: disconnectWifiProc
         command: ["nmcli", "device", "disconnect", root.wifiDevice.name]
+        running: false
+    }
+
+    Process {
+        id: connectEthProc
+        command: ["nmcli", "device", "connect", root.ethDevice.name]
+        running: false
+    }
+
+    Process {
+        id: disconnectEthProc
+        command: ["nmcli", "device", "disconnect", root.ethDevice.name]
         running: false
     }
 
@@ -134,6 +154,7 @@ Singleton {
         onTriggered: {
             if (!wifiProc.running)
                 wifiProc.running = true
+            console.log(root.ethConn.state)
         }
     }
 }

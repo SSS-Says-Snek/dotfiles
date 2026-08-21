@@ -7,6 +7,7 @@ import QtQuick.Layouts
 
 import qs.settings
 import qs.modules.dashboard
+import qs.modules.dialogs
 
 PopupWindow {
     id: root
@@ -220,6 +221,8 @@ PopupWindow {
                     }
                 }
             }
+
+            DialogDimmer {}
         }
     }
 }

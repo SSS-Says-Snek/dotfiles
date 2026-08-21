@@ -67,13 +67,19 @@ Item {
                         }
                         return Network.wifiConn.name
                     }
-                    active: Network.wifiConn != null
-                    hasSubmenu: true
+                    active: Network.wifiEnabled
+                    hasSubmenu: Network.wifiEnabled
                     submenu: wifiPage
-                    onClicked: root.push(wifiBtn.submenu, wifiBtn.title)
+                    onClicked: {
+                        if (Network.wifiEnabled)
+                            root.push(wifiBtn.submenu, wifiBtn.title)
+                    }
                     onInnerClicked: {
-                        if (active)
-                            Network.disconnectWifi()
+                        if (active) {
+                            Network.disableWifi()
+                        } else {
+                            Network.enableWifi()
+                        }
                     }
                 }
 

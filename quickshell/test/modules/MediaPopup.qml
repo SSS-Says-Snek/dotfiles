@@ -7,6 +7,7 @@ import QtQuick
 
 import qs.settings
 import qs.services
+import qs.modules.dialogs
 
 PopupWindow {
     id: root
@@ -260,6 +261,8 @@ PopupWindow {
                         MprisController.activePlayer.positionChanged();
                     }
                 }
+
+                DialogDimmer {}
             }
         }
     }

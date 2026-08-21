@@ -8,6 +8,7 @@ import Quickshell.Widgets
 
 import qs.modules.panel
 import qs.modules.notif
+import qs.modules.dialogs
 import qs.settings
 
 PopupWindow {
@@ -213,6 +214,8 @@ PopupWindow {
                         }
                     }
                 }
+
+                DialogDimmer {}
             }
         }
     }

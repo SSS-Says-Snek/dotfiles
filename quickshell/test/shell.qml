@@ -3,6 +3,7 @@ import QtQuick
 
 import qs.modules
 import qs.modules.notif
+import qs.modules.dialogs
 import qs.settings
 
 Scope {
@@ -24,6 +25,15 @@ Scope {
 
             margins.top: Theme.barHeight + 20
             margins.right: 20
+        }
+    }
+
+    Variants {
+        model: Quickshell.screens
+
+        DialogHost {
+            required property var modelData
+            screen: modelData
         }
     }
 }

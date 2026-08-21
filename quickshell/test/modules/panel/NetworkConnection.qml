@@ -8,12 +8,12 @@ Rectangle {
 
     property int index: -1
     required property var modelData
-    property bool connected: false
+    property string status: ""
 
     radius: 16
     color: hover.hovered ? Theme.dashboardBg : "#80000000"
 
-    signal clicked(ssid: string)
+    signal clicked()
 
     Behavior on color {
         ColorAnimation {
@@ -46,8 +46,8 @@ Rectangle {
 
             Text {
                 Layout.fillWidth: true
-                text: root.connected ? "Connected" : "Saved"
-                color: root.connected ? Theme.green : Theme.subtext
+                text: root.status
+                color: root.status == "Connected" ? Theme.green : Theme.subtext
                 font {
                     family: Theme.font
                     pixelSize: 12
@@ -73,6 +73,6 @@ Rectangle {
 
     TapHandler {
         id: tap
-        onTapped: root.clicked(root.modelData.ssid)
+        onTapped: root.clicked()
     }
 }

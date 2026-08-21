@@ -34,3 +34,4 @@ require("lazy").setup(
 
 -- At the end, register catppuccin
 require("bdon.core.colorscheme")
+require("bdon.core.hover").setup();

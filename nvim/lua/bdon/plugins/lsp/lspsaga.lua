@@ -11,8 +11,6 @@ return {
   lazy = false,
 
   keys = {
-    {"K", "<cmd>Lspsaga hover_doc<cr>"},
-    -- {"<leader>ca", "<cmd>Lspsaga code_action<cr>"},
     {"<leader>rn", "<cmd>Lspsaga rename<cr>"}
   }
 }

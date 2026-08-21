@@ -12,7 +12,6 @@ Singleton {
     id: root
     property var wifiDevice: Networking.devices.values.find(d => d.type == DeviceType.Wifi)
     property var wifiConn: wifiDevice ? wifiDevice.networks.values.find(n => n.connected) : null // undefined if no conned network, null if no device
-    property bool wifiPresent
     property bool wifiConnected
     property bool wifiEnabled: Networking.wifiEnabled
 
@@ -77,9 +76,7 @@ Singleton {
 
     function processWifiJson(text: string) {
         let data = JSON.parse(text)
-        root.wifiPresent = data.present
         root.wifiConnected = data.connected !== null
-        root.wifiEnabled = data.power == "on"
         root.wifiCurrent = data.connected
         root.syncNetworks(data.networks ?? [])
     }
@@ -107,19 +104,6 @@ Singleton {
         Networking.wifiEnabled = true
     }
 
-    // function toggleWifi() {
-    //     if (wifiEnabled) {
-    //         toggleWifiProc.command = ["nmcli", "radio", "wifi", "off"]
-    //     } else {
-    //         toggleWifiProc.command = ["nmcli", "radio", "wifi", "on"]
-    //     }
-    //     toggleWifiProc.running = true
-    // }
-
-    // Process {
-    //     id: toggleWifiProc
-    //     running: false
-    // }
     Process {
         id: connectWifiProc
         running: false

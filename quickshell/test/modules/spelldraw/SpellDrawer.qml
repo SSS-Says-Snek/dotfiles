@@ -5,7 +5,9 @@ import "js/SpellParser.js" as SpellParser
 import "js/SpellDispatcher.js" as SpellDispatcher
 
 import Quickshell.Io
+import Quickshell.Hyprland
 
+import qs.modules
 import qs.settings
 
 Item {
@@ -28,6 +30,7 @@ Item {
         prevRing = null
         glyphAST = null
         matchResult = null
+        status = ""
 
         ringPct = 0
         canvas.requestPaint()
@@ -41,6 +44,8 @@ Item {
     property bool isDrawing: false
     property bool dictionaryLoaded: false
 
+    property string status: ""
+
     property real ringPct: 0
 
     property var sigilDict: []
@@ -51,8 +56,8 @@ Item {
     ColumnLayout {
         anchors.right: parent.right
         anchors.top: parent.top
-        anchors.topMargin: 10
-        anchors.rightMargin: 10
+        anchors.topMargin: 17
+        anchors.rightMargin: 17
 
         InfoRow {
             Layout.alignment: Qt.AlignRight
@@ -118,18 +123,18 @@ Item {
             if (root.glyphAST && root.glyphAST.ring.found && root.glyphAST.ring.strokeIndices) {
                 let ridx = root.glyphAST.ring.strokeIndices
                 for (let ri = 0; ri < ridx.length; ri++)
-                    ringIdxSet[ridx[ri]] = true
+                ringIdxSet[ridx[ri]] = true
             }
 
             for (let s = 0; s < root.strokes.length; s++) {
                 let stroke = root.strokes[s]
                 if (!stroke || stroke.length < 2)
-                    continue
+                continue
                 let isRingStroke = !!ringIdxSet[s]
                 ctx.beginPath()
                 ctx.moveTo(stroke[0].x, stroke[0].y)
                 for (let p = 1; p < stroke.length; p++)
-                    ctx.lineTo(stroke[p].x, stroke[p].y)
+                ctx.lineTo(stroke[p].x, stroke[p].y)
 
                 if (isRingStroke) {
                     let closed = root.glyphAST.ring.complete
@@ -150,7 +155,7 @@ Item {
                 ctx.beginPath()
                 ctx.moveTo(root.currentStroke[0].x, root.currentStroke[0].y)
                 for (let q = 1; q < root.currentStroke.length; q++)
-                    ctx.lineTo(root.currentStroke[q].x, root.currentStroke[q].y)
+                ctx.lineTo(root.currentStroke[q].x, root.currentStroke[q].y)
                 ctx.strokeStyle = Theme.mauve
                 ctx.lineWidth = 2.4
                 ctx.globalAlpha = 0.90
@@ -237,7 +242,7 @@ Item {
 
             onPositionChanged: function (mouse) {
                 if (!root.isDrawing)
-                    return
+                return
                 root.currentStroke.push({
                     x: mouse.x,
                     y: mouse.y
@@ -248,7 +253,7 @@ Item {
 
             onReleased: function (mouse) {
                 if (!root.isDrawing)
-                    return
+                return
                 root.isDrawing = false
                 if (root.currentStroke.length > 1) {
                     root.strokes.push(root.currentStroke)
@@ -267,6 +272,74 @@ Item {
             if (event.key === Qt.Key_Space && root.glyphAST) {
                 console.log(JSON.stringify(root.glyphAST, null, 2))
                 event.accepted = true
+            } else if (event.key === Qt.Key_Backspace && root.glyphAST) {
+                root.strokes.pop()
+                root.runParser()
+                event.accepted = true
+            }
+        }
+    }
+
+    Rectangle {
+        id: backBtn
+        z: 2
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.topMargin: 10
+        anchors.leftMargin: 10
+        width: 34
+        height: 34
+        radius: 10
+        color: "transparent"
+        opacity: root.strokes.length > 0 ? 1 : 0.4
+
+        Behavior on color {
+            ColorAnimation {
+                duration: 150
+                easing.type: Easing.OutQuad
+            }
+        }
+
+        Icon {
+            anchors.centerIn: parent
+            icon: "mdi-back"
+            size: 18
+            color: backMouse.containsMouse ? Theme.text : Theme.overlay0
+        }
+
+        MouseArea {
+            id: backMouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: {
+                if (root.strokes.length === 0)
+                    return
+                root.strokes.pop()
+                root.strokes = root.strokes
+                root.runParser()
+            }
+        }
+    }
+
+    Rectangle {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 10
+        color: "#80000000"
+        implicitWidth: statusText.implicitWidth + 2 * 10
+        implicitHeight: statusText.implicitHeight + 2 * 5
+        radius: 5
+
+        Text {
+            id: statusText
+            anchors.centerIn: parent
+            text: root.status
+            color: root.status == "No spell found" ? Theme.red : Theme.green
+
+            font {
+                family: Theme.font
+                pixelSize: 14
             }
         }
     }
@@ -274,8 +347,14 @@ Item {
     function runParser() {
         if (!root.dictionaryLoaded)
             return
-        if (root.strokes.length === 0)
+        if (root.strokes.length === 0) {
+            root.prevRing = null
+            root.glyphAST = null
+            root.matchResult = null
+            root.ringPct = 0
+            canvas.requestPaint()
             return
+        }
 
         let ast = SpellParser.parse(root.strokes, root.sigilDict, root.signDict, root.prevRing)
         root.prevRing = ast.ring
@@ -307,15 +386,17 @@ Item {
 
     function dispatchSpell() {
         if (!root.glyphAST || !root.spellDictionary)
-            return
+        return
         let match = SpellDispatcher.matchSpell(root.glyphAST, root.spellDictionary)
         root.matchResult = match
 
         if (match) {
+            root.status = "Performing spell: " + match.entry.displayName
             SpellDispatcher.dispatchHook(match, root.glyphAST)
             canvas.requestPaint()
             closeTimer.restart()
         } else {
+            root.status = "No spell found"
             canvas.requestPaint()
         }
     }
@@ -334,7 +415,43 @@ Item {
         onTriggered: root.closeRequested()
     }
 
-    Component.onCompleted: root.dictionaryLoaded = true
+    Component.onCompleted: {
+        root.dictionaryLoaded = true
+
+        registerHook("toggleFloat", function(payload) {
+            var sym = payload.metrics.radialSymmetry
+            if (sym < 0.6)
+            console.log("[WHA] Unbalanced levitation seal! sym=" + sym.toFixed(2))
+        })
+
+        registerHook("switchWorkspaceLeft", function(payload) {
+            var col = payload.signs.find(function(s) { return s.id === "column" })
+            var steps = (col && col.elongation > 1.8) ? 2 : 1
+            Hyprland.dispatch(`hl.dsp.focus({ workspace = 'r-${steps}' })`)
+        })
+
+        registerHook("switchWorkspaceRight", function(payload) {
+            var col = payload.signs.find(function(s) { return s.id === "column" })
+            var steps = (col && col.elongation > 1.8) ? 2 : 1
+            Hyprland.dispatch(`hl.dsp.focus({ workspace = 'r+${steps}' })`)
+        })
+
+        registerHook("volumeUp", function(payload) {
+            var col = payload.signs.find(function(s) { return s.id === "column" })
+            var delta = (col && col.elongation > 4) ? "20" : "10"
+            // Process.exec(["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", delta + "%+"])
+            console.log("[WHA] Volume +" + delta + "%")
+        })
+
+        registerHook("volumeDown", function(payload) {
+            // Process.exec(["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "10%-"])
+            console.log("[WHA] Volume -10%")
+        })
+
+        registerHook("dismissNotifications", function(payload) {
+            var messy = payload.metrics.instability > 0.35
+        })
+    }
 
     FileView {
         path: Qt.resolvedUrl("sigils.json")

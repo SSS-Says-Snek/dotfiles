@@ -25,19 +25,46 @@ Item {
     }
 
     function clearCanvas() {
+        const gone = strokes.slice()
+        if (currentStroke && currentStroke.length > 1)
+            gone.push(currentStroke)
+        const ast = glyphAST
+
         strokes = []
         currentStroke = []
         prevRing = null
         glyphAST = null
         matchResult = null
         status = ""
-
         ringPct = 0
         canvas.requestPaint()
+        fadeStrokes(gone, ast)
+    }
+
+    function undoStroke() {
+        if (strokes.length === 0)
+            return
+        const removed = strokes.pop()
+        strokes = strokes
+        fadeStrokes([removed], null)
+        runParser()
+    }
+
+    function fadeStrokes(gone, ast) {
+        if (!gone || gone.length === 0)
+            return
+        ghostFade.stop()
+        fadingStrokes = gone
+        fadingAst = ast || null
+        ghostCanvas.opacity = 1
+        ghostCanvas.requestPaint()
+        ghostFade.start()
     }
 
     property var strokes: []      // Array<Array<{x,y}>>
     property var currentStroke: []
+    property var fadingStrokes: []
+    property var fadingAst: null
     property var glyphAST: null
     property var matchResult: null
     property var prevRing: null
@@ -116,46 +143,15 @@ Item {
             let ctx = getContext("2d")
             ctx.clearRect(0, 0, width, height)
             ctx.lineCap = "round"
-            ctx.lineJoin = "round";
+            ctx.lineJoin = "round"
 
-            // Draw user non-ring + ring strokes
-            let ringIdxSet = {}
-            if (root.glyphAST && root.glyphAST.ring.found && root.glyphAST.ring.strokeIndices) {
-                let ridx = root.glyphAST.ring.strokeIndices
-                for (let ri = 0; ri < ridx.length; ri++)
-                ringIdxSet[ridx[ri]] = true
-            }
+            root.paintInk(ctx, root.strokes, root.glyphAST)
 
-            for (let s = 0; s < root.strokes.length; s++) {
-                let stroke = root.strokes[s]
-                if (!stroke || stroke.length < 2)
-                continue
-                let isRingStroke = !!ringIdxSet[s]
-                ctx.beginPath()
-                ctx.moveTo(stroke[0].x, stroke[0].y)
-                for (let p = 1; p < stroke.length; p++)
-                ctx.lineTo(stroke[p].x, stroke[p].y)
-
-                if (isRingStroke) {
-                    let closed = root.glyphAST.ring.complete
-                    ctx.strokeStyle = closed ? Qt.alpha(Theme.green, 0.5) : Qt.alpha(Theme.peach, 0.5)
-                    ctx.lineWidth = 2.8
-                    ctx.globalAlpha = 0.75
-                } else {
-                    ctx.strokeStyle = Theme.text
-                    ctx.lineWidth = 2.4
-                    ctx.globalAlpha = 0.82
-                }
-                ctx.stroke()
-                ctx.globalAlpha = 1.0
-            }
-
-            // Current stroke
             if (root.currentStroke.length > 1) {
                 ctx.beginPath()
                 ctx.moveTo(root.currentStroke[0].x, root.currentStroke[0].y)
                 for (let q = 1; q < root.currentStroke.length; q++)
-                ctx.lineTo(root.currentStroke[q].x, root.currentStroke[q].y)
+                    ctx.lineTo(root.currentStroke[q].x, root.currentStroke[q].y)
                 ctx.strokeStyle = Theme.mauve
                 ctx.lineWidth = 2.4
                 ctx.globalAlpha = 0.90
@@ -163,62 +159,7 @@ Item {
                 ctx.globalAlpha = 1.0
             }
 
-            if (root.glyphAST && root.glyphAST.ring.found) {
-                let ring = root.glyphAST.ring
-                let rcx = ring.center.x
-                let rcy = ring.center.y
-                let rr = ring.radius
-                let neat = ring.neatness || 0;
-
-                // Outer ring ghost circle
-                ctx.beginPath()
-                ctx.arc(rcx, rcy, rr, 0, 2 * Math.PI)
-                if (ring.complete) {
-                    ctx.strokeStyle = "rgba(" + Math.round(120 + neat * 100) + "," + Math.round(200 + neat * 55) + "," + Math.round(180 + neat * 60) + ",0.35)"
-                    ctx.lineWidth = 1.8
-                    ctx.setLineDash([])
-                } else {
-                    ctx.strokeStyle = Qt.alpha(Theme.peach, 0.3)
-                    ctx.lineWidth = 1.4
-                    ctx.setLineDash([10, 7])
-                }
-                ctx.stroke()
-                ctx.setLineDash([]);
-
-                // Crosshair
-                ctx.strokeStyle = ring.complete ? Qt.alpha(Theme.green, 0.5) : Qt.alpha(Theme.peach, 0.5)
-                ctx.lineWidth = 1
-                ctx.beginPath()
-                ctx.moveTo(rcx - 6, rcy)
-                ctx.lineTo(rcx + 6, rcy)
-                ctx.stroke()
-                ctx.beginPath()
-                ctx.moveTo(rcx, rcy - 6)
-                ctx.lineTo(rcx, rcy + 6)
-                ctx.stroke();
-
-                // Layer boundaries (e.g center/middle/out)
-                if (ring.complete) {
-                    for (let lr = 0; lr < 2; lr++) {
-                        let lrFrac = lr === 0 ? 0.30 : 0.68
-                        ctx.beginPath()
-                        ctx.arc(rcx, rcy, rr * lrFrac, 0, 2 * Math.PI)
-                        ctx.strokeStyle = Qt.alpha(Theme.mauve, 0.2)
-                        ctx.lineWidth = 1
-                        ctx.setLineDash([4, 5])
-                        ctx.stroke()
-                        ctx.setLineDash([])
-                    }
-
-                    let pen = ring.floodPenetration || 0
-                    if (pen > 0.01) {
-                        ctx.beginPath()
-                        ctx.arc(rcx, rcy, rr * 0.20, 0, 2 * Math.PI)
-                        ctx.fillStyle = "rgba(240,80,60," + (pen * 0.4) + ")"
-                        ctx.fill()
-                    }
-                }
-            }
+            root.paintRing(ctx, root.glyphAST)
         }
 
         MouseArea {
@@ -272,10 +213,41 @@ Item {
             if (event.key === Qt.Key_Space && root.glyphAST) {
                 console.log(JSON.stringify(root.glyphAST, null, 2))
                 event.accepted = true
-            } else if (event.key === Qt.Key_Backspace && root.glyphAST) {
-                root.strokes.pop()
-                root.runParser()
+            } else if (event.key === Qt.Key_Backspace) {
+                root.undoStroke()
                 event.accepted = true
+            }
+        }
+    }
+
+    Canvas {
+        id: ghostCanvas
+        anchors.fill: parent
+        opacity: 0
+        enabled: false
+        visible: opacity > 0.01
+
+        onPaint: {
+            let ctx = getContext("2d")
+            ctx.clearRect(0, 0, width, height)
+            ctx.lineCap = "round"
+            ctx.lineJoin = "round"
+            root.paintInk(ctx, root.fadingStrokes, root.fadingAst)
+            if (root.fadingAst)
+                root.paintRing(ctx, root.fadingAst)
+        }
+
+        NumberAnimation {
+            id: ghostFade
+            target: ghostCanvas
+            property: "opacity"
+            to: 0
+            duration: 320
+            easing.type: Easing.OutCubic
+            onFinished: {
+                root.fadingStrokes = []
+                root.fadingAst = null
+                ghostCanvas.requestPaint()
             }
         }
     }
@@ -312,13 +284,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: {
-                if (root.strokes.length === 0)
-                    return
-                root.strokes.pop()
-                root.strokes = root.strokes
-                root.runParser()
-            }
+            onClicked: root.undoStroke()
         }
     }
 
@@ -330,6 +296,7 @@ Item {
         implicitWidth: statusText.implicitWidth + 2 * 10
         implicitHeight: statusText.implicitHeight + 2 * 5
         radius: 5
+        opacity: root.status != ""
 
         Text {
             id: statusText
@@ -340,6 +307,103 @@ Item {
             font {
                 family: Theme.font
                 pixelSize: 14
+            }
+        }
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 200
+                easing: Easing.OutQuad
+            }
+        }
+    }
+
+    function paintInk(ctx, strokeList, ast) {
+        let ringIdxSet = {}
+        if (ast && ast.ring && ast.ring.found && ast.ring.strokeIndices) {
+            let ridx = ast.ring.strokeIndices
+            for (let ri = 0; ri < ridx.length; ri++)
+                ringIdxSet[ridx[ri]] = true
+        }
+
+        for (let s = 0; s < strokeList.length; s++) {
+            let stroke = strokeList[s]
+            if (!stroke || stroke.length < 2)
+                continue
+            let isRingStroke = !!ringIdxSet[s]
+            ctx.beginPath()
+            ctx.moveTo(stroke[0].x, stroke[0].y)
+            for (let p = 1; p < stroke.length; p++)
+                ctx.lineTo(stroke[p].x, stroke[p].y)
+
+            if (isRingStroke) {
+                let closed = ast.ring.complete
+                ctx.strokeStyle = closed ? Qt.alpha(Theme.green, 0.5) : Qt.alpha(Theme.peach, 0.5)
+                ctx.lineWidth = 2.8
+                ctx.globalAlpha = 0.75
+            } else {
+                ctx.strokeStyle = Theme.text
+                ctx.lineWidth = 2.4
+                ctx.globalAlpha = 0.82
+            }
+            ctx.stroke()
+            ctx.globalAlpha = 1.0
+        }
+    }
+
+    function paintRing(ctx, ast) {
+        if (!ast || !ast.ring || !ast.ring.found)
+            return
+
+        let ring = ast.ring
+        let rcx = ring.center.x
+        let rcy = ring.center.y
+        let rr = ring.radius
+        let neat = ring.neatness || 0
+
+        ctx.beginPath()
+        ctx.arc(rcx, rcy, rr, 0, 2 * Math.PI)
+        if (ring.complete) {
+            ctx.strokeStyle = "rgba(" + Math.round(120 + neat * 100) + "," + Math.round(200 + neat * 55) + "," + Math.round(180 + neat * 60) + ",0.35)"
+            ctx.lineWidth = 1.8
+            ctx.setLineDash([])
+        } else {
+            ctx.strokeStyle = Qt.alpha(Theme.peach, 0.3)
+            ctx.lineWidth = 1.4
+            ctx.setLineDash([10, 7])
+        }
+        ctx.stroke()
+        ctx.setLineDash([])
+
+        ctx.strokeStyle = ring.complete ? Qt.alpha(Theme.green, 0.5) : Qt.alpha(Theme.peach, 0.5)
+        ctx.lineWidth = 1
+        ctx.beginPath()
+        ctx.moveTo(rcx - 6, rcy)
+        ctx.lineTo(rcx + 6, rcy)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.moveTo(rcx, rcy - 6)
+        ctx.lineTo(rcx, rcy + 6)
+        ctx.stroke()
+
+        if (ring.complete) {
+            for (let lr = 0; lr < 2; lr++) {
+                let lrFrac = lr === 0 ? 0.30 : 0.68
+                ctx.beginPath()
+                ctx.arc(rcx, rcy, rr * lrFrac, 0, 2 * Math.PI)
+                ctx.strokeStyle = Qt.alpha(Theme.mauve, 0.2)
+                ctx.lineWidth = 1
+                ctx.setLineDash([4, 5])
+                ctx.stroke()
+                ctx.setLineDash([])
+            }
+
+            let pen = ring.floodPenetration || 0
+            if (pen > 0.01) {
+                ctx.beginPath()
+                ctx.arc(rcx, rcy, rr * 0.20, 0, 2 * Math.PI)
+                ctx.fillStyle = "rgba(240,80,60," + (pen * 0.4) + ")"
+                ctx.fill()
             }
         }
     }

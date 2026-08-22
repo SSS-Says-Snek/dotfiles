@@ -5,6 +5,7 @@ import QtQuick.Layouts
 
 import qs.settings
 import qs.modules
+import qs.modules.spelldraw
 import qs.services
 
 Item {
@@ -43,213 +44,230 @@ Item {
             width: root.width
             height: root.height
 
-            GridLayout {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                columns: 2
-                columnSpacing: 20
-                rowSpacing: 20
-                uniformCellWidths: true
-
-                ControlButton {
-                    id: wifiBtn
-                    visible: Network.wifiDevice
-
-                    Layout.fillWidth: true
-                    icon: {
-                        if (!Network.wifiEnabled) {
-                            return "mat-wifi-off"
-                        }
-                        if (Network.wifiDevice?.state == 1) {
-                            return "mat-wifi-not-connected"
-                        }
-                        if (!Network.wifiConn) {
-                            return "mat-wifi-not-connected"
-                        }
-                        return "mat-wifi"
-                    }
-                    title: "Wi-Fi"
-                    text: {
-                        if (!Network.wifiEnabled) {
-                            return "Off"
-                        }
-                        if (Network.wifiDevice?.state == 1) {
-                            return "Connecting"
-                        }
-                        if (!Network.wifiConn) {
-                            return "Not Connected"
-                        }
-                        return Network.wifiConn.name
-                    }
-                    active: Network.wifiEnabled
-                    hasSubmenu: Network.wifiEnabled
-                    submenu: Component {
-                        WifiPage {}
-                    }
-                    onClicked: {
-                        if (Network.wifiEnabled)
-                            root.push(wifiBtn.submenu, wifiBtn.title)
-                    }
-                    onInnerClicked: {
-                        if (Network.wifiEnabled)
-                            Network.disableWifi()
-                        else
-                            Network.enableWifi()
-                    }
-                }
-
-                ControlButton {
-                    id: ethBtn
-                    visible: Network.ethDevice
-
-                    Layout.fillWidth: true
-                    icon: "mdi-ethernet"
-                    title: "Ethernet"
-                    text: {
-                        if (!Network.ethDevice?.hasLink) {
-                            return "No Link"
-                        }
-                        if (Network.ethDevice?.state == 1) {
-                            return "Connecting"
-                        }
-                        if (Network.ethDevice?.state == 4) {
-                            return "Not Connected"
-                        }
-                        return Network.ethConn.name
-                    }
-                    active: Network.ethDevice?.state != 4
-                    hasSubmenu: false
-                    onInnerClicked: {
-                        if (Network.ethDevice?.state == 2)
-                            Network.disconnectEth()
-                        else
-                            Network.connectEth()
-                    }
-                }
-
-                // Got no bluetooth to test it out :sob:
-                // ControlButton {
-                //     id: btBtn
-                //
-                //     Layout.fillWidth: true
-                //     icon: "mdi-dashboard"
-                //     title: "Bluetooth"
-                //     text: "Not connected"
-                //     hasSubmenu: true
-                //     submenu: bluetoothPage
-                //     onClicked: root.push(btBtn.submenu, btBtn.title)
-                // }
-
-                ControlButton {
-                    Layout.fillWidth: true
-                    title: "DnD Mode"
-                    icon: NotifServer.doNotDisturb ? "mat-dnd-on" : "mat-dnd-off"
-                    text: NotifServer.doNotDisturb ? "On" : "Off"
-                    active: NotifServer.doNotDisturb
-                    onInnerClicked: {
-                        NotifServer.doNotDisturb = !NotifServer.doNotDisturb
-                    }
-                }
-
-                ControlButton {
-                    Layout.fillWidth: true
-                    icon: "mdi-dashboard"
-                    title: "Night Light"
-                    text: NightLight.isOn ? "On" : "Off"
-                    active: NightLight.isOn
-                    onInnerClicked: {
-                        NightLight.toggle()
-                    }
-                }
-
-                ControlButton {
-                    id: audioInputBtn
-                    Layout.fillWidth: true
-                    icon: "mdi-dashboard"
-                    title: "Audio Input"
-                    text: Audio.micMuted ? "Muted" : Audio.source.nickname
-                    active: !Audio.micMuted
-                    hasSubmenu: true
-                    submenu: Component {
-                        AudioInputPage {}
-                    }
-                    onClicked: root.push(submenu, title)
-                    onInnerClicked: Audio.toggleMic()
-                }
-
-                ControlButton {
-                    Layout.fillWidth: true
-                    icon: "mdi-dashboard"
-                    title: "Audio Output"
-                    text: Audio.sinkMuted ? "Deafened" : Audio.sink.nickname
-                    active: !Audio.sinkMuted
-                    hasSubmenu: true
-                    submenu: Component {
-                        AudioOutputPage {}
-                    }
-                    onClicked: root.push(submenu, title)
-                    onInnerClicked: Audio.toggleMute()
-                }
-            }
-        }
-
-        Item {
-            width: root.width
-            height: root.height
-
             ColumnLayout {
                 anchors.fill: parent
-                spacing: 10
+                spacing: 16
 
-                RowLayout {
+                GridLayout {
                     Layout.fillWidth: true
-                    spacing: 8
+                    Layout.fillHeight: false
+                    columns: 2
+                    columnSpacing: 20
+                    rowSpacing: 20
+                    uniformCellWidths: true
 
-                    Icon {
-                        icon: "mdi-previous"
-                        size: 22
-                        color: backHover.hovered ? Theme.accent : Theme.text
-                        interactive: true
-                        onClicked: root.pop()
+                    ControlButton {
+                        id: wifiBtn
+                        visible: Network.wifiDevice ? true : false
+
+                        Layout.fillWidth: true
+                        icon: {
+                            if (!Network.wifiEnabled) {
+                                return "mat-wifi-off"
+                            }
+                            if (Network.wifiDevice?.state == 1) {
+                                return "mat-wifi-not-connected"
+                            }
+                            if (!Network.wifiConn) {
+                                return "mat-wifi-not-connected"
+                            }
+                            return "mat-wifi"
+                        }
+                        title: "Wi-Fi"
+                        text: {
+                            if (!Network.wifiEnabled) {
+                                return "Off"
+                            }
+                            if (Network.wifiDevice?.state == 1) {
+                                return "Connecting"
+                            }
+                            if (!Network.wifiConn) {
+                                return "Not Connected"
+                            }
+                            return Network.wifiConn.name
+                        }
+                        active: Network.wifiEnabled
+                        hasSubmenu: Network.wifiEnabled
+                        submenu: Component {
+                            WifiPage {}
+                        }
+                        onClicked: {
+                            if (Network.wifiEnabled)
+                            root.push(wifiBtn.submenu, wifiBtn.title)
+                        }
+                        onInnerClicked: {
+                            if (Network.wifiEnabled)
+                            Network.disableWifi()
+                            else
+                            Network.enableWifi()
+                        }
                     }
 
-                    Text {
+                    ControlButton {
+                        id: ethBtn
+                        visible: Network.ethDevice
+
                         Layout.fillWidth: true
-                        text: root.submenuTitle
-                        color: Theme.text
-                        font {
-                            family: Theme.font
-                            pixelSize: 16
-                            weight: 800
+                        icon: "mdi-ethernet"
+                        title: "Ethernet"
+                        text: {
+                            if (!Network.ethDevice?.hasLink) {
+                                return "No Link"
+                            }
+                            if (Network.ethDevice?.state == 1) {
+                                return "Connecting"
+                            }
+                            if (Network.ethDevice?.state == 4) {
+                                return "Not Connected"
+                            }
+                            return Network.ethConn.name
                         }
+                        active: Network.ethDevice?.state != 4
+                        hasSubmenu: false
+                        onInnerClicked: {
+                            if (Network.ethDevice?.state == 2)
+                            Network.disconnectEth()
+                            else
+                            Network.connectEth()
+                        }
+                    }
 
-                        HoverHandler {
-                            id: backHover
-                            cursorShape: Qt.PointingHandCursor
-                        }
+                    // Got no bluetooth to test it out :sob:
+                    // ControlButton {
+                    //     id: btBtn
+                    //
+                    //     Layout.fillWidth: true
+                    //     icon: "mdi-dashboard"
+                    //     title: "Bluetooth"
+                    //     text: "Not connected"
+                    //     hasSubmenu: true
+                    //     submenu: bluetoothPage
+                    //     onClicked: root.push(btBtn.submenu, btBtn.title)
+                    // }
 
-                        TapHandler {
-                            onTapped: root.pop()
+                    ControlButton {
+                        Layout.fillWidth: true
+                        title: "DnD Mode"
+                        icon: NotifServer.doNotDisturb ? "mat-dnd-on" : "mat-dnd-off"
+                        text: NotifServer.doNotDisturb ? "On" : "Off"
+                        active: NotifServer.doNotDisturb
+                        onInnerClicked: {
+                            NotifServer.doNotDisturb = !NotifServer.doNotDisturb
                         }
+                    }
+
+                    ControlButton {
+                        Layout.fillWidth: true
+                        icon: "mdi-dashboard"
+                        title: "Night Light"
+                        text: NightLight.isOn ? "On" : "Off"
+                        active: NightLight.isOn
+                        onInnerClicked: {
+                            NightLight.toggle()
+                        }
+                    }
+
+                    ControlButton {
+                        id: audioInputBtn
+                        Layout.fillWidth: true
+                        icon: "mdi-dashboard"
+                        title: "Audio Input"
+                        text: Audio.micMuted ? "Muted" : Audio.source.nickname
+                        active: !Audio.micMuted
+                        hasSubmenu: true
+                        submenu: Component {
+                            AudioInputPage {}
+                        }
+                        onClicked: root.push(submenu, title)
+                        onInnerClicked: Audio.toggleMic()
+                    }
+
+                    ControlButton {
+                        Layout.fillWidth: true
+                        icon: "mdi-dashboard"
+                        title: "Audio Output"
+                        text: Audio.sinkMuted ? "Deafened" : Audio.sink.nickname
+                        active: !Audio.sinkMuted
+                        hasSubmenu: true
+                        submenu: Component {
+                            AudioOutputPage {}
+                        }
+                        onClicked: root.push(submenu, title)
+                        onInnerClicked: Audio.toggleMute()
                     }
                 }
 
                 Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 2
-                    color: Theme.surface2
-                }
-
-                Loader {
-                    Layout.fillWidth: true
                     Layout.fillHeight: true
-                    active: root.submenu !== null
-                    sourceComponent: root.submenu
+                    radius: 20
+                    color: "#80000000"
+                    clip: true
+
+                    SpellDrawer {
+                        anchors.fill: parent
+                        onCloseRequested: clearCanvas()
+                    }
                 }
             }
         }
-    }
+
+            Item {
+                width: root.width
+                height: root.height
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    spacing: 10
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 8
+
+                        Icon {
+                            icon: "mdi-previous"
+                            size: 22
+                            color: backHover.hovered ? Theme.accent : Theme.text
+                            interactive: true
+                            onClicked: root.pop()
+                        }
+
+                        Text {
+                            Layout.fillWidth: true
+                            text: root.submenuTitle
+                            color: Theme.text
+                            font {
+                                family: Theme.font
+                                pixelSize: 16
+                                weight: 800
+                            }
+
+                            HoverHandler {
+                                id: backHover
+                                cursorShape: Qt.PointingHandCursor
+                            }
+
+                            TapHandler {
+                                onTapped: root.pop()
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 2
+                        color: Theme.surface2
+                    }
+
+                    Loader {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        active: root.submenu !== null
+                        sourceComponent: root.submenu
+                    }
+                }
+            }
+        }
 
     Component {
         id: bluetoothPage

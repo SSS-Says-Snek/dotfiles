@@ -1,0 +1,125 @@
+{
+  "version": "1.1.0",
+  "description": "Registered desktop spell bindings",
+
+  "defaultTolerances": {
+    "sigilMinConfidence": 0.55,
+    "signMinConfidence": 0.50,
+    "maxInstability": 0.70,
+    "equiangularToleranceDeg": 22,
+    "directionToleranceDeg": 35
+  },
+
+  "spells": [
+    {
+      "id": "window_close",
+      "displayName": "Window Closing Seal",
+      "description": "Close the focused window. Four columns evenly spaced around the ring.",
+      "match": {
+        "primarySigil": { "id": "fire" },
+        "signs": [
+          { "id": "column", "count": 4 }
+        ],
+        "ring": { "minCompleteness": 0.80 }
+      },
+      "hookId": "closeWindow"
+    },
+
+    {
+      "id": "workspace_switch_left",
+      "displayName": "Leftward Passage Sign",
+      "description": "Switch one workspace to the left. Elongated column skips two.",
+      "match": {
+        "primarySigil": { "id": "wind" },
+        "signs": [
+          { "id": "column", "count": 1, "directionZone": "left" }
+        ]
+      },
+      "hookId": "switchWorkspaceLeft"
+    },
+
+    {
+      "id": "workspace_switch_right",
+      "displayName": "Rightward Passage Sign",
+      "description": "Switch one workspace to the right.",
+      "match": {
+        "primarySigil": { "id": "wind" },
+        "signs": [
+          { "id": "column", "count": 1, "directionZone": "right" }
+        ]
+      },
+      "hookId": "switchWorkspaceRight"
+    },
+
+    {
+      "id": "window_float",
+      "displayName": "Levitation Seal",
+      "description": "Toggle window floating mode. Wobbles if sign imbalance detected.",
+      "match": {
+        "primarySigil": { "id": "wind" },
+        "signs": [
+          { "id": "levitation", "count": 1 }
+        ]
+      },
+      "tolerances": {
+        "maxInstability": 0.60
+      },
+      "hookId": "toggleFloat"
+    },
+
+    {
+      "id": "notification_dismiss",
+      "displayName": "Banishment Seal",
+      "description": "Dismiss all notifications. Messy = slow fade instead of instant.",
+      "match": {
+        "primarySigil": { "id": "light" },
+        "signs": [],
+        "ring": { "minCompleteness": 0.85 }
+      },
+      "tolerances": {
+        "sigilMinConfidence": 0.65,
+        "maxInstability": 0.50
+      },
+      "hookId": "dismissNotifications"
+    },
+
+    {
+      "id": "volume_up",
+      "displayName": "Amplification Seal",
+      "description": "Raise volume by 10%. Column points up (270°). Elongated column = +20%.",
+      "match": {
+        "primarySigil": { "element": "fire" },
+        "signs": [
+          { "id": "column", "count": 1, "directionZone": "up" }
+        ]
+      },
+      "hookId": "volumeUp"
+    },
+
+    {
+      "id": "volume_down",
+      "displayName": "Diminishment Seal",
+      "description": "Lower volume by 10%. Column points down (90°).",
+      "match": {
+        "primarySigil": { "element": "fire" },
+        "signs": [
+          { "id": "column", "count": 1, "directionZone": "down" }
+        ]
+      },
+      "hookId": "volumeDown"
+    },
+
+    {
+      "id": "brightness_up",
+      "displayName": "Radiance Seal",
+      "description": "Raise brightness. Column drawn toward the upper-right (45°).",
+      "match": {
+        "primarySigil": { "id": "light" },
+        "signs": [
+          { "id": "column", "count": 1, "directionAngle": 45 }
+        ]
+      },
+      "hookId": "brightnessUp"
+    }
+  ]
+}

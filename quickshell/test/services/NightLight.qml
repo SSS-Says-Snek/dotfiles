@@ -10,7 +10,7 @@ Singleton {
     id: root
 
     readonly property int day: 6000
-    readonly property int night: 4800
+    readonly property int night: 5200
 
     property bool isOn
 

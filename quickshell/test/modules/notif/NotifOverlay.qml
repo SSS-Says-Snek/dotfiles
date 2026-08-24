@@ -49,7 +49,7 @@ PanelWindow {
                 appName: wrap.modelData.appName
                 image: wrap.modelData.image || ""
                 appIcon: wrap.modelData.appIcon || ""
-                time: ""
+                time: new Date()
                 urgency: wrap.modelData.urgency
 
                 onDismiss: {

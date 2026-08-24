@@ -7,6 +7,7 @@ import Quickshell.Services.Notifications
 
 import qs.modules
 import qs.settings
+import qs.services
 
 Item {
     id: root
@@ -17,10 +18,11 @@ Item {
     required property string appName
     required property string image
     required property string appIcon
-    required property string time
+    required property date time
     required property var urgency
 
     property bool autoClose: true
+    property bool showTime: false
 
     readonly property int padding: 12
     readonly property int iconSize: 68
@@ -172,14 +174,44 @@ Item {
             }
         }
 
+        Text {
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.margins: 10
+            text: {
+                if (Time.date.getDate() == root.time.getDate() && Time.date.getMonth() == root.time.getMonth() && Time.date.getFullYear() == root.time.getFullYear()) { 
+                    return Qt.formatDateTime(root.time, "h:MM AP")
+                }
+                return Qt.formatDateTime(root.time, "M:dd")
+            }
+            color: Theme.subtext
+            elide: Text.ElideRight
+            opacity: hoverHandler.hovered || buttonHover.hovered ? 0 : 1
+            visible: root.showTime
+
+            font {
+                family: Theme.font
+                pixelSize: 13
+                weight: 400
+            }
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 200
+                    easing.type: Easing.OutQuad
+                }
+            }
+        }
+
         Rectangle {
             id: closeButton
 
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.margins: 10
+
             width: 20
             height: 20
-            anchors.right: card.right
-            anchors.top: card.top
-            anchors.margins: 10
             radius: 999
             color: buttonHover.hovered ? Theme.peach : Theme.red
             opacity: hoverHandler.hovered || buttonHover.hovered ? 1 : 0
@@ -211,28 +243,28 @@ Item {
             }
         }
 
-        Timer {
-            running: root.urgency !== NotificationUrgency.Critical && root.autoClose
-            interval: 10000
-            onTriggered: root.requestDismiss()
-        }
-
-        TapHandler {
-            onTapped: {
-                root.explicitClose = true
-                root.requestDismiss()
-            }
-        }
-
-        HoverHandler {
-            id: hoverHandler
-        }
+    Timer {
+        running: root.urgency !== NotificationUrgency.Critical && root.autoClose
+        interval: 10000
+        onTriggered: root.requestDismiss()
     }
 
-    onExternalCloseChanged: {
-        if (root.externalClose) {
+    TapHandler {
+        onTapped: {
             root.explicitClose = true
             root.requestDismiss()
         }
     }
+
+    HoverHandler {
+        id: hoverHandler
+    }
+}
+
+onExternalCloseChanged: {
+    if (root.externalClose) {
+        root.explicitClose = true
+        root.requestDismiss()
+    }
+}
 }

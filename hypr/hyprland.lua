@@ -206,6 +206,8 @@ hl.window_rule({ name = "windowrule-10", match = { class = "^(io.github.celluloi
 hl.window_rule({ name = "windowrule-11", match = { class = "^steam_app%d+$" },                           fullscreen = true })
 hl.window_rule({ name = "windowrule-12", match = { class = "^steam_app_%d+$" },                          monitor = 1 })
 
+hl.window_rule({ name = "firefox-popup", match = { class = "firefox-popup" }, float = true, size = {560, 730}})
+
 -- DaVinci Resolve popup focus (tag-based)
 hl.window_rule({ name = "windowrule-13", match = { class = "^(resolve)$", float = true }, tag = "+drpopup" })
 hl.window_rule({ name = "windowrule-14", match = { tag = "drpopup" },                     stay_focused = true })

@@ -68,7 +68,7 @@ Scope {
                 appName: notification.appName || "",
                 image: notification.image || "",
                 appIcon: notification.appIcon || "",
-                time: Qt.formatDateTime(new Date(), "HH:mm"),
+                time: new Date(),
                 urgency: notification.urgency
             })
         }

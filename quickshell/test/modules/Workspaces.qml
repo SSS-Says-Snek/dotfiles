@@ -39,7 +39,9 @@ Item {
                 color: {
                     if (modelData.focused)
                         return Theme.surface1
-                    else if (workspaceIndivArea.hovered)
+                    if (modelData.urgent)
+                        return Theme.red
+                    if (workspaceIndivArea.hovered)
                         return Theme.surface2
                     return Theme.surface0
                 }

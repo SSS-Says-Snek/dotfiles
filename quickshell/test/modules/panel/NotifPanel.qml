@@ -81,6 +81,7 @@ Item {
 
             width: list.width
             autoClose: false
+            showTime: true
 
             externalClose: root.closeAll
 

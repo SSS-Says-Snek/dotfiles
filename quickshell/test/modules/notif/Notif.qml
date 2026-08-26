@@ -182,7 +182,7 @@ Item {
                 if (Time.date.getDate() == root.time.getDate() && Time.date.getMonth() == root.time.getMonth() && Time.date.getFullYear() == root.time.getFullYear()) { 
                     return Qt.formatDateTime(root.time, "h:MM AP")
                 }
-                return Qt.formatDateTime(root.time, "M:dd")
+                return Qt.formatDateTime(root.time, "M/dd")
             }
             color: Theme.subtext
             elide: Text.ElideRight

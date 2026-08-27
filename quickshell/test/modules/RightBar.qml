@@ -3,6 +3,8 @@ import QtQuick
 import qs.modules
 import qs.modules.tray
 
+import qs.services
+
 Rectangle {
     id: root
     property string targetMonitor: ""
@@ -21,6 +23,16 @@ Rectangle {
         anchors.fill: parent
         spacing: root.rowSpacing
         anchors.leftMargin: root.rowSpacing
+
+        WallpaperStat {
+            anchors.verticalCenter: parent.verticalCenter
+            onClicked: {
+                Wallpaper.cycleWallpaper()
+            }
+            onRightClicked: {
+                Wallpaper.selectWallpaper()
+            }
+        }
 
         NotifStat {
             anchors.verticalCenter: parent.verticalCenter

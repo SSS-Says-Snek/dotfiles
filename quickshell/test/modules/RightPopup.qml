@@ -154,7 +154,7 @@ PopupWindow {
                             id: perfTab
                             Layout.fillWidth: true
                             icon: "mdi-performance"
-                            text: "Statistics"
+                            text: "Processes"
                             selected: root.index == 2
                             onClicked: root.index = 2
                         }

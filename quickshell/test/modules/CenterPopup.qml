@@ -139,7 +139,27 @@ PopupWindow {
             }
         },
         Component {
-            MediaTab {}
+            Item {
+                Item {
+                    width: parent.width
+                    height: parent.width
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.top
+
+                    StarRing {}
+                }
+
+                GridLayout {
+                    id: layout_2
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+
+                    columns: 4
+                    rowSpacing: 20
+                    columnSpacing: 30
+
+                }
+            }
         }
     ]
 

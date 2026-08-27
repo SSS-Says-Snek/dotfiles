@@ -1,5 +1,12 @@
 configuration {
     show-icons: true;
+    ml-row-up: "";
+    ml-row-down: "";
+    ml-row-left: "ScrollUp";
+    ml-row-right: "ScrollDown";
+
+    kb-cancel: "Escape,MousePrimary";
+    hover-select: true;
 }
 
 @theme "themes/bgselector.rasi"

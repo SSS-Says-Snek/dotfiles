@@ -5,6 +5,7 @@ import qs.modules
 import qs.modules.notif
 import qs.modules.dialogs
 import qs.settings
+import qs.services
 
 Scope {
     Bar {
@@ -35,5 +36,9 @@ Scope {
             required property var modelData
             screen: modelData
         }
+    }
+
+    Component.onCompleted: {
+        let _forceload = Wallpaper._forceload
     }
 }

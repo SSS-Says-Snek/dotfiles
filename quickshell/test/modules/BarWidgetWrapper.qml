@@ -16,6 +16,7 @@ Rectangle {
 
     property var cursorShape: Qt.ArrowCursor
     signal clicked
+    signal rightClicked
     signal wheel(WheelEvent event)
 
     Loader {
@@ -32,11 +33,18 @@ Rectangle {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
 
         onWheel: event => {
             root.wheel(event)
         }
-        onClicked: root.clicked()
+        onClicked: (mouse) => {
+            if (mouse.button == Qt.LeftButton) {
+                root.clicked()
+            } else {
+                root.rightClicked()
+            }
+        }
         cursorShape: root.cursorShape
     }
 

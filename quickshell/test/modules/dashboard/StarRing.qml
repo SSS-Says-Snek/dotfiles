@@ -35,9 +35,18 @@ ProgressRing {
         ColumnLayout {
             id: sunrise0
             Icon {
+                Layout.alignment: Qt.AlignHCenter
                 color: Theme.yellow
-                size: 30
+                size: 60
                 icon: "mdi-notif"
+            }
+            Text {
+                Layout.alignment: Qt.AlignHCenter
+                color: Theme.yellow
+                text: "6:07 AM"
+                font {
+                    family: Theme.font
+                }
             }
         }
     }

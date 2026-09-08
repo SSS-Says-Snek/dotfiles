@@ -164,7 +164,8 @@ hl.on("hyprland.start", function()
 
     -- yeahhh
     -- hl.exec_cmd("diurnals")  -- Wait until AUR bump
-    hl.exec_cmd("flatpak run io.github.sss_says_snek.diurnals")
+    -- hl.exec_cmd("flatpak run io.github.sss_says_snek.diurnals")
+    hl.exec_cmd("apollo")
 
     -- Launch apps into specific workspaces
     hl.exec_cmd("[workspace 1 silent] firefox")

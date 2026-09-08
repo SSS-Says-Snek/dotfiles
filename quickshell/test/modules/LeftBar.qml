@@ -1,6 +1,9 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 
+import Quickshell.Io
+import QtQml
+
 Rectangle {
     id: root
     property string targetMonitor: ""
@@ -29,6 +32,16 @@ Rectangle {
             sourceSize.width: Math.round(width * Screen.devicePixelRatio)
             sourceSize.height: Math.round(height * Screen.devicePixelRatio)
             asynchronous: true
+
+            TapHandler {
+                onTapped: {
+                    openRofi.running = true
+                }
+            }
+
+            HoverHandler {
+                cursorShape: Qt.PointingHandCursor
+            }
         }
 
         Workspaces {
@@ -46,5 +59,11 @@ Rectangle {
     MediaPopup {
         id: popup
         anchorItem: mpris
+    }
+
+    Process {
+        id: openRofi
+        command: ["rofi", "-show", "drun", "-theme", "~/.config/rofi/launcher.rasi"]
+        running: false
     }
 }
